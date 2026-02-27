@@ -1,3 +1,5 @@
+package src;
+
 public class Menu extends Page {
     public enum GuestSelection
     {
@@ -58,7 +60,7 @@ public class Menu extends Page {
         }
     }
 
-    @Override
+    // @Override
     public int getSelectionSize()
     {
         switch (Global.user.getRole())
@@ -120,7 +122,7 @@ public class Menu extends Page {
                 switch (StandardSelection.cast(selection))
                 {
                     case StandardSelection.VIEW_FACILITIES:
-                        break;
+                        ViewFacilities.redirect();
                     case StandardSelection.MY_BOOKINGS:
                         break;
                     case StandardSelection.REPORT_ISSUE:
@@ -143,23 +145,23 @@ public class Menu extends Page {
         switch (action)
         {
             case "UP":
-                if (Route.getPage().getSelection() - 1 >= 0)
+                if (selection - 1 >= 0)
                 {
-                    Route.getPage().setSelection(Route.getPage().getSelection() - 1);
+                    selection--;
                 }
                 else
                 {
-                    Route.getPage().setSelection(Route.getPage().getSelectionSize() - 1);
+                    selection = getSelectionSize() - 1;
                 }
                 break;
             case "DOWN":
-                if (Route.getPage().getSelection() + 1 < Route.getPage().getSelectionSize())
+                if (selection + 1 < getSelectionSize())
                 {
-                    Route.getPage().setSelection(Route.getPage().getSelection() + 1);
+                    selection++;
                 }
                 else
                 {
-                    Route.getPage().setSelection(0);
+                    selection = 0;
                 }
                 break;
             case "SELECT":
@@ -169,6 +171,6 @@ public class Menu extends Page {
                 break;
         }
 
-        Renderer.clearScreen(Global.terminal);
+        Renderer.refresh();
     }
 }

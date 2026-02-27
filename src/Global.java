@@ -1,3 +1,4 @@
+package src;
 import java.io.IOException;
 
 import org.jline.terminal.Terminal;

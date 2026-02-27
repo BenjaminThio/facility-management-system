@@ -1,3 +1,4 @@
+package src;
 public abstract class Page {
     protected int selection = 0;
 
@@ -11,7 +12,7 @@ public abstract class Page {
         this.selection = selection;
     }
 
-    public abstract int getSelectionSize();
+    // public abstract int getSelectionSize();
     public abstract void render();
     public abstract void select();
     public abstract void handleAction(String action);

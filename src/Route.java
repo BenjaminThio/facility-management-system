@@ -1,3 +1,4 @@
+package src;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -10,12 +11,14 @@ public class Route {
     {
         page = p;
         previousPages.add(p);
+        Renderer.refresh();
     }
 
-    public static void previous()
+    public static void back()
     {
         previousPages.removeLast();
         page = previousPages.getLast();
+        Renderer.refresh();
     }
 
     public static Page getPage()

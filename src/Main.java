@@ -1,3 +1,4 @@
+package src;
 import java.io.IOException;
 
 public class Main {
@@ -5,7 +6,7 @@ public class Main {
         try
         {
             Global.init();
-            Renderer.clearScreen(Global.terminal);
+            Renderer.refresh();
             Input.setup();
             Input.listen();
         }
