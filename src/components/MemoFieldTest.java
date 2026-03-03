@@ -114,10 +114,9 @@ public class MemoFieldTest {
                 {
                     this.caretPosition.x--;
                 }
-
                 break;
             }
-            case "SELECT":
+            case "ENTER":
             {
                 String currentLine = getCurrentLine();
 
@@ -164,20 +163,25 @@ public class MemoFieldTest {
                 break;
             default:
             {
-                if (!overflowX && getCurrentLine().length() + 1 > length)
+                switch (input.length())
                 {
-                    return;
+                    case 1:
+                        if (!overflowX && getCurrentLine().length() + 1 > length)
+                        {
+                            return;
+                        }
+
+                        StringBuilder stringBuilder = new StringBuilder(getCurrentLine());
+
+                        stringBuilder.insert(caretPosition.x + caretOffset.x, input);
+                        this.lines.set(this.caretPosition.y + this.caretOffset.y, stringBuilder.toString());
+
+                        if (this.caretPosition.x + 1 <= this.length)
+                            this.caretPosition.x++;
+                        else
+                            this.caretOffset.x++;
+                        break;
                 }
-
-                StringBuilder stringBuilder = new StringBuilder(getCurrentLine());
-
-                stringBuilder.insert(caretPosition.x + caretOffset.x, input);
-                this.lines.set(this.caretPosition.y + this.caretOffset.y, stringBuilder.toString());
-
-                if (this.caretPosition.x + 1 <= this.length)
-                    this.caretPosition.x++;
-                else
-                    this.caretOffset.x++;
                 break;
             }
         }

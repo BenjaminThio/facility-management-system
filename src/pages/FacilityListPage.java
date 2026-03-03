@@ -84,7 +84,7 @@ public class FacilityListPage extends Page {
             case "BACK":
                 Router.back();
                 break;
-            case "SELECT":
+            case "ENTER":
                 select();
         }
 

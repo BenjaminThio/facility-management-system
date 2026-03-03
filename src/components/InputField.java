@@ -15,6 +15,7 @@ public class InputField {
     private int backgroundColor = Ansi.BG_WHITE;
     private int textColor = Ansi.FG_BLACK;
     private int placeholderColor = Ansi.FG_DARK_GRAY;
+    private boolean error = false;
 
     public InputField(String defaultValue, int length, String placeholder)
     {
@@ -34,6 +35,32 @@ public class InputField {
                 this.caretOffset = defaultValue.length() - this.length;
             }
         }
+    }
+
+    public String getValue()
+    {
+        return value;
+    }
+
+    public void setError(boolean error)
+    {
+        this.error = error;
+        setBackgroundColor(error ? Ansi.BG_RED : Ansi.BG_WHITE);
+    }
+
+    public boolean error()
+    {
+        return this.error;
+    }
+
+    public void setBackgroundColor(int ansiCode)
+    {
+        backgroundColor = ansiCode;
+    }
+
+    public void setTextColor(int ansiCode)
+    {
+        textColor = ansiCode;
     }
 
     public void render()
@@ -62,11 +89,6 @@ public class InputField {
     {
         switch (input)
         {
-            case "UP":
-            case "DOWN":
-            case "SELECT":
-            case "BACK":
-                break;
             case "LEFT":
                 if (this.caretOffset - 1 >= 0)
                 {
@@ -106,15 +128,20 @@ public class InputField {
                 }
                 break;
             default:
-                StringBuilder stringBuilder = new StringBuilder(this.value);
+                switch (input.length())
+                {
+                    case 1:
+                        StringBuilder stringBuilder = new StringBuilder(this.value);
 
-                stringBuilder.insert(caretPosition + caretOffset, input);
-                this.value = stringBuilder.toString();
+                        stringBuilder.insert(caretPosition + caretOffset, input);
+                        this.value = stringBuilder.toString();
 
-                if (this.caretPosition + 1 <= this.length)
-                    this.caretPosition++;
-                else
-                    this.caretOffset++;
+                        if (this.caretPosition + 1 <= this.length)
+                            this.caretPosition++;
+                        else
+                            this.caretOffset++;
+                        break;
+                }
                 break;
         }
         Renderer.refresh();

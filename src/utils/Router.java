@@ -5,10 +5,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import src.pages.MenuPage;
+import src.pages.SignUpPage;
 import src.pages.core.Page;
 
 public class Router {
-    private static Page page = new MenuPage();
+    private static Page page = new SignUpPage();
     private static List<Page> previousPages = new ArrayList<>(Arrays.asList(page));
 
     public static void redirect(Page p)

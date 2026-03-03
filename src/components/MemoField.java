@@ -149,13 +149,18 @@ public class MemoField {
                     absoluteCaret--;
                 }
                 break;
-            case "SELECT": // Enter key
+            case "ENTER": // Enter key
                 text.insert(absoluteCaret, '\n');
                 absoluteCaret++;
                 break;
             default:
-                text.insert(absoluteCaret, input);
-                absoluteCaret += input.length();
+                switch (input.length())
+                {
+                    case 1:
+                        text.insert(absoluteCaret, input);
+                        absoluteCaret += input.length();
+                        break;
+                }
                 break;
         }
 

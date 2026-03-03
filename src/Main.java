@@ -5,7 +5,8 @@ import src.utils.Global;
 import src.utils.Input;
 import src.utils.Renderer;
 
-public class Main {
+public class Main
+{
     public static void main(String[] args) {
         try
         {

@@ -16,7 +16,7 @@ public class Input {
         keyMap.bind("DOWN", "\u001B[B", "\u001BOB");
         keyMap.bind("RIGHT", "\u001B[C", "\u001BOC");
         keyMap.bind("LEFT", "\u001B[D", "\u001BOD");
-        keyMap.bind("SELECT", "\r", "\n");
+        keyMap.bind("ENTER", "\r", "\n");
         keyMap.bind("BACK", "\u001B");
         keyMap.bind("BACKSPACE", "\b");
         keyMap.bind("TAB", "\t");

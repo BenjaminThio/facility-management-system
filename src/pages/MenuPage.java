@@ -119,7 +119,6 @@ public class MenuPage extends Page {
         }
     }
 
-    @Override
     public void select()
     {
         switch (Global.user.getRole())
@@ -173,7 +172,7 @@ public class MenuPage extends Page {
                     selection = 0;
                 }
                 break;
-            case "SELECT":
+            case "ENTER":
                 select();
                 break;
             default:
