@@ -1,4 +1,5 @@
-package src;
+package src.pages.core;
+
 public abstract class Page {
     protected int selection = 0;
 

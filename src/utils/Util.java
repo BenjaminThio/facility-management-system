@@ -1,5 +1,5 @@
-package src;
-public class Utils {
+package src.utils;
+public class Util {
     public static String toTitleCase(String s)
     {
         return toTitleCase(s, "_");

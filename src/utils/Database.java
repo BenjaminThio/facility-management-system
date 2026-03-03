@@ -1,4 +1,4 @@
-package src;
+package src.utils;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import src.models.Facility;
 
 public class Database {
     public enum Faculty
@@ -25,10 +27,10 @@ public class Database {
         EDUCATION
     }
     private static final String BASE_PATH = "database/";
-    private static final String USERS_FILE = "users.txt";
+    // private static final String USERS_FILE = "users.txt";
     private static final String FACILITIES_FILE = "facilities.txt";
-    private static final String BOOKINGS_FILE = "bookings.txt";
-    private static final String ISSUES_FILE = "issues.txt";
+    // private static final String BOOKINGS_FILE = "bookings.txt";
+    // private static final String ISSUES_FILE = "issues.txt";
 
     public static void main(String[] args) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(BASE_PATH + FACILITIES_FILE)))
@@ -36,7 +38,7 @@ public class Database {
             for (int floor = 1; floor <= 10; floor++)
             {
                 for (int room = 0; room <= 30; room++)
-                bw.write("KB" + Integer.toString(floor) + new DecimalFormat("00").format(room) + ",true\n");
+                    bw.write("KB" + Integer.toString(floor) + new DecimalFormat("00").format(room) + ",true\n");
             }
         }
         catch (IOException e)

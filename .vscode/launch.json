@@ -1,0 +1,40 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Table",
+            "request": "launch",
+            "mainClass": "src.Table",
+            "projectName": "facility-management-system_1b71b80"
+        },
+        {
+            "type": "java",
+            "name": "Test",
+            "request": "launch",
+            "mainClass": "test.Test",
+            "projectName": "facility-management-system_1b71b80"
+        },
+        {
+            "type": "java",
+            "name": "Calendar",
+            "request": "launch",
+            "mainClass": "src.Calendar",
+            "projectName": "facility-management-system_1b71b80"
+        },
+        {
+            "type": "java",
+            "name": "Main",
+            "request": "launch",
+            "mainClass": "test.Main",
+            "projectName": "facility-management-system_1b71b80"
+        },
+        {
+            "type": "java",
+            "name": "Main",
+            "request": "launch",
+            "mainClass": "src.Main",
+            "projectName": "facility-management-system_1b71b80",
+            "console": "externalTerminal"
+        }
+    ]
+}

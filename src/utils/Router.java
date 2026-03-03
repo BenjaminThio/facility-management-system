@@ -1,10 +1,14 @@
-package src;
+package src.utils;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Route {
-    private static Page page = new Menu();
+import src.pages.MenuPage;
+import src.pages.core.Page;
+
+public class Router {
+    private static Page page = new MenuPage();
     private static List<Page> previousPages = new ArrayList<>(Arrays.asList(page));
 
     public static void redirect(Page p)

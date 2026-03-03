@@ -1,4 +1,4 @@
-package src;
+package src.utils;
 import org.jline.utils.InfoCmp.Capability;
 
 public class Renderer {
@@ -6,6 +6,6 @@ public class Renderer {
     {
         Global.terminal.puts(Capability.clear_screen);
         Global.terminal.flush();
-        Route.getPage().render();
+        Router.getPage().render();
     }
 }

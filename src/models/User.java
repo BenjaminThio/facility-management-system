@@ -1,6 +1,7 @@
-package src;
-class User {
-    enum Role
+package src.models;
+
+public class User {
+    public enum Role
     {
         STUDENT,
         STAFF,

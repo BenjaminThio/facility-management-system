@@ -1,6 +1,13 @@
-package src;
+package src.pages;
 
-public class Menu extends Page {
+import src.models.User;
+import src.pages.core.Page;
+import src.utils.Global;
+import src.utils.Renderer;
+import src.utils.Router;
+import src.utils.Util;
+
+public class MenuPage extends Page {
     public enum GuestSelection
     {
         VIEW_FACILITIES(0), SIGN_IN(1), SIGN_UP(2), EXIT(3);
@@ -95,7 +102,7 @@ public class Menu extends Page {
                     else
                         System.out.print(String.valueOf(' ').repeat(2));
 
-                    System.out.println(Utils.toTitleCase(s.name()));
+                    System.out.println(Util.toTitleCase(s.name()));
                 }
                 break;
             case User.Role.ADMIN:
@@ -106,7 +113,7 @@ public class Menu extends Page {
                     else
                         System.out.print(String.valueOf(' ').repeat(2));
 
-                    System.out.println(Utils.toTitleCase(s.name()));
+                    System.out.println(Util.toTitleCase(s.name()));
                 }
                 break;
         }
@@ -122,10 +129,12 @@ public class Menu extends Page {
                 switch (StandardSelection.cast(selection))
                 {
                     case StandardSelection.VIEW_FACILITIES:
-                        ViewFacilities.redirect();
+                        Router.redirect(new FacilityListPage(FacilityListPage.Subpage.VIEW_FACILITY));
+                        break;
                     case StandardSelection.MY_BOOKINGS:
                         break;
                     case StandardSelection.REPORT_ISSUE:
+                        Router.redirect(new FacilityListPage(FacilityListPage.Subpage.REPORT_ISSUE));
                         break;
                     case StandardSelection.LOGOUT:
                         break;
