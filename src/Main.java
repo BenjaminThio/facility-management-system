@@ -1,6 +1,7 @@
 package src;
 import java.io.IOException;
 
+import src.utils.Database;
 import src.utils.Global;
 import src.utils.Input;
 import src.utils.Renderer;
@@ -10,6 +11,7 @@ public class Main
     public static void main(String[] args) {
         try
         {
+            Database.init();
             Global.init();
             Renderer.refresh();
             Input.setup();

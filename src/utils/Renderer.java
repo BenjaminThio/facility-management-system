@@ -4,8 +4,8 @@ import org.jline.utils.InfoCmp.Capability;
 public class Renderer {
     public static void refresh()
     {
-        Global.terminal.puts(Capability.clear_screen);
-        Global.terminal.flush();
+        Global.getTerminal().puts(Capability.clear_screen);
+        Global.getTerminal().flush();
         Router.getPage().render();
     }
 }

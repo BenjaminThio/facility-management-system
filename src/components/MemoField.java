@@ -9,7 +9,7 @@ import src.models.Position;
 import src.utils.Global;
 import src.utils.Renderer;
 
-public class MemoField {
+public class MemoField extends Field {
     // Helper class to strictly track where text belongs on screen
     private class VisualLine {
         String text;
@@ -34,12 +34,7 @@ public class MemoField {
     private int scrollOffsetY = 0;
 
     // private int minHeight = 10;
-    private int length = 20;
     private int height = 10;
-    private String placeholder = "";
-    private int backgroundColor = Ansi.BG_WHITE;
-    private int textColor = Ansi.FG_BLACK;
-    private int placeholderColor = Ansi.FG_DARK_GRAY;
 
     public MemoField(int minHeight, int length, String placeholder, boolean overflowX) {
         // this.minHeight = minHeight;
@@ -121,6 +116,7 @@ public class MemoField {
         }
     }
 
+    @Override
     public void handleInput(String input) {
         switch (input) {
             case "LEFT":
@@ -176,6 +172,7 @@ public class MemoField {
         Renderer.refresh();
     }
 
+    @Override
     public void render() {
         for (int i = 0; i < height; i++) {
             int visualIndex = scrollOffsetY + i;
@@ -196,13 +193,21 @@ public class MemoField {
         }
     }
 
+    @Override
     public void updateCaret(int offsetX, int offsetY)
     {
-        Global.terminal.puts(Capability.cursor_address, offsetY + caretVisualY - scrollOffsetY, offsetX + caretVisualX);
+        Global.getTerminal().puts(Capability.cursor_address, offsetY + caretVisualY - scrollOffsetY, offsetX + caretVisualX);
     }
 
+    @Override
     public void updateCaret(Position offset)
     {
         updateCaret(offset.x, offset.y);
+    }
+
+    @Override
+    public String getValue()
+    {
+        return text.toString();
     }
 }

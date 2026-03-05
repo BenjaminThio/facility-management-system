@@ -1,6 +1,7 @@
 {
     "java.project.referencedLibraries": [
         "lib/**/*.jar",
-        "c:\\Users\\User\\Downloads\\jline-3.30.6.jar"
+        "c:\\Users\\User\\Downloads\\jline-3.30.6.jar",
+        "c:\\Users\\User\\Downloads\\fastjson2-2.0.61.jar"
     ]
 }

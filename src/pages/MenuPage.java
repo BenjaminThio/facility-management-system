@@ -1,6 +1,7 @@
 package src.pages;
 
 import src.models.User;
+import src.pages.FacilityListPage.Subpage;
 import src.pages.core.Page;
 import src.utils.Global;
 import src.utils.Renderer;
@@ -22,6 +23,16 @@ public class MenuPage extends Page {
         public int getVal()
         {
             return this.val;
+        }
+
+        public static GuestSelection cast(int val)
+        {
+            for (GuestSelection selection : values())
+            {
+                if (selection.getVal() == val)
+                    return selection;
+            }
+            return null;
         }
     }
     public enum StandardSelection
@@ -70,13 +81,16 @@ public class MenuPage extends Page {
     // @Override
     public int getSelectionSize()
     {
-        switch (Global.user.getRole())
+        if (Global.getUser() != null)
         {
-            case User.Role.STUDENT:
-            case User.Role.STAFF:
-                return StandardSelection.values().length;
-            case User.Role.ADMIN:
-                return AdminSelection.values().length;
+            switch (Global.getUser().getRole())
+            {
+                case User.Role.STUDENT:
+                case User.Role.STAFF:
+                    return StandardSelection.values().length;
+                case User.Role.ADMIN:
+                    return AdminSelection.values().length;
+            }
         }
         return GuestSelection.values().length;
     }
@@ -84,66 +98,106 @@ public class MenuPage extends Page {
     @Override
     public void render()
     {
-        System.out.println("Welcome " + Global.user.getname() + '!' + String.valueOf(' ').repeat(10) + "Role: " + Global.user.getRole().name());
+        if (Global.getUser() != null)
+        {
+            System.out.println("Welcome " + Global.getUser().getName() + '!' + String.valueOf(' ').repeat(10) + "Role: " + Global.getUser().getRole().name());
+        }
         System.out.println();
         System.out.println("💡 Press the arrow keys to navigate the selections.");
         System.out.println("💡 Press [Enter] to select.");
         System.out.println("💡 Press [ESC] to return to the previous page.");
         System.out.println();
 
-        switch (Global.user.getRole())
+        if (Global.getUser() != null)
         {
-            case User.Role.STUDENT:
-            case User.Role.STAFF:
-                for (StandardSelection s : StandardSelection.values())
-                {
-                    if (selection == s.getVal())
-                        System.out.print("> ");
-                    else
-                        System.out.print(String.valueOf(' ').repeat(2));
+            switch (Global.getUser().getRole())
+            {
+                case User.Role.STUDENT:
+                case User.Role.STAFF:
+                    for (StandardSelection s : StandardSelection.values())
+                    {
+                        if (selection == s.getVal())
+                            System.out.print("> ");
+                        else
+                            System.out.print(String.valueOf(' ').repeat(2));
 
-                    System.out.println(Util.toTitleCase(s.name()));
-                }
-                break;
-            case User.Role.ADMIN:
-                for (AdminSelection s : AdminSelection.values())
-                {
-                    if (selection == s.getVal())
-                        System.out.print("> ");
-                    else
-                        System.out.print(String.valueOf(' ').repeat(2));
+                        System.out.println(Util.toTitleCase(s.name()));
+                    }
+                    break;
+                case User.Role.ADMIN:
+                    for (AdminSelection s : AdminSelection.values())
+                    {
+                        if (selection == s.getVal())
+                            System.out.print("> ");
+                        else
+                            System.out.print(String.valueOf(' ').repeat(2));
 
-                    System.out.println(Util.toTitleCase(s.name()));
-                }
-                break;
+                        System.out.println(Util.toTitleCase(s.name()));
+                    }
+                    break;
+            }
+        }
+        else
+        {
+            for (GuestSelection s : GuestSelection.values())
+            {
+                if (selection == s.getVal())
+                    System.out.print("> ");
+                else
+                    System.out.print(String.valueOf(' ').repeat(2));
+
+                System.out.println(Util.toTitleCase(s.name()));
+            }
         }
     }
 
     public void select()
     {
-        switch (Global.user.getRole())
+        if (Global.getUser() != null)
         {
-            case User.Role.STUDENT:
-            case User.Role.STAFF:
-                switch (StandardSelection.cast(selection))
-                {
-                    case StandardSelection.VIEW_FACILITIES:
-                        Router.redirect(new FacilityListPage(FacilityListPage.Subpage.VIEW_FACILITY));
-                        break;
-                    case StandardSelection.MY_BOOKINGS:
-                        break;
-                    case StandardSelection.REPORT_ISSUE:
-                        Router.redirect(new FacilityListPage(FacilityListPage.Subpage.REPORT_ISSUE));
-                        break;
-                    case StandardSelection.LOGOUT:
-                        break;
-                    case StandardSelection.EXIT:
-                        System.exit(0);
-                        break;
-                }
-                break;
-            case  User.Role.ADMIN:
-                break;
+            switch (Global.getUser().getRole())
+            {
+                case User.Role.STUDENT:
+                case User.Role.STAFF:
+                    switch (StandardSelection.cast(selection))
+                    {
+                        case StandardSelection.VIEW_FACILITIES:
+                            Router.redirect(new FacilityListPage(FacilityListPage.Subpage.VIEW_FACILITY));
+                            break;
+                        case StandardSelection.MY_BOOKINGS:
+                            break;
+                        case StandardSelection.REPORT_ISSUE:
+                            Router.redirect(new FacilityListPage(FacilityListPage.Subpage.REPORT_ISSUE));
+                            break;
+                        case StandardSelection.LOGOUT:
+                            logout();
+                            break;
+                        case StandardSelection.EXIT:
+                            System.exit(0);
+                            break;
+                    }
+                    break;
+                case  User.Role.ADMIN:
+                    break;
+            }
+        }
+        else
+        {
+            switch (GuestSelection.cast(selection))
+            {
+                case GuestSelection.VIEW_FACILITIES:
+                    Router.redirect(new FacilityListPage(Subpage.VIEW_FACILITY));
+                    break;
+                case GuestSelection.SIGN_IN:
+                    Router.redirect(new SignInPage());
+                    break;
+                case GuestSelection.SIGN_UP:
+                    Router.redirect(new SignUpPage());
+                    break;
+                case GuestSelection.EXIT:
+                    System.exit(0);
+                    break;
+            }
         }
     }
 
@@ -180,5 +234,11 @@ public class MenuPage extends Page {
         }
 
         Renderer.refresh();
+    }
+
+    private void logout()
+    {
+        selection = 0;
+        Global.clearSession();
     }
 }

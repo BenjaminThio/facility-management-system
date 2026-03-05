@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Database",
+            "request": "launch",
+            "mainClass": "src.utils.Database",
+            "projectName": "facility-management-system_1b71b80"
+        },
+        {
+            "type": "java",
             "name": "SignUpPage",
             "request": "launch",
             "mainClass": "src.pages.SignUpPage",

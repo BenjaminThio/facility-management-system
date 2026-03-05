@@ -6,22 +6,21 @@ import src.models.Position;
 import src.utils.Global;
 import src.utils.Renderer;
 
-public class InputField {
+public class InputField extends Field {
     private String value = "";
-    private int length = 10;
-    private String placeholder = "";
     private int caretPosition = 0;
     private int caretOffset = 0; // x offset
-    private int backgroundColor = Ansi.BG_WHITE;
-    private int textColor = Ansi.FG_BLACK;
-    private int placeholderColor = Ansi.FG_DARK_GRAY;
-    private boolean error = false;
+
+    public InputField(int length, String placeholder)
+    {
+        this.length = length;
+        this.placeholder = placeholder;
+    }
 
     public InputField(String defaultValue, int length, String placeholder)
     {
+        this(length, placeholder);
         this.value = defaultValue;
-        this.length = length;
-        this.placeholder = placeholder;
 
         if (!defaultValue.isEmpty())
         {
@@ -37,32 +36,13 @@ public class InputField {
         }
     }
 
+    @Override
     public String getValue()
     {
         return value;
     }
 
-    public void setError(boolean error)
-    {
-        this.error = error;
-        setBackgroundColor(error ? Ansi.BG_RED : Ansi.BG_WHITE);
-    }
-
-    public boolean error()
-    {
-        return this.error;
-    }
-
-    public void setBackgroundColor(int ansiCode)
-    {
-        backgroundColor = ansiCode;
-    }
-
-    public void setTextColor(int ansiCode)
-    {
-        textColor = ansiCode;
-    }
-
+    @Override
     public void render()
     {
         if (this.value.isEmpty())
@@ -85,6 +65,7 @@ public class InputField {
         System.out.println();
     }
 
+    @Override
     public void handleInput(String input)
     {
         switch (input)
@@ -147,11 +128,13 @@ public class InputField {
         Renderer.refresh();
     }
 
+    @Override
     public void updateCaret(int offsetX, int offsetY)
     {
-        Global.terminal.puts(Capability.cursor_address, offsetY, offsetX + caretPosition);
+        Global.getTerminal().puts(Capability.cursor_address, offsetY, offsetX + caretPosition);
     }
 
+    @Override
     public void updateCaret(Position offset)
     {
         updateCaret(offset.x, offset.y);

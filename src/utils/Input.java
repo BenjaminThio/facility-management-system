@@ -8,7 +8,7 @@ public class Input {
 
     public static void setup()
     {
-        reader = new BindingReader(Global.terminal.reader());
+        reader = new BindingReader(Global.getTerminal().reader());
 
         keyMap.setAmbiguousTimeout(10L);
 
@@ -17,7 +17,7 @@ public class Input {
         keyMap.bind("RIGHT", "\u001B[C", "\u001BOC");
         keyMap.bind("LEFT", "\u001B[D", "\u001BOD");
         keyMap.bind("ENTER", "\r", "\n");
-        keyMap.bind("BACK", "\u001B");
+        keyMap.bind("ESC", "\u001B");
         keyMap.bind("BACKSPACE", "\b");
         keyMap.bind("TAB", "\t");
         keyMap.bind("SHIFT_TAB", "\u001B[Z");

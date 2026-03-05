@@ -4,7 +4,8 @@ import java.time.LocalDate;
 
 import src.components.Calendar;
 import src.pages.core.Page;
-import src.utils.Global;
+import src.utils.Database;
+import src.utils.Router;
 
 public class ViewFacilityPage extends Page {
     int facilityIdx = 0;
@@ -29,7 +30,7 @@ public class ViewFacilityPage extends Page {
 
     public void render()
     {
-        System.out.println("Facility Name: " + Global.facilities.get(facilityIdx).getName());
+        System.out.println("Facility Name: " + Database.Facility.getAll().get(facilityIdx).getName());
         System.out.println();
         Calendar.printCalender(LocalDate.now());
         System.out.println();
@@ -46,6 +47,11 @@ public class ViewFacilityPage extends Page {
 
     public void handleAction(String action)
     {
-
+        switch (action)
+        {
+            case "ESC":
+                Router.back();
+                break;
+        }
     }
 }

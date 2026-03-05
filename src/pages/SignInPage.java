@@ -1,39 +1,31 @@
 package src.pages;
 
-import java.util.regex.Pattern;
-
 import src.components.Ansi;
 import src.components.InputField;
 import src.models.User;
-import src.models.User.Role;
 import src.pages.core.Page;
 import src.utils.Database;
 import src.utils.Global;
 import src.utils.Renderer;
 import src.utils.Router;
 
-public class SignUpPage extends Page {
-    private static final Pattern USERNAME_PATTERN = Pattern.compile("^(?=.{3,32}$)[a-zA-Z]+(?: [a-zA-Z]+)*$");
-    private static final Pattern EMAIL_PATTERN = Pattern.compile("^[0-9a-zA-Z]{5,32}@utar.edu.my?");
-    private static final Pattern PASSWORD_PATTERN = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z\\d\\s])\\S{8,32}$");
+public class SignInPage extends Page {
     InputField[] fields = {
-        new InputField("", 30, "Enter your full name"),
         new InputField("", 30, "name@domain.com"),
         new InputField("", 30, "Create new password")
     };
 
     public void render()
     {
-        System.out.println("Full Name:");
+        User user = Database.User.get(fields[0].getValue());
+        System.out.println("Email:");
         fields[0].render();
         System.out.println();
-        System.out.println("Email:");
-        fields[1].render();
-        System.out.println();
         System.out.println("Password:");
-        fields[2].render();
+        fields[1].render();
+        System.out.println(user == null ? null : user.getPassword() + "," + fields[1].getValue());
         System.out.println();
-        System.out.println(new Ansi("Sign Up", selection == 3 ? Ansi.BG_GREEN : Ansi.BG_WHITE, Ansi.FG_BLACK).toString());
+        System.out.println(new Ansi("Sign In", selection == fields.length ? Ansi.BG_GREEN : Ansi.BG_WHITE, Ansi.FG_BLACK).toString());
 
         if (selection >= 0 && selection < fields.length)
         {
@@ -41,25 +33,22 @@ public class SignUpPage extends Page {
         }
     }
 
-    private void SignUp()
+    private void SignIn()
     {
-        this.fields[0].setError(Database.User.isExists(
-            this.fields[0].getValue()) || !USERNAME_PATTERN.matcher(this.fields[0].getValue()).matches());
-        this.fields[1].setError(!EMAIL_PATTERN.matcher(this.fields[1].getValue()).matches());
-        this.fields[2].setError(!PASSWORD_PATTERN.matcher(this.fields[2].getValue()).matches());
+        User user = Database.User.get(fields[0].getValue());
 
-        for (int i = 0; i < this.fields.length; i++)
+        fields[0].setError(user == null);
+        fields[1].setError(user == null || !user.getPassword().equals(fields[1].getValue()));
+
+        for (int i = 0; i < fields.length; i++)
         {
-            if (this.fields[i].error())
+            if (fields[i].error())
             {
                 return;
             }
         }
 
-        Global.setUser(new User(this.fields[0].getValue(), this.fields[1].getValue(), this.fields[2].getValue(), Role.STUDENT));
-        Database.User.add(Global.getUser());
-        Database.User.save();
-
+        Global.setSession(user);
         Router.redirect(new MenuPage());
     }
 
@@ -92,8 +81,8 @@ public class SignUpPage extends Page {
             case "ENTER":
                 switch (selection)
                 {
-                    case 3:
-                        SignUp();
+                    case 2:
+                        SignIn();
                         break;
                 }
                 break;

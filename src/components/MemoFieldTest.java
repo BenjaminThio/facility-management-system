@@ -62,7 +62,7 @@ public class MemoFieldTest {
             }
             System.out.println();
         }
-        Global.terminal.puts(Capability.cursor_address, this.caretPosition.y, this.caretPosition.x);
+        Global.getTerminal().puts(Capability.cursor_address, this.caretPosition.y, this.caretPosition.x);
     }
 
     public void handleInput(String input)

@@ -3,10 +3,15 @@ package src.pages;
 import src.components.InputField;
 import src.components.MemoField;
 import src.pages.core.Page;
-import src.utils.Global;
+import src.utils.Database;
 import src.utils.Renderer;
+import src.utils.Router;
 
 public class ReportPage extends Page {
+    private static final int MIN_TITLE_LENGTH = 5;
+    private static final int MAX_TITLE_LENGTH = 50;
+    private static final int MIN_DESCRIPTION_LENGTH = 15;
+    private static final int MAX_DESCRIPTION_LENGTH = 250;
     private int facilityIdx;
     private InputField title = new InputField("", 50, "Broken Air-con...");
     private MemoField description = new MemoField(23, 50, "Type something...", false);
@@ -18,7 +23,7 @@ public class ReportPage extends Page {
 
     public void render()
     {
-        System.err.println("Facility Name: " + Global.facilities.get(facilityIdx).getName() + "\n");
+        System.err.println("Facility Name: " + Database.Facility.getAll().get(facilityIdx).getName() + "\n");
         System.out.println("Title:");
         title.render();
         System.out.println();
@@ -36,8 +41,11 @@ public class ReportPage extends Page {
         }
     }
 
-    public void select()
+    private void submit()
     {
+        title.setError(title.getValue().length() < MIN_TITLE_LENGTH || title.getValue().length() > MAX_TITLE_LENGTH);
+        description.setError(description.getValue().length() < MIN_DESCRIPTION_LENGTH || description.getValue().length() > MAX_DESCRIPTION_LENGTH);
+
 
     }
 
@@ -65,6 +73,9 @@ public class ReportPage extends Page {
                     selection = 1;
                 }
                 break;
+            case "ESC":
+                Router.back();
+                break;
             default:
                 switch (this.selection)
                 {
@@ -73,6 +84,14 @@ public class ReportPage extends Page {
                         break;
                     case 1:
                         description.handleInput(action);
+                        break;
+                    case 2:
+                        switch (action)
+                        {
+                            case "Enter":
+
+                                break;
+                        }
                         break;
                 }
                 break;

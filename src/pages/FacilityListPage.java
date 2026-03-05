@@ -2,7 +2,7 @@ package src.pages;
 
 import src.components.InputField;
 import src.pages.core.Page;
-import src.utils.Global;
+import src.utils.Database;
 import src.utils.Renderer;
 import src.utils.Router;
 
@@ -40,7 +40,7 @@ public class FacilityListPage extends Page {
             {
                 System.out.print("  ");
             }
-            System.out.println(Integer.toString(i + 1) + ". " + Global.facilities.get(i).getName());
+            System.out.println(Integer.toString(i + 1) + ". " + Database.Facility.getAll().get(i).getName());
         }
     }
 
@@ -76,12 +76,12 @@ public class FacilityListPage extends Page {
                 {
                     selection++;
                 }
-                else if (selection + selectionOffset + 1 < Global.facilities.size())
+                else if (selection + selectionOffset + 1 < Database.Facility.getAll().size())
                 {
                     selectionOffset++;
                 }
                 break;
-            case "BACK":
+            case "ESC":
                 Router.back();
                 break;
             case "ENTER":
