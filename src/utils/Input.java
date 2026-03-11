@@ -21,6 +21,7 @@ public class Input {
         keyMap.bind("BACKSPACE", "\b");
         keyMap.bind("TAB", "\t");
         keyMap.bind("SHIFT_TAB", "\u001B[Z");
+        keyMap.bind("F4", "\u001BOS", "\u001B[14~");
 
         for (char c = 32; c <= 126; c++)
         {
@@ -37,7 +38,7 @@ public class Input {
             if (action != null)
             {
                 Router.getPage().handleAction(action);
-                // Audio.play("squeak");
+                AudioEngine.engine.playSound(AudioEngine.squeakSound);
             }
         }
     }

@@ -1,8 +1,13 @@
 package src.pages;
 
+import src.models.Facility;
 import src.models.User;
-import src.pages.FacilityListPage.Subpage;
-import src.pages.core.Page;
+import src.pages.admin.AnalyticsPage;
+import src.pages.admin.ConsolePage;
+import src.pages.admin.ProcessBookingPage;
+import src.pages.admin.ReviewReportPage;
+import src.pages.cores.Page;
+import src.utils.Database;
 import src.utils.Global;
 import src.utils.Renderer;
 import src.utils.Router;
@@ -63,7 +68,7 @@ public class MenuPage extends Page {
     }
     public enum AdminSelection
     {
-        PROCESS_BOOKING_REQUESTS(0), MANAGE_FACILITY_MAINTENANCE(1), GENERATE_ANALYTICS_REPORT(2), LOGOUT(3), EXIT(4);
+        MANAGE_BOOKING_SESSIONS(0), PROCESS_BOOKING_REQUESTS(1), MANAGE_FACILITY_MAINTENANCE(2), GENERATE_ANALYTICS_REPORT(3), LOGOUT(4), EXIT(5);
 
         private final int val;
 
@@ -76,9 +81,18 @@ public class MenuPage extends Page {
         {
             return this.val;
         }
+
+        public static AdminSelection cast(int val)
+        {
+            for (AdminSelection selection : values())
+            {
+                if (selection.getVal() == val)
+                    return selection;
+            }
+            return null;
+        }
     }
 
-    // @Override
     public int getSelectionSize()
     {
         if (Global.getUser() != null)
@@ -162,12 +176,23 @@ public class MenuPage extends Page {
                     switch (StandardSelection.cast(selection))
                     {
                         case StandardSelection.VIEW_FACILITIES:
-                            Router.redirect(new FacilityListPage(FacilityListPage.Subpage.VIEW_FACILITY));
+                            Router.redirect(
+                                new ListPage(
+                                    new ViewFacilityPage(),
+                                    Database.Facility.getAll().stream().map(Facility::getName).toArray(String[]::new)
+                                )
+                            );
                             break;
                         case StandardSelection.MY_BOOKINGS:
+                            Router.redirect(new MyBookingPage());
                             break;
                         case StandardSelection.REPORT_ISSUE:
-                            Router.redirect(new FacilityListPage(FacilityListPage.Subpage.REPORT_ISSUE));
+                            Router.redirect(
+                                new ListPage(
+                                    new ReportPage(),
+                                    Database.Facility.getAll().stream().map(Facility::getName).toArray(String[]::new)
+                                )
+                            );
                             break;
                         case StandardSelection.LOGOUT:
                             logout();
@@ -178,6 +203,43 @@ public class MenuPage extends Page {
                     }
                     break;
                 case  User.Role.ADMIN:
+                    switch (AdminSelection.cast(selection))
+                    {
+                        case MANAGE_BOOKING_SESSIONS:
+                            Router.redirect(new ListPage(new ConsolePage(), Database.Facility.getAll().stream().map(Facility::getName).toArray(String[]::new)));
+                            break;
+                        case PROCESS_BOOKING_REQUESTS:
+                        {
+                            Router.redirect(
+                                new ListPage(
+                                    new ProcessBookingPage(),
+                                    Database.Booking.getAll().keySet().toArray(String[]::new)
+                                )
+                            );
+                            break;
+                        }
+                        case MANAGE_FACILITY_MAINTENANCE:
+                        {
+                            Router.redirect(
+                                new ListPage(
+                                    new ListPage(new ReviewReportPage(), subpage -> Database.Report.getAll().get(subpage.getLabel()).stream().map(report -> report.getTitle()).toArray(String[]::new)),
+                                    Database.Report.getAll().keySet().toArray(String[]::new)
+                                )
+                            );
+                            break;
+                        }
+                        case GENERATE_ANALYTICS_REPORT:
+                            Router.redirect(new AnalyticsPage());
+                            break;
+                        case LOGOUT:
+                            logout();
+                            break;
+                        case EXIT:
+                            System.exit(0);
+                            break;
+                        default:
+                            break;
+                    }
                     break;
             }
         }
@@ -186,7 +248,12 @@ public class MenuPage extends Page {
             switch (GuestSelection.cast(selection))
             {
                 case GuestSelection.VIEW_FACILITIES:
-                    Router.redirect(new FacilityListPage(Subpage.VIEW_FACILITY));
+                    Router.redirect(
+                        new ListPage(
+                            new ViewFacilityPage(),
+                            Database.Facility.getAll().stream().map(Facility::getName).toArray(String[]::new)
+                        )
+                    );
                     break;
                 case GuestSelection.SIGN_IN:
                     Router.redirect(new SignInPage());

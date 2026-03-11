@@ -1,10 +1,10 @@
 package src.pages;
 
 import src.components.InputField;
-import src.pages.core.Page;
+import src.pages.cores.Page;
 
 public class TestPage extends Page {
-    InputField inputField = new InputField("", 20, "Type something...");
+    InputField inputField = new InputField(20, "Type something...");
     // MemoField memoField = new MemoField(20, 30, "Type something...", false);
 
     public void select()

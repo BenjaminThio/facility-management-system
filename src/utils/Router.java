@@ -5,28 +5,33 @@ import java.util.Arrays;
 import java.util.List;
 
 import src.pages.MenuPage;
-import src.pages.core.Page;
+import src.pages.cores.Page;
 
 public class Router {
     private static Page page = new MenuPage();
-    private static List<Page> previousPages = new ArrayList<>(Arrays.asList(page));
+    private static List<Page> routesHistory = new ArrayList<>(Arrays.asList(page));
 
     public static void redirect(Page p)
     {
         page = p;
-        previousPages.add(p);
+        routesHistory.add(p);
         Renderer.refresh();
     }
 
     public static void back()
     {
-        previousPages.removeLast();
-        page = previousPages.getLast();
+        routesHistory.removeLast();
+        page = routesHistory.getLast();
         Renderer.refresh();
     }
 
     public static Page getPage()
     {
         return page;
+    }
+
+    public static List<Page> getRoutesHistory()
+    {
+        return routesHistory;
     }
 }

@@ -34,7 +34,7 @@ class StandardUser extends User {
         super(userId, password, name, role);
         this.faculty = faculty;
     }
-    
+
     public String getFaculty() { return faculty; } // Added missing getter
 }
 

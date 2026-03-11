@@ -10,6 +10,7 @@ public class InputField extends Field {
     private String value = "";
     private int caretPosition = 0;
     private int caretOffset = 0; // x offset
+    private boolean isVisible = true;
 
     public InputField(int length, String placeholder)
     {
@@ -17,9 +18,16 @@ public class InputField extends Field {
         this.placeholder = placeholder;
     }
 
-    public InputField(String defaultValue, int length, String placeholder)
+    public InputField(int length, String placeholder, boolean isVisible)
     {
-        this(length, placeholder);
+        this.length = length;
+        this.placeholder = placeholder;
+        this.isVisible = isVisible;
+    }
+
+    public InputField(String defaultValue, int length, String placeholder, boolean isHidden)
+    {
+        this(length, placeholder, isHidden);
         this.value = defaultValue;
 
         if (!defaultValue.isEmpty())
@@ -45,7 +53,12 @@ public class InputField extends Field {
     @Override
     public void render()
     {
-        if (this.value.isEmpty())
+        renderField(this.isVisible ? value : "*".repeat(this.value.length()));
+    }
+
+    public void renderField(String val)
+    {
+        if (val.isEmpty())
         {
             if (this.placeholder.isEmpty())
                 System.out.print(new Ansi(" ".repeat(this.length), backgroundColor).toString());
@@ -54,13 +67,13 @@ public class InputField extends Field {
             else
                 System.out.print(new Ansi(this.placeholder.substring(0, this.length - 1) + "…", backgroundColor, placeholderColor).toString());
         }
-        else if (this.value.length() < this.length)
+        else if (val.length() < this.length)
         {
-            System.out.print(new Ansi(this.value + " ".repeat(this.length - this.value.length()), backgroundColor, textColor).toString());
+            System.out.print(new Ansi(val + " ".repeat(this.length - val.length()), backgroundColor, textColor).toString());
         }
         else
         {
-            System.out.print(new Ansi(this.value.substring(this.caretOffset, Math.max(this.caretPosition + this.caretOffset, this.length)), backgroundColor, Ansi.FG_BLACK).toString());
+            System.out.print(new Ansi(val.substring(this.caretOffset, Math.max(this.caretPosition + this.caretOffset, this.length)), backgroundColor, Ansi.FG_BLACK).toString());
         }
         System.out.println();
     }
@@ -138,5 +151,15 @@ public class InputField extends Field {
     public void updateCaret(Position offset)
     {
         updateCaret(offset.x, offset.y);
+    }
+
+    public void setVisibility(boolean isVisible)
+    {
+        this.isVisible = isVisible;
+    }
+
+    public boolean getVisibility()
+    {
+        return this.isVisible;
     }
 }

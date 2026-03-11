@@ -1,14 +1,22 @@
 {
-	"teehueleng123@utar.edu.my":{
-		"email":"teehueleng123@utar.edu.my",
-		"name":"Tee Hue Leng",
-		"password":"@TeeHueLeng70",
-		"role":"STUDENT"
-	},
 	"benjaminthio@utar.edu.my":{
+		"bookings":[
+			{
+				"date":"2026-03-12",
+				"facilityName":"KB100",
+				"session":"16:00-17:30"
+			}
+		],
 		"email":"benjaminthio@utar.edu.my",
 		"name":"Benjamin Thio Zi liang",
 		"password":"@BenjaminThio70",
+		"role":"ADMIN"
+	},
+	"teehueleng123@utar.edu.my":{
+		"bookings":[],
+		"email":"teehueleng123@utar.edu.my",
+		"name":"Tee Hue Leng",
+		"password":"@TeeHueLeng70",
 		"role":"STUDENT"
 	}
 }

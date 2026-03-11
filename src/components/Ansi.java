@@ -70,6 +70,15 @@ public class Ansi {
         return ansiBuilder.toString();
     }
 
+    public static String toString(int code)
+    {
+        StringBuilder ansiBuilder = new StringBuilder();
+
+        ansiBuilder.append(FORMAT).append(code).append('m');
+
+        return ansiBuilder.toString();
+    }
+
     public int length()
     {
         return this.text.length();

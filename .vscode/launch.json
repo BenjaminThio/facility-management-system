@@ -2,6 +2,41 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Calendar",
+            "request": "launch",
+            "mainClass": "src.components.Calendar",
+            "projectName": "facility-management-system_1b71b80"
+        },
+        {
+            "type": "java",
+            "name": "FileExplorer",
+            "request": "launch",
+            "mainClass": "src.utils.FileExplorer",
+            "projectName": "facility-management-system_1b71b80"
+        },
+        {
+            "type": "java",
+            "name": "FastAudioPlayer",
+            "request": "launch",
+            "mainClass": "test.FastAudioPlayer",
+            "projectName": "facility-management-system_1b71b80"
+        },
+        {
+            "type": "java",
+            "name": "SearchEngine",
+            "request": "launch",
+            "mainClass": "src.components.SearchEngine",
+            "projectName": "facility-management-system_1b71b80"
+        },
+        {
+            "type": "java",
+            "name": "ProSearchEngine",
+            "request": "launch",
+            "mainClass": "src.components.ProSearchEngine",
+            "projectName": "facility-management-system_1b71b80"
+        },
+        {
+            "type": "java",
             "name": "Database",
             "request": "launch",
             "mainClass": "src.utils.Database",

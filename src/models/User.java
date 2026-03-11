@@ -1,5 +1,7 @@
 package src.models;
 
+import java.util.ArrayList;
+
 public class User {
     public enum Role
     {
@@ -45,6 +47,7 @@ public class User {
     private String email;
     private String password;
     private Role role;
+    private ArrayList<UserBooking> bookings = new ArrayList<>();
 
     public User(String name, String email, String password, Role role)
     {
@@ -52,6 +55,12 @@ public class User {
         this.email = email;
         this.password = password;
         this.role = role;
+    }
+
+    public User(String name, String email, String password, Role role, ArrayList<UserBooking> bookings)
+    {
+        this(name, email, password, role);
+        this.bookings = bookings;
     }
 
     public String getName()
@@ -87,5 +96,20 @@ public class User {
     public Role getRole()
     {
         return this.role;
+    }
+
+    public ArrayList<UserBooking> getBookings()
+    {
+        return this.bookings;
+    }
+
+    public void setBookings(ArrayList<UserBooking> bookings)
+    {
+        this.bookings = bookings;
+    }
+
+    public void addBooking(UserBooking booking)
+    {
+        this.bookings.add(booking);
     }
 }
