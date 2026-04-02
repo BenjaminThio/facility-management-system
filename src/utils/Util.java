@@ -34,4 +34,16 @@ public class Util {
 
         return result;
     }
+
+    public static String textOverflowEllipsis(String text, int maxLength)
+    {
+        if (text.length() > maxLength)
+        {
+            return text.substring(0, maxLength - 1) + "…";
+        }
+        else
+        {
+            return text;
+        }
+    }
 }

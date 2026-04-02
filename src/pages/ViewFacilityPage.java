@@ -1,8 +1,13 @@
 package src.pages;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
+
+import javax.swing.JOptionPane;
 
 import src.pages.cores.Subpage;
 import src.utils.Database;
@@ -10,9 +15,15 @@ import src.utils.Global;
 import src.utils.Renderer;
 import src.utils.Router;
 import src.components.Ansi;
+import src.components.AnsiBuilder;
 import src.components.Calendar;
-import src.components.MemoField;
+import src.components.Table;
+import src.components.fields.MemoField;
 import src.models.Booking;
+import src.models.BookingInfo;
+import src.models.HighlightedDate;
+import src.models.RGB;
+import src.models.SpecialEmoji;
 import src.models.UserBooking;
 
 public class ViewFacilityPage extends Subpage {
@@ -23,6 +34,22 @@ public class ViewFacilityPage extends Subpage {
     private LinkedHashMap<String, Booking> sessions;
     private int subselection = 0;
     private MemoField remarkField = new MemoField(4, 50, "Add any special requests (optional)", false);
+
+    @Override
+    public Subpage copy()
+    {
+        ViewFacilityPage clone = new ViewFacilityPage();
+
+        clone.selection = this.selection;
+        clone.id = this.id;
+        clone.label = this.label;
+
+        clone.isLocked = this.isLocked;
+        clone.subselection = this.subselection;
+        clone.remarkField = this.remarkField;
+
+        return clone;
+    }
 
     @Override
     public void init()
@@ -48,43 +75,79 @@ public class ViewFacilityPage extends Subpage {
     }
 
     @Override
-    public void render()
+    public void render(StringBuilder frame)
     {
-        Calendar calendar = new Calendar(
-            this.date,
-            Ansi.FG_DARK_GRAY,
-            Ansi.FG_BLACK,
-            Ansi.BG_DARK_GRAY);
+        ArrayList<ArrayList<AnsiBuilder>> table = new ArrayList<>();
 
-        switch (selection)
+        Calendar calendar = switch (selection)
         {
             case 0 -> {
                 if (isLocked)
                 {
-                    calendar = new Calendar(
+                    yield new Calendar(
                         this.date,
                         Ansi.FG_WHITE,
                         Ansi.FG_BLACK,
-                        Ansi.BG_LIGHT_BLUE);
+                        Ansi.BG_LIGHT_BLUE,
+                        15
+                    ).pastTextColor(Ansi.FG_DARK_GRAY);
                 }
                 else
                 {
-                    calendar = new Calendar(
+                    yield new Calendar(
                         this.date,
                         Ansi.FG_GREEN,
                         Ansi.FG_BLACK,
-                        Ansi.BG_GREEN);
+                        Ansi.BG_GREEN,
+                        15
+                    ).pastTextColor(new RGB(0, 100, 0));
+                }
+            }
+            default -> new Calendar(
+                this.date,
+                Ansi.FG_DARK_GRAY,
+                Ansi.FG_BLACK,
+                Ansi.BG_DARK_GRAY,
+                15
+            );
+        };
+
+        ArrayList<HighlightedDate> highlightedDates = new ArrayList<>();
+
+        if (Database.Booking.getAll().get(label) != null)
+        {
+            for (String sessionDateString : Database.Booking.getAll().get(label).keySet())
+            {
+                LocalDate sessionDate = LocalDate.parse(sessionDateString);
+
+                if (sessionDate.getMonthValue() == this.date.getMonthValue())
+                {
+                    for (String session : Database.Booking.getAll().get(label).get(sessionDateString).keySet())
+                    {
+                        LocalTime sessionEndTime = LocalTime.parse(session.split("-")[1]);
+                        if (Database.Booking.getAll().get(label).get(sessionDateString).get(session).getApproved() == null
+                            && !LocalDateTime.of(sessionDate, sessionEndTime).isBefore(LocalDateTime.now())
+                        )
+                        {
+                            highlightedDates.add(new HighlightedDate(sessionDate, Ansi.FG_BLACK, Ansi.BG_LIGHT_CYAN));
+                        }
+                    }
                 }
             }
         }
 
-        System.out.println("Facility name: " + label);
-        System.out.println();
-        System.out.print("Date: ");
-        System.out.println(this.date);
-        System.out.println();
-        System.out.println(calendar);
-        System.out.println("Available Sessions:");
+        calendar.setHighlightDates(highlightedDates);
+
+        table.add(new ArrayList<>(Arrays.asList(new AnsiBuilder("Facility name: " + label))));
+        table.add(new ArrayList<>(Arrays.asList(new AnsiBuilder(
+            new Ansi("Date: " + this.date.toString() + "\n\n"),
+            calendar.toAnsiBuilder(),
+            " ".repeat(50)
+        ))));
+
+        AnsiBuilder sessionListBuilder = new AnsiBuilder();
+
+        sessionListBuilder.append("Available Sessions:\n");
 
         if (this.sessions != null && this.sessions.size() > 0)
         {
@@ -92,39 +155,186 @@ public class ViewFacilityPage extends Subpage {
 
             for (String session : this.sessions.keySet())
             {
-                if (this.selection + 1 > MAX_SELECTION && this.selection + 1 - MAX_SELECTION == counter)
-                    System.out.print("> ");
+                if (sessions != null && Global.getUser() != null && !containsPendingUser(sessions.get(session).getPending(), Global.getUser().getEmail()) &&
+                    Database.Booking.Session.getStatus(this.label, this.date.toString(), session, Global.getUser().getEmail()) != Database.Booking.Session.Status.APPROVED &&
+                    Database.Booking.Session.getStatus(this.label, this.date.toString(), session, Global.getUser().getEmail()) != Database.Booking.Session.Status.UNDER_MAINTENANCE
+                )
+                {
+                    if (this.selection + 1 > MAX_SELECTION && this.selection + 1 - MAX_SELECTION == counter)
+                        sessionListBuilder.append(this.isLocked ? "🔒 " : "> ");
+                    else
+                        sessionListBuilder.append("  ");
+
+                    
+                    if (this.selection + 1 > MAX_SELECTION && this.selection + 1 - MAX_SELECTION == counter)
+                        sessionListBuilder.append(new Ansi(counter + ". " + session, Ansi.FG_LIGHT_GREEN, Ansi.UNDERLINE));
+                    else
+                        sessionListBuilder.append(new Ansi(counter + ". " + session, Ansi.FG_LIGHT_GREEN));
+
+                    if (this.isLocked && this.selection + 1 > MAX_SELECTION && this.selection + 1 - MAX_SELECTION == counter)
+                    {
+                        sessionListBuilder.append(" ✏️");
+                    }
+                }
                 else
-                    System.out.print("  ");
+                {
+                    if (this.selection + 1 > MAX_SELECTION && this.selection + 1 - MAX_SELECTION == counter)
+                        sessionListBuilder.append(this.isLocked ? "🔒 " : "> ");
+                    else
+                        sessionListBuilder.append("  ");
 
-                System.out.print(new Ansi(counter + ". " + session, this.isLocked && this.selection + 1 > MAX_SELECTION && this.selection + 1 - MAX_SELECTION == counter ? Ansi.BG_GREEN : Ansi.FG_WHITE));
+                    if (sessions != null && Global.getUser() != null)
+                    {
+                        if (this.selection + 1 > MAX_SELECTION && this.selection + 1 - MAX_SELECTION == counter)
+                            sessionListBuilder.append(new Ansi(counter + ". " + session, Ansi.FG_LIGHT_RED, Ansi.UNDERLINE));
+                        else
+                            sessionListBuilder.append(new Ansi(counter + ". " + session, Ansi.FG_LIGHT_RED));
+                    }
+                    else
+                    {
+                        if (this.selection + 1 > MAX_SELECTION && this.selection + 1 - MAX_SELECTION == counter)
+                            sessionListBuilder.append(new Ansi(counter + ". " + session, Ansi.FG_WHITE, Ansi.UNDERLINE));
+                        else
+                            sessionListBuilder.append(new Ansi(counter + ". " + session, Ansi.FG_WHITE));
+                    }
 
-                if (this.isLocked && this.selection + 1 > MAX_SELECTION && this.selection + 1 - MAX_SELECTION == counter)
-                    System.out.print(" <");
+                    if (this.isLocked && this.selection + 1 > MAX_SELECTION && this.selection + 1 - MAX_SELECTION == counter)
+                    {
+                        sessionListBuilder.append(' ').append(SpecialEmoji.EYE);
+                    }
+                }
 
-                System.out.println();
+                if (counter < this.sessions.keySet().size())
+                    sessionListBuilder.append('\n');
 
                 counter++;
             }
         }
         else
         {
-            System.out.println("NULL");
+            sessionListBuilder.append("NULL");
         }
 
-        System.out.println();
+        table.add(new ArrayList<>(Arrays.asList(sessionListBuilder)));
 
         if (this.isLocked && this.selection + 1 > MAX_SELECTION)
         {
-            System.out.println("Remark:");
-            this.remarkField.render();
-            System.out.println();
-            System.out.println(new Ansi("Book Facility", this.subselection == 1 ? Ansi.BG_GREEN : Ansi.BG_WHITE, Ansi.FG_BLACK));
+            AnsiBuilder bookingPanel = new AnsiBuilder();
 
+            if (sessions != null && Global.getUser() != null && !containsPendingUser(sessions.get(getSelectedSession()).getPending(), Global.getUser().getEmail()) &&
+                Database.Booking.Session.getStatus(this.label, this.date.toString(), getSelectedSession(), Global.getUser().getEmail()) != Database.Booking.Session.Status.APPROVED &&
+                Database.Booking.Session.getStatus(this.label, this.date.toString(), getSelectedSession(), Global.getUser().getEmail()) != Database.Booking.Session.Status.UNDER_MAINTENANCE)
+            {
+                bookingPanel.append("Remark:\n")
+                            .append(this.remarkField.toAnsiBuilder())
+                            .append("\n\n" + " ".repeat(18))
+                            .append(new Ansi(
+                                "Book Facility",
+                                this.subselection == 1
+                                ?
+                                Ansi.BG_GREEN
+                                :
+                                Ansi.BG_WHITE,
+                                Ansi.FG_BLACK
+                            ));
+                table.add(new ArrayList<>(Arrays.asList(bookingPanel)));
+            }
+            else
+            {
+                if (sessions != null && Global.getUser() != null)
+                {
+                    String remark = null;
+
+                    if (Database.Booking.Session.getStatus(this.label, this.date.toString(), getSelectedSession(), Global.getUser().getEmail()) != Database.Booking.Session.Status.APPROVED &&
+                        Database.Booking.Session.getStatus(this.label, this.date.toString(), getSelectedSession(), Global.getUser().getEmail()) != Database.Booking.Session.Status.UNDER_MAINTENANCE)
+                    {
+                        remark = getPendingUser(
+                                    sessions.get(getSelectedSession()).getPending(),
+                                    Global.getUser().getEmail()
+                                ).getRemark();
+                    }
+
+                    if (remark != null)
+                    {
+                        bookingPanel.append("Your Previous Remark:\n");
+
+                        if (!remark.equals(""))
+                        {
+                            bookingPanel.append(
+                                new MemoField(
+                                    remark,
+                                    4,
+                                    50,
+                                    "",
+                                    false
+                                ).toAnsiBuilder()
+                            ).append('\n');
+                        }
+                        else
+                        {
+                            bookingPanel.append("NULL\n\n");
+                        }
+                    }
+
+                    if (Database.Booking.Session.getStatus(this.label, this.date.toString(), getSelectedSession(), Global.getUser().getEmail()) == Database.Booking.Session.Status.APPROVED)
+                        bookingPanel.append(" ".repeat(5) + "*You have already booked this facility.*\n")
+                                    .append(" ".repeat(8) +"*Your booking has been approved.*");
+                    else if (Database.Booking.Session.getStatus(this.label, this.date.toString(), getSelectedSession(), Global.getUser().getEmail()) == Database.Booking.Session.Status.UNDER_MAINTENANCE)
+                        bookingPanel.append(" ".repeat(5) + "*You have already booked this facility.*\n")
+                                    .append(" ".repeat(8) + "*Your booking has been approved.*\n")
+                                    .append("*but the facility is currently under maintenance.*");
+                    else
+                        bookingPanel.append(" ".repeat(5) + "*You have already booked this facility.*\n")
+                                    .append(" ".repeat(8) + "*Please wait for admin approval.*");
+
+                    table.add(new ArrayList<>(Arrays.asList(bookingPanel)));
+                }
+            }
+        }
+
+        Table.render(frame, table);
+    }
+
+    private BookingInfo getPendingUser(ArrayList<BookingInfo> pendingUsers, String email)
+    {
+        for (BookingInfo pendingUser : pendingUsers)
+        {
+            if (pendingUser.getEmail().equals(email))
+                return pendingUser;
+        }
+        return null;
+    }
+
+    private String getSelectedSession()
+    {
+        int sessionIdx = this.selection - MAX_SELECTION;
+        String session = new ArrayList<>(sessions.keySet()).get(sessionIdx);
+
+        return session;
+    }
+
+    private boolean containsPendingUser(ArrayList<BookingInfo> pendingUsers, String email)
+    {
+        for (BookingInfo pendingUser : pendingUsers)
+        {
+            if (pendingUser.getEmail().equals(email))
+                return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void updateCaret()
+    {
+        if (this.isLocked && this.selection + 1 > MAX_SELECTION &&
+            sessions != null && Global.getUser() != null && !containsPendingUser(sessions.get(getSelectedSession()).getPending(), Global.getUser().getEmail()) &&
+            Database.Booking.Session.getStatus(this.label, this.date.toString(), getSelectedSession(), Global.getUser().getEmail()) != Database.Booking.Session.Status.APPROVED &&
+            Database.Booking.Session.getStatus(this.label, this.date.toString(), getSelectedSession(), Global.getUser().getEmail()) != Database.Booking.Session.Status.UNDER_MAINTENANCE)
+        {
             switch (this.subselection)
             {
                 case 0 -> {
-                    this.remarkField.updateCaret(0, 15 + this.sessions.size());
+                    this.remarkField.updateCaret(1, 17 + this.sessions.size());
                 }
             }
         }
@@ -141,12 +351,27 @@ public class ViewFacilityPage extends Subpage {
                     handleCalenderAction(action);
                 }
                 default -> {
-                    handleSessionAction(action);
-
-                    switch (this.subselection)
+                    if (sessions != null && Global.getUser() != null && !containsPendingUser(sessions.get(getSelectedSession()).getPending(), Global.getUser().getEmail()) &&
+                        Database.Booking.Session.getStatus(this.label, this.date.toString(), getSelectedSession(), Global.getUser().getEmail()) != Database.Booking.Session.Status.APPROVED &&
+                        Database.Booking.Session.getStatus(this.label, this.date.toString(), getSelectedSession(), Global.getUser().getEmail()) != Database.Booking.Session.Status.UNDER_MAINTENANCE
+                    )
                     {
-                        case 0 -> {
-                            this.remarkField.handleInput(action);
+                        switch (this.subselection)
+                        {
+                            case 0 -> {
+                                this.remarkField.handleInput(action);
+                            }
+                        }
+
+                        handleSessionAction(action);
+                    }
+                    else
+                    {
+                        switch (action)
+                        {
+                            case "ESC" -> {
+                                this.isLocked = false;
+                            }
                         }
                     }
                 }
@@ -177,7 +402,8 @@ public class ViewFacilityPage extends Subpage {
                     }
                 }
                 case "ENTER" -> {
-                    this.isLocked = true;
+                    if (selection == 0 || sessions != null && Global.getUser() != null)
+                        this.isLocked = true;
                 }
                 case "ESC" -> {
                     Router.back();
@@ -193,18 +419,26 @@ public class ViewFacilityPage extends Subpage {
         switch (action)
         {
             case "LEFT" -> {
+                if (this.date.minusDays(1).isBefore(LocalDate.now()))
+                {
+                    return;
+                }
                 this.date = this.date.minusDays(1);
             }
             case "RIGHT" -> {
                 this.date = this.date.plusDays(1);
             }
             case "UP" -> {
+                if (this.date.minusWeeks(1).isBefore(LocalDate.now()))
+                {
+                    return;
+                }
                 this.date = this.date.minusWeeks(1);
             }
             case "DOWN" -> {
                 this.date = this.date.plusWeeks(1);
             }
-            case "ENTER" -> {
+            case "ESC", "ENTER" -> {
                 this.isLocked = false;
                 return;
             }
@@ -251,24 +485,95 @@ public class ViewFacilityPage extends Subpage {
         }
     }
 
+    private ArrayList<UserBooking> filterPending(ArrayList<UserBooking> bookings)
+    {
+        ArrayList<UserBooking> pendingList = new ArrayList<>();
+
+        for (UserBooking booking : bookings)
+        {
+            if (Database.Booking.Session.getStatus(
+                booking.getFacilityName(),
+                booking.getDate(),
+                booking.getSession(),
+                Global.getUser().getEmail()
+            ) == Database.Booking.Session.Status.PENDING)
+                pendingList.add(booking);
+        }
+
+        return pendingList;
+    }
+
+    private ArrayList<UserBooking> filterApproved(ArrayList<UserBooking> bookings)
+    {
+        ArrayList<UserBooking> approvedList = new ArrayList<>();
+
+        for (UserBooking booking : bookings)
+        {
+            if (Database.Booking.Session.getStatus(
+                booking.getFacilityName(),
+                booking.getDate(),
+                booking.getSession(),
+                Global.getUser().getEmail()
+            ) == Database.Booking.Session.Status.APPROVED)
+                approvedList.add(booking);
+        }
+
+        return approvedList;
+    }
+
     public void bookFacility()
     {
-        int sessionIdx = this.selection - MAX_SELECTION;
-        String session = new ArrayList<>(sessions.keySet()).get(sessionIdx);
+        if (filterApproved(Database.User.get(Global.getUser().getEmail()).getBookings()).size() + 1 > 5)
+        {
+            JOptionPane.showConfirmDialog(
+                null,
+                "You have reached the maximum number of approved sessions (5). Please wait for an existing session to expire before booking a new one.",
+                "Approved Session Limit Reached",
+                JOptionPane.ERROR_MESSAGE
+            );
+            return;
+        }
+        if (
+            filterApproved(Database.User.get(Global.getUser().getEmail()).getBookings()).size() + 1 < 5 &&
+            filterApproved(Database.User.get(Global.getUser().getEmail()).getBookings()).size() +
+            filterPending(Database.User.get(Global.getUser().getEmail()).getBookings()).size() + 1 > 10
+        )
+        {
+            JOptionPane.showConfirmDialog(
+                null,
+                "You have reached the maximum total of 10 sessions (approved + pending).\n" +
+                "Please wait for a pending request to be processed or for an approved session to expire before submitting a new request.",
+                "Total Session Limit Reached",
+                JOptionPane.ERROR_MESSAGE
+            );
+            return;
+        }
+    
+        int response = JOptionPane.showConfirmDialog(
+            null,
+            "Are you sure you want to book this facility?",
+            "Confirmation Dialog",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.WARNING_MESSAGE
+        );
 
-        Database.Booking.Session.addPending(label, date, session, Global.getUser().getEmail(), this.remarkField.getValue());
-        Global.getUser().addBooking(new UserBooking(label, date, session));
-        Database.Booking.save();
-        Database.User.save();
+        if (response == JOptionPane.YES_OPTION)
+        {
+            String session = getSelectedSession();
 
-        refreshMain();
+            Database.Booking.Session.addPending(label, date, session, Global.getUser().getEmail(), this.remarkField.getValue());
+            Global.getUser().addBooking(new UserBooking(label, date, session));
+            Database.Booking.save();
+            Database.User.save();
+            refreshMain();
+        }
     }
 
     public void refreshSub()
     {
+        this.remarkField = new MemoField(4, 50, "Add any special requests (optional)", false);
         this.isLocked = false;
         this.subselection = 0;
-        this.remarkField = new MemoField(4, 50, "Add any special requests (optional)", false);
     }
 
     public void refreshMain()

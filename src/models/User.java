@@ -46,20 +46,21 @@ public class User {
     private String name;
     private String email;
     private String password;
+    private String phoneNumber;
     private Role role;
     private ArrayList<UserBooking> bookings = new ArrayList<>();
 
-    public User(String name, String email, String password, Role role)
+    public User(String name, String email, String password, String phoneNumber, Role role)
     {
         this.name = name;
-        this.email = email;
+        this.email = email.toLowerCase();
         this.password = password;
         this.role = role;
     }
 
-    public User(String name, String email, String password, Role role, ArrayList<UserBooking> bookings)
+    public User(String name, String email, String password, Role role, String phoneNumber, ArrayList<UserBooking> bookings)
     {
-        this(name, email, password, role);
+        this(name, email.toLowerCase(), password, phoneNumber, role);
         this.bookings = bookings;
     }
 
@@ -75,12 +76,12 @@ public class User {
 
     public String getEmail()
     {
-        return this.email;
+        return this.email.toLowerCase();
     }
 
     public void setEmail(String email)
     {
-        this.email = email;
+        this.email = email.toLowerCase();
     }
 
     public String getPassword()
@@ -91,6 +92,16 @@ public class User {
     public void setPassword(String password)
     {
         this.password = password;
+    }
+
+    public String getPhoneNumber()
+    {
+        return this.phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber)
+    {
+        this.phoneNumber = phoneNumber;
     }
 
     public Role getRole()

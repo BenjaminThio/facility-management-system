@@ -1,7 +1,13 @@
 package src.pages;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import src.components.Ansi;
-import src.components.InputField;
+import src.components.AnsiBuilder;
+import src.components.Container;
+import src.components.Table;
+import src.components.fields.InputField;
 import src.models.User;
 import src.pages.cores.Page;
 import src.utils.Database;
@@ -15,29 +21,45 @@ public class SignInPage extends Page {
         new InputField(31, "Create new password", false)
     };
 
-    public void render()
+    @Override
+    public void render(StringBuilder frame)
     {
-        User user = Database.User.get(fields[0].getValue());
-        System.out.println("Email:");
-        fields[0].setBackgroundColor(selection == 0 ? Ansi.BG_LIGHT_GREEN : fields[0].error() ? Ansi.BG_RED : Ansi.BG_WHITE);
-        fields[0].render();
-        System.out.println();
-        System.out.println("Password:");
-        fields[1].setBackgroundColor(selection == 1 ? Ansi.BG_LIGHT_GREEN : fields[1].error() ? Ansi.BG_RED : Ansi.BG_WHITE);
-        fields[1].render();
-        System.out.println(user == null ? null : user.getPassword() + "," + fields[1].getValue());
-        System.out.println();
-        System.out.println("           " + new Ansi("Sign In", selection == fields.length ? Ansi.BG_GREEN : Ansi.BG_WHITE, Ansi.FG_BLACK).toString());
+        ArrayList<ArrayList<AnsiBuilder>> table = new ArrayList<>();
 
+        fields[0].setBackgroundColor(selection == 0 ? Ansi.BG_LIGHT_GREEN : fields[0].error() ? Ansi.BG_RED : Ansi.BG_WHITE);
+        fields[1].setBackgroundColor(selection == 1 ? Ansi.BG_LIGHT_GREEN : fields[1].error() ? Ansi.BG_RED : Ansi.BG_WHITE);
+
+        table.add(new ArrayList<>(Arrays.asList(
+            new AnsiBuilder()
+                .append(new Container("Sign In", 31, Container.Alignment.CENTER, Ansi.BG_BLACK, Ansi.FG_LIGHT_GRAY).toAnsi())
+        )));
+        table.add(new ArrayList<>(Arrays.asList(
+            new AnsiBuilder()
+                .append("Email:\n")
+                .append(fields[0].toAnsiBuilder())
+                .append('\n')
+                .append("Password:\n")
+                .append(fields[1].toAnsiBuilder())
+                .append('\n')
+                .append("           ")
+                .append(new Ansi("Sign In", selection == fields.length ? Ansi.BG_GREEN : Ansi.BG_WHITE, Ansi.FG_BLACK))
+        )));
+
+        Table.render(frame, table);
+    }
+
+    @Override
+    public void updateCaret()
+    {
         if (selection >= 0 && selection < fields.length)
         {
-            fields[selection].updateCaret(0, selection * 3 + 1);
+            fields[selection].updateCaret(1, selection * 3 + 4);
         }
     }
 
-    private void SignIn()
+    private void signIn()
     {
-        User user = Database.User.get(fields[0].getValue());
+        User user = Database.User.get(fields[0].getValue().toLowerCase());
 
         fields[0].setError(user == null);
         fields[1].setError(user == null || !user.getPassword().equals(fields[1].getValue()));
@@ -51,7 +73,7 @@ public class SignInPage extends Page {
         }
 
         Global.setSession(user);
-        Router.redirect(new MenuPage());
+        Router.clear();
     }
 
     public void handleAction(String action)
@@ -74,7 +96,7 @@ public class SignInPage extends Page {
                 switch (selection)
                 {
                     case 2 -> {
-                        SignIn();
+                        signIn();
                     }
                 }
             }

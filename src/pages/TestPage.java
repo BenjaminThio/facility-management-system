@@ -1,6 +1,6 @@
 package src.pages;
 
-import src.components.InputField;
+import src.components.fields.InputField;
 import src.pages.cores.Page;
 
 public class TestPage extends Page {
@@ -12,9 +12,9 @@ public class TestPage extends Page {
 
     }
 
-    public void render()
+    public void render(StringBuilder frame)
     {
-        inputField.render();
+        inputField.render(frame);
         // memoField.render();
     }
 

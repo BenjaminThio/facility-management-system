@@ -14,13 +14,13 @@ import src.utils.Router;
 
 public class MyBookingPage extends Page {
     @Override
-    public void render()
+    public void render(StringBuilder frame)
     {
         ArrayList<ArrayList<AnsiBuilder>> table = new ArrayList<>(Arrays.asList(
             new ArrayList<>(Arrays.asList(
-                new AnsiBuilder("No.", Ansi.BOLD),
-                new AnsiBuilder("Bookings", Ansi.BOLD),
-                new AnsiBuilder("Status", Ansi.BOLD)
+                new AnsiBuilder(new Ansi("No.", Ansi.BOLD)),
+                new AnsiBuilder(new Ansi("Bookings", Ansi.BOLD)),
+                new AnsiBuilder(new Ansi("Status", Ansi.BOLD))
             ))
         ));
         ArrayList<UserBooking> bookings = Global.getUser().getBookings();
@@ -37,15 +37,27 @@ public class MyBookingPage extends Page {
                 );
                 int statusColor = switch (status)
                 {
-                    case PENDING -> Ansi.FG_YELLOW;
                     case APPROVED -> Ansi.FG_GREEN;
-                    case NOT_FOUND -> Ansi.FG_MAGENTA;
+                    case PENDING -> Ansi.FG_LIGHT_YELLOW;
+                    case UNDER_MAINTENANCE -> Ansi.FG_YELLOW;
+                    case DISCARDED -> Ansi.FG_RED;
+                    case EXPIRED -> Ansi.FG_MAGENTA;
+                    case NOT_FOUND -> Ansi.FG_LIGHT_BLUE;
+                };
+                String statusCircle = switch (status)
+                {
+                    case APPROVED -> "🟢";
+                    case PENDING -> "🟡";
+                    case UNDER_MAINTENANCE -> "🟠";
+                    case DISCARDED -> "🔴";
+                    case EXPIRED -> "🟣";
+                    case NOT_FOUND -> "🔵";
                 };
 
                 table.add(new ArrayList<>(Arrays.asList(
                     new AnsiBuilder(String.format("%d.", i + 1)),
                     new AnsiBuilder(bookings.get(i).toString()),
-                    new AnsiBuilder("\n" + status.toString(), statusColor)
+                    new AnsiBuilder(new Ansi('\n' + status.toString() + ' ' + statusCircle, statusColor))
                 )));
             }
         }
@@ -54,7 +66,7 @@ public class MyBookingPage extends Page {
             table.add(new ArrayList<>(Arrays.asList(new AnsiBuilder(""), new AnsiBuilder("You haven't book any facility."))));
         }
 
-        Table.printTable(table);
+        Table.render(frame, table);
     }
 
     @Override

@@ -105,4 +105,6 @@ public abstract class Subpage extends Page {
 
         return identities.toArray(Route[]::new);
     }
+
+    public abstract Subpage copy();
 }

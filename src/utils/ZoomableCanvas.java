@@ -33,7 +33,7 @@ class ZoomableCanvas extends Canvas {
                 } else {
                     zoomFactor /= 1.1; 
                 }
-                
+
                 if (zoomFactor < 0.1) zoomFactor = 0.1;
 
                 double scaleChange = zoomFactor / oldZoom;

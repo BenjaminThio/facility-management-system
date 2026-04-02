@@ -2,21 +2,47 @@
 	"benjaminthio@utar.edu.my":{
 		"bookings":[
 			{
-				"date":"2026-03-12",
+				"date":"2026-03-25",
+				"facilityName":"KB101",
+				"session":"12:00-13:30"
+			},
+			{
+				"date":"2026-03-26",
 				"facilityName":"KB100",
-				"session":"16:00-17:30"
+				"session":"13:00-14:30"
+			},
+			{
+				"date":"2026-03-26",
+				"facilityName":"KB100",
+				"session":"15:00-16:30"
 			}
 		],
 		"email":"benjaminthio@utar.edu.my",
 		"name":"Benjamin Thio Zi liang",
 		"password":"@BenjaminThio70",
+		"phoneNumber":"011-18985323",
+		"role":"STUDENT"
+	},
+	"test123@utar.edu.my":{
+		"bookings":[],
+		"email":"test123@utar.edu.my",
+		"name":"Test",
+		"password":"@Testing123",
+		"phoneNumber":"019-3788991",
 		"role":"ADMIN"
 	},
-	"teehueleng123@utar.edu.my":{
+	"hellomum@utar.edu.my":{
 		"bookings":[],
-		"email":"teehueleng123@utar.edu.my",
-		"name":"Tee Hue Leng",
-		"password":"@TeeHueLeng70",
-		"role":"STUDENT"
+		"email":"hellomum@utar.edu.my",
+		"name":"Hello Mum",
+		"password":"0193788991",
+		"role":"STAFF"
+	},
+	"tee123@utar.edu.my":{
+		"bookings":[],
+		"email":"tee123@utar.edu.my",
+		"name":"tee",
+		"password":"0193788991",
+		"role":"ADMIN"
 	}
 }

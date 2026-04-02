@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.function.Function;
 
 import src.components.Ansi;
-import src.components.InputField;
+import src.components.fields.InputField;
 import src.pages.cores.Subpage;
 import src.utils.Renderer;
 import src.utils.Router;
@@ -14,10 +14,37 @@ public class ListPage extends Subpage {
     private static final int VISIBLE_NUMBER = 30;
     private InputField inputField = new InputField(20, "Type something...");
     private int selectionOffset = 0;
+    private Subpage referenceSubPage = null;
     private Subpage subpage = null;
     private String[] list;
     private String[] searchResult;
     private Function<Subpage, String[]> callback;
+
+    @Override
+    public Subpage copy()
+    {
+        ListPage clone = new ListPage();
+
+        clone.selection = this.selection;
+        clone.id = this.id;
+        clone.label = this.label;
+
+        clone.inputField = this.inputField.copy();
+        clone.selectionOffset = this.selectionOffset;
+        clone.referenceSubPage = this.referenceSubPage;
+        if (this.referenceSubPage != null)
+            clone.subpage = this.referenceSubPage.copy();
+
+        if (this.list != null)
+            clone.list = Arrays.copyOf(this.list, this.list.length);
+
+        if (this.searchResult != null)
+            clone.searchResult = Arrays.copyOf(this.searchResult, this.searchResult.length);
+
+        clone.callback = this.callback;
+
+        return clone;
+    }
 
     /*
     public ListPage(Subpage subpage, List<?> m, Function<List<?>, String[]> callback)
@@ -33,40 +60,47 @@ public class ListPage extends Subpage {
     }
     */
 
+    private ListPage() {}
+
     public ListPage(Subpage subpage, Function<Subpage, String[]> callback)
     {
-        this.subpage = subpage;
+        this.referenceSubPage = subpage;
         this.callback = callback;
     }
 
     public ListPage(Subpage subpage, String[] list)
     {
-        this.subpage = subpage;
-        this.list = list;
-        this.searchResult = Arrays.copyOf(list, list.length);
+        this.referenceSubPage = subpage;
+        this.setList(list);
     }
 
-    public void render()
+    @Override
+    public void render(StringBuilder frame)
     {
-        System.out.print("Search: ");
+        frame.append("Search: ");
 
         inputField.setBackgroundColor(selection == 0 ? Ansi.BG_GREEN : Ansi.BG_WHITE);
-        inputField.render();
+        inputField.render(frame);
 
-        System.out.println();
+        frame.append('\n');
 
         for (int i = selectionOffset; i < selectionOffset + (searchResult.length < VISIBLE_NUMBER ? searchResult.length : VISIBLE_NUMBER); i++)
         {
             if (selection + selectionOffset - 1 == i)
             {
-                System.out.print("> ");
+                frame.append("> ");
             }
             else
             {
-                System.out.print("  ");
+                frame.append("  ");
             }
-            System.out.println(Integer.toString(i + 1) + ". " + searchResult[i]);
+            frame.append(Integer.toString(i + 1) + ". " + searchResult[i]).append('\n');
         }
+    }
+
+    @Override
+    public void updateCaret()
+    {
         inputField.updateCaret("Search: ".length(), 0);
     }
 
@@ -108,16 +142,16 @@ public class ListPage extends Subpage {
                         return;
                     }
                 }
+                if (referenceSubPage == null)
+                    return;
+
+                subpage = referenceSubPage.copy();
                 subpage.setId(selection + selectionOffset - 1);
                 subpage.setLabel(this.searchResult[selection + selectionOffset - 1]);
 
                 if (subpage instanceof ListPage listPage)
                 {
-                    if (listPage.getCallback() != null)
-                    {
-                        listPage.setList(listPage.getCallback().apply(listPage));
-                        listPage.searchResult = Arrays.copyOf(listPage.list, listPage.list.length);
-                    }
+                    listPage.triggerCallback();
                 }
 
                 subpage.init();
@@ -147,10 +181,32 @@ public class ListPage extends Subpage {
     public void setList(String[] list)
     {
         this.list = list;
+        this.searchResult = Arrays.copyOf(list, list.length);
+    }
+
+    public String[] getList()
+    {
+        return this.list;
     }
 
     public Function<Subpage, String[]> getCallback()
     {
         return this.callback;
+    }
+
+    public void triggerCallback()
+    {
+        if (callback != null)
+        {
+            this.setList(getCallback().apply(this));
+        }
+    }
+
+    public void updateSelection()
+    {
+        if (selection > (searchResult.length < VISIBLE_NUMBER ? searchResult.length : VISIBLE_NUMBER))
+        {
+            selection = (searchResult.length < VISIBLE_NUMBER ? searchResult.length : VISIBLE_NUMBER);
+        }
     }
 }

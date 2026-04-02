@@ -4,22 +4,100 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import src.models.SpecialEmoji;
+
 public class AnsiBuilder {
-    List<Ansi> texts;
+    List<Ansi> texts = new ArrayList<>();
+
+    public int size()
+    {
+        return texts.size();
+    }
 
     public AnsiBuilder(String text)
     {
         this(new Ansi(text));
     }
 
-    public AnsiBuilder(String text, int... codes)
+    public AnsiBuilder(int i)
     {
-        this(new Ansi(text, codes));
+        this(new Ansi(Integer.toString(i)));
     }
 
     public AnsiBuilder(Ansi ...texts)
     {
         this.texts = new ArrayList<>(Arrays.asList(texts));
+    }
+
+    public AnsiBuilder(AnsiBuilder other)
+    {
+        for (Ansi ansi : other.getTexts())
+            this.texts.add(ansi);
+    }
+
+    public AnsiBuilder(Object ...objs)
+    {
+        for (Object obj : objs)
+        {
+            if (obj instanceof Ansi ansi)
+            {
+                this.texts.add(ansi);
+            }
+            else if (obj instanceof AnsiBuilder ansiBuilder)
+            {
+                for (Ansi ansi : ansiBuilder.getTexts())
+                    this.texts.add(ansi);
+            }
+            else if (obj instanceof String str)
+            {
+                this.texts.add(new Ansi(str));
+            }
+            else if (obj instanceof SpecialEmoji emoji)
+            {
+                this.texts.add(new Ansi(emoji));
+            }
+        }
+    }
+
+    public AnsiBuilder(SpecialEmoji emoji)
+    {
+        this(new Ansi(emoji));
+    }
+
+    public AnsiBuilder append(SpecialEmoji emoji)
+    {
+        this.texts.add(new Ansi(emoji));
+
+        return this;
+    }
+
+    public AnsiBuilder append(String text)
+    {
+        this.texts.add(new Ansi(text));
+
+        return this;
+    }
+
+    public AnsiBuilder append(AnsiBuilder other)
+    {
+        for (Ansi ansi : other.getTexts())
+            this.texts.add(ansi);
+
+        return this;
+    }
+
+    public AnsiBuilder append(int i)
+    {
+        this.texts.add(new Ansi(Integer.toString(i)));
+
+        return this;
+    }
+
+    public AnsiBuilder append(char c)
+    {
+        this.texts.add(new Ansi(Character.toString(c)));
+
+        return this;
     }
 
     public AnsiBuilder append(Ansi text)
@@ -42,6 +120,43 @@ public class AnsiBuilder {
         return ansiBuilder.toString();
     }
 
+    public AnsiBuilder()
+    {
+        this.texts = new ArrayList<>();
+    }
+
+    public AnsiBuilder[] split(String regex)
+    {
+        List<AnsiBuilder> lines = new ArrayList<>();
+        AnsiBuilder currentLine = new AnsiBuilder();
+
+        for (Ansi text : this.texts)
+        {
+            Ansi[] parts = text.split(regex);
+            
+            for (int i = 0; i < parts.length; i++)
+            {
+                currentLine.append(parts[i]);
+
+                if (i < parts.length - 1)
+                {
+                    lines.add(currentLine);
+                    currentLine = new AnsiBuilder();
+                }
+            }
+        }
+
+        lines.add(currentLine);
+
+        return lines.toArray(new AnsiBuilder[0]);
+    }
+
+    public boolean isEmpty()
+    {
+        return texts.size() == 0;
+    }
+
+    /*
     public AnsiBuilder[] split(String regex)
     {
         Ansi[][] splitAnsis = new Ansi[this.texts.size()][];
@@ -110,6 +225,7 @@ public class AnsiBuilder {
 
         return result.toArray(new AnsiBuilder[0]);
     }
+    */
 
     public int length()
     {
@@ -121,5 +237,10 @@ public class AnsiBuilder {
         }
 
         return result;
+    }
+
+    public Ansi[] getTexts()
+    {
+        return this.texts.toArray(Ansi[]::new);
     }
 }

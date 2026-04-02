@@ -14,6 +14,7 @@ public abstract class Page {
     }
 
     // public abstract int getSelectionSize();
-    public abstract void render();
+    public abstract void render(StringBuilder frame);
     public abstract void handleAction(String action);
+    public void updateCaret() {};
 }

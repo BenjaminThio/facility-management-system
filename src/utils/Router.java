@@ -34,4 +34,14 @@ public class Router {
     {
         return routesHistory;
     }
+
+    public static void clear()
+    {
+        Page MenuPage = new MenuPage();
+
+        routesHistory.clear();
+        page = MenuPage;
+        routesHistory.add(page);
+        Renderer.refresh();
+    }
 }

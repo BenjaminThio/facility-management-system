@@ -2,6 +2,28 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Container",
+            "request": "launch",
+            "mainClass": "src.components.Container",
+            "projectName": "facility-management-system_1b71b80"
+        },
+        {
+            "type": "java",
+            "name": "Ansi",
+            "request": "launch",
+            "mainClass": "src.components.Ansi",
+            "projectName": "facility-management-system_1b71b80",
+            "console": "externalTerminal"
+        },
+        {
+            "type": "java",
+            "name": "Table",
+            "request": "launch",
+            "mainClass": "src.components.Table",
+            "projectName": "facility-management-system_1b71b80"
+        },
+        {
+            "type": "java",
             "name": "Calendar",
             "request": "launch",
             "mainClass": "src.components.Calendar",

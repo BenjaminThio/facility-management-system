@@ -1,24 +1,37 @@
 package src.pages.admin;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
+import java.util.Locale;
+
+import javax.swing.JOptionPane;
 
 import src.pages.cores.Subpage;
 import src.utils.Database;
 import src.utils.Renderer;
 import src.utils.Router;
 import src.components.Ansi;
+import src.components.AnsiBuilder;
 import src.components.Calendar;
+import src.components.Table;
+import src.components.fields.MemoField;
 import src.models.Booking;
+import src.models.BookingInfo;
+import src.models.HighlightedDate;
+import src.models.RGB;
 
 public class ConsolePage extends Subpage {
-    private static final int MAX_SELECTION = 4;
+    private static final int MAX_SELECTION = 5;
     private static final int DURATION_HOUR_STEP = 1;
     private static final int DURATION_MINUTE_STEP = 30;
     private static final LocalTime MIN_DURATION = LocalTime.of(0, DURATION_MINUTE_STEP);
     private static final int MAX_SESSION_QUANTITY = 10;
+    private static final DateTimeFormatter FORMATTER_12_HOURS = DateTimeFormatter.ofPattern("hh:mma", Locale.ENGLISH);
     private boolean isLocked = false;
     private int durationComponent = 0;
     private int sessionComponent = 0;
@@ -27,9 +40,25 @@ public class ConsolePage extends Subpage {
     private LocalTime sessionStartTime = LocalTime.of(0, 0);
     private LinkedHashMap<String, Booking> sessions;
 
+    public Subpage copy()
+    {
+        ConsolePage clone = new ConsolePage();
+
+        clone.isLocked = this.isLocked;
+        clone.durationComponent = this.durationComponent;
+        clone.sessionComponent = this.sessionComponent;
+        clone.date = this.date;
+        clone.duration = this.duration;
+        clone.sessionStartTime = this.sessionStartTime;
+        clone.sessions = this.sessions;
+
+        return clone;
+    }
+
     @Override
     public void init()
     {
+        this.selection = 1;
         updateSessions();
     }
 
@@ -50,15 +79,41 @@ public class ConsolePage extends Subpage {
 
     public String getSession()
     {
-        return sessionStartTime.toString() + "-" + getSessionEndTime().toString();
+        return sessionStartTime.toString() + '-' + getSessionEndTime().toString();
+    }
+
+    public String get12HourSession()
+    {
+        return sessionStartTime.format(FORMATTER_12_HOURS) + '-' + getSessionEndTime().format(FORMATTER_12_HOURS);
     }
 
     public void createSession()
     {
+        if (LocalDateTime.of(this.date, this.sessionStartTime).isBefore(LocalDateTime.now()))
+        {
+            JOptionPane.showMessageDialog(
+                null,
+                "The session you are trying to create (" +
+                getSession() +
+                ") is in the past.",
+                "Invalid Session",
+                JOptionPane.ERROR_MESSAGE
+            );
+            return;
+        }
+
         if (this.sessions != null)
         {
-            if (this.sessions.size() > MAX_SESSION_QUANTITY)
+            if (this.sessions.size() + 1 > MAX_SESSION_QUANTITY)
             {
+                JOptionPane.showMessageDialog(
+                    null,
+                    "The maximum number of sessions allowed for this facility is " +
+                    MAX_SESSION_QUANTITY +
+                    '.',
+                    "Maximum Session Limit Reached",
+                    JOptionPane.ERROR_MESSAGE
+                );
                 return;
             }
 
@@ -70,6 +125,15 @@ public class ConsolePage extends Subpage {
 
                 if (sessionStartTime.isBefore(endTime) && getSessionEndTime().isAfter(starTime))
                 {
+                    JOptionPane.showMessageDialog(
+                        null,
+                        "The session you are trying to create (" +
+                        getSession() +
+                        ") overlaps with an existing session (" +
+                        session + ").",
+                        "Session Overlap",
+                        JOptionPane.ERROR_MESSAGE
+                    );
                     return;
                 }
             }
@@ -96,99 +160,236 @@ public class ConsolePage extends Subpage {
     }
 
     @Override
-    public void render()
+    public void render(StringBuilder frame)
     {
-        Calendar calendar = new Calendar(
-            this.date,
-            Ansi.FG_DARK_GRAY,
-            Ansi.FG_BLACK,
-            Ansi.BG_DARK_GRAY);
+        ArrayList<ArrayList<AnsiBuilder>> tableBuilder;
 
-        switch (selection)
+        if (!Database.Facility.get(label).isAvailable())
         {
-            case 0 -> {
-                if (isLocked)
-                {
-                    calendar = new Calendar(
-                        this.date,
-                        Ansi.FG_WHITE,
-                        Ansi.FG_BLACK,
-                        Ansi.BG_LIGHT_BLUE);
-                }
-                else
-                {
-                    calendar = new Calendar(
-                        this.date,
-                        Ansi.FG_GREEN,
-                        Ansi.FG_BLACK,
-                        Ansi.BG_GREEN);
-                }
-            }
+            tableBuilder = new ArrayList<>();
+            tableBuilder.add(new ArrayList<>(Arrays.asList(new AnsiBuilder("Facility name: " + label))));
+            tableBuilder.add(
+                new ArrayList<>(Arrays.asList(new AnsiBuilder(
+                    "Note:\n",
+                    new MemoField(
+                        "This facility is locked for maintenance currently.",
+                        4,
+                        50,
+                        "",
+                        false
+                    ).toAnsiBuilder(),
+                    "\n\n" + " ".repeat(15),
+                    new Ansi("  Unlock Facility  ", Ansi.BG_GREEN, Ansi.FG_BLACK)
+                )))
+            );
+
+            Table.render(frame, tableBuilder);
+            return;
         }
 
-        System.out.println("Facility name: " + label);
-        System.out.println();
-        System.out.print("Date: ");
-        System.out.println(this.date);
-        System.out.println();
-        System.out.println(calendar);
-        System.out.println("Session duration:");
-
-        switch (selection)
+        Calendar calendar = switch (selection)
         {
             case 1 -> {
                 if (isLocked)
                 {
-                    System.out.println(
-                    new Ansi(String.format("%2d", duration.getHour()), durationComponent == 0 ? Ansi.BG_LIGHT_BLUE : Ansi.BG_WHITE, Ansi.FG_BLACK).toString() + " hours " +
-                    new Ansi(String.format("%2d", duration.getMinute()), durationComponent == 1 ? Ansi.BG_LIGHT_BLUE : Ansi.BG_WHITE, Ansi.FG_BLACK).toString() + " minutes");
+                    yield new Calendar(
+                        this.date,
+                        Ansi.FG_WHITE,
+                        Ansi.FG_BLACK,
+                        Ansi.BG_LIGHT_BLUE,
+                        9
+                    ).pastTextColor(Ansi.FG_DARK_GRAY);
                 }
                 else
                 {
-                    System.out.println(
-                    new Ansi(String.format("%2d", duration.getHour()), Ansi.BG_GREEN, Ansi.FG_BLACK).toString() + " hours " +
-                    new Ansi(String.format("%2d", duration.getMinute()), Ansi.BG_GREEN, Ansi.FG_BLACK).toString() + " minutes");
+                    yield new Calendar(
+                        this.date,
+                        Ansi.FG_GREEN,
+                        Ansi.FG_BLACK,
+                        Ansi.BG_GREEN,
+                        9
+                    ).pastTextColor(new RGB(0, 100, 0));
                 }
             }
-            default -> {
-                System.out.println(
-                new Ansi(String.format("%2d", duration.getHour()), Ansi.BG_DARK_GRAY, Ansi.FG_BLACK).toString() + " hours " +
-                new Ansi(String.format("%2d", duration.getMinute()), Ansi.BG_DARK_GRAY, Ansi.FG_BLACK).toString() + " minutes");
-            }
-        }
+            default -> new Calendar(
+                this.date,
+                Ansi.FG_DARK_GRAY,
+                Ansi.FG_BLACK,
+                Ansi.BG_DARK_GRAY,
+                9
+            );
+        };
 
-        System.out.println();
-        System.out.println("Create a new session with a start time:");
-
-        switch (selection)
+        if (Database.Booking.getAll().get(label) != null)
         {
-            case 2 -> {
-                if (isLocked)
+            ArrayList<HighlightedDate> highlightedDates = new ArrayList<>();
+
+            for (String sessionDateString : Database.Booking.getAll().get(label).keySet())
+            {
+                LocalDate sessionDate = LocalDate.parse(sessionDateString);
+                // frame.append(sessionDate).append('\n');
+
+                if (sessionDate.getMonthValue() == this.date.getMonthValue()
+                    && !LocalDateTime.of(sessionDate, getSessionEndTime()).isBefore(LocalDateTime.now()))
                 {
-                    System.out.println(
-                    new Ansi(String.format("%2d", this.sessionStartTime.getHour()), sessionComponent == 0 ? Ansi.BG_LIGHT_BLUE : Ansi.BG_WHITE, Ansi.FG_BLACK) + ":" +
-                    new Ansi(String.format("%2d", this.sessionStartTime.getMinute()), sessionComponent == 1 ? Ansi.BG_LIGHT_BLUE : Ansi.BG_WHITE, Ansi.FG_BLACK));
-                }
-                else
-                {
-                    System.out.println(
-                    new Ansi(String.format("%2d", this.sessionStartTime.getHour()), Ansi.BG_GREEN, Ansi.FG_BLACK) + ":" +
-                    new Ansi(String.format("%2d", this.sessionStartTime.getMinute()), Ansi.BG_GREEN, Ansi.FG_BLACK));
+                    // frame.append("IN");
+                    highlightedDates.add(new HighlightedDate(sessionDate, Ansi.FG_BLACK, Ansi.BG_LIGHT_CYAN));
                 }
             }
-            default -> {
-                System.out.println(
-                new Ansi(String.format("%2d", this.sessionStartTime.getHour()), Ansi.BG_DARK_GRAY, Ansi.FG_BLACK) + ":" +
-                new Ansi(String.format("%2d", this.sessionStartTime.getMinute()), Ansi.BG_DARK_GRAY, Ansi.FG_BLACK));
-            }
+
+            calendar.setHighlightDates(highlightedDates);
         }
 
-        System.out.println();
-        System.out.println("Session Preview: " + getSession());
-        System.out.println();
-        System.out.println(new Ansi("Create session", selection == 3 ? Ansi.BG_GREEN : Ansi.BG_WHITE, Ansi.FG_BLACK));
-        System.out.println();
-        System.out.println("Sessions created:");
+        tableBuilder = new ArrayList<>(Arrays.asList(
+            new ArrayList<>(Arrays.asList(new AnsiBuilder(
+                "Facility name: " + label + "   ",
+                new Ansi(
+                    "Lock Facility",
+                    selection == 0 ? Ansi.BG_RED : Ansi.BG_WHITE,
+                    Ansi.FG_BLACK
+                )
+            ))),
+            new ArrayList<>(Arrays.asList(new AnsiBuilder(
+                new Ansi("Date: " + this.date.toString() + "\n\n"),
+                calendar.toAnsiBuilder()
+            ))),
+            new ArrayList<>(Arrays.asList(
+                switch (selection)
+                {
+                    case 2 -> {
+                        if (isLocked)
+                        {
+                            yield
+                                new AnsiBuilder(
+                                    new Ansi("Session duration:\n" + " ".repeat(11) + "▲" + " ".repeat(8) + "▲\n" + " ".repeat(10)),
+                                    new Ansi(
+                                        String.format("%2d", duration.getHour()),
+                                        durationComponent == 0 ? Ansi.BG_LIGHT_BLUE : Ansi.BG_WHITE,
+                                        Ansi.FG_BLACK
+                                    ),
+                                    new Ansi(" hours "),
+                                    new Ansi(
+                                        String.format("%2d", duration.getMinute()),
+                                        durationComponent == 1 ? Ansi.BG_LIGHT_BLUE : Ansi.BG_WHITE,
+                                        Ansi.FG_BLACK
+                                    ),
+                                    new Ansi(" minutes\n" + " ".repeat(11) + "▼" + " ".repeat(8) + "▼")
+                                );
+                        }
+                        else
+                        {
+                            yield
+                                new AnsiBuilder(
+                                    new Ansi("Session duration:\n\n" + " ".repeat(10)),
+                                    new Ansi(
+                                        String.format("%2d", duration.getHour()),
+                                        Ansi.FG_BLACK
+                                    ).background(durationComponent == 0 ? new RGB(0, 170, 0) : new RGB(0, 128, 0)),
+                                    new Ansi(" hours "),
+                                    new Ansi(
+                                        String.format("%2d", duration.getMinute()),
+                                        Ansi.FG_BLACK
+                                    ).background(durationComponent == 1 ? new RGB(0, 170, 0) : new RGB(0, 128, 0)),
+                                    new Ansi(" minutes\n")
+                                );
+                        }
+                    }
+                    default -> new AnsiBuilder(
+                                new Ansi("Session duration:\n\n" + " ".repeat(10)),
+                                new Ansi(
+                                    String.format("%2d", duration.getHour()),
+                                    Ansi.FG_BLACK
+                                ).background(durationComponent == 0 ? new RGB(169, 169, 169) : new RGB(128, 128, 128)),
+                                new Ansi(" hours "),
+                                new Ansi(
+                                    String.format("%2d", duration.getMinute()),
+                                    Ansi.FG_BLACK
+                                ).background(durationComponent == 1 ? new RGB(169, 169, 169) : new RGB(128, 128, 128)),
+                                new Ansi(" minutes\n")
+                            );
+                }
+            )),
+            new ArrayList<>(Arrays.asList(
+                switch (selection)
+                {
+                    case 3 -> {
+                        if (isLocked)
+                        {
+                            yield
+                                new AnsiBuilder(
+                                    new Ansi("Create a new session with a start time:\n" + " ".repeat(18) + "▲" + " ".repeat(1) + " ▲\n" + " ".repeat(17)),
+                                    new Ansi(
+                                        String.format("%2d", this.sessionStartTime.getHour()),
+                                        sessionComponent == 0 ? Ansi.BG_LIGHT_BLUE : Ansi.BG_WHITE,
+                                        Ansi.FG_BLACK
+                                    ),
+                                    new Ansi(':'),
+                                    new Ansi(
+                                        String.format("%2d", this.sessionStartTime.getMinute()),
+                                        sessionComponent == 1 ? Ansi.BG_LIGHT_BLUE : Ansi.BG_WHITE,
+                                        Ansi.FG_BLACK
+                                    ),
+                                    new Ansi("\n" + " ".repeat(18) + "▼" + " ".repeat(1) + " ▼"),
+                                    new Ansi("\n" + " ".repeat(3) + "Session Preview: " + getSession() + '\n' +
+                                            " ".repeat(20) + get12HourSession() + "\n\n" +
+                                            " ".repeat(12)),
+                                    new Ansi(
+                                        "Create session",
+                                        Ansi.BG_WHITE,
+                                        Ansi.FG_BLACK
+                                    )
+                                );
+                        }
+                        else
+                        {
+                            yield
+                                new AnsiBuilder(
+                                    new Ansi("Create a new session with a start time:\n\n" + " ".repeat(17)),
+                                    new Ansi(
+                                        String.format("%2d", this.sessionStartTime.getHour()),
+                                        Ansi.FG_BLACK
+                                    ).background(sessionComponent == 0 ? new RGB(0, 170, 0) : new RGB(0, 128, 0)),
+                                    new Ansi(':'),
+                                    new Ansi(
+                                        String.format("%2d", this.sessionStartTime.getMinute()),
+                                        Ansi.FG_BLACK
+                                    ).background(sessionComponent == 1 ? new RGB(0, 170, 0) : new RGB(0, 128, 0)),
+                                    new Ansi("\n\n" + " ".repeat(3) + "Session Preview: " + getSession() + '\n' +
+                                            " ".repeat(20) + get12HourSession() + "\n\n" +
+                                            " ".repeat(12)),
+                                    new Ansi(
+                                        "Create session",
+                                        Ansi.BG_WHITE,
+                                        Ansi.FG_BLACK
+                                    )
+                                );
+                        }
+                    }
+                    default -> new AnsiBuilder(
+                        new Ansi("Create a new session with a start time:\n\n" + " ".repeat(17)),
+                        new Ansi(
+                            String.format("%2d", this.sessionStartTime.getHour()),
+                            Ansi.FG_BLACK
+                        ).background(sessionComponent == 0 ? new RGB(169, 169, 169) : new RGB(128, 128, 128)),
+                        new Ansi(':'),
+                        new Ansi(
+                            String.format("%2d", this.sessionStartTime.getMinute()),
+                            Ansi.FG_BLACK
+                        ).background(sessionComponent == 1 ? new RGB(169, 169, 169) : new RGB(128, 128, 128)),
+                        new Ansi("\n\n" + " ".repeat(3) + "Session Preview: " + getSession() + '\n' +
+                                " ".repeat(20) + get12HourSession() + "\n\n" +
+                                " ".repeat(12)),
+                        new Ansi(
+                            "Create session",
+                            selection == 4 ? Ansi.BG_GREEN : Ansi.BG_WHITE,
+                            Ansi.FG_BLACK
+                        )
+                    );
+                }
+            ))
+        ));
+
+        AnsiBuilder sessionListBuilder = new AnsiBuilder();
 
         if (this.sessions != null && this.sessions.size() > 0)
         {
@@ -197,39 +398,118 @@ public class ConsolePage extends Subpage {
             for (String session : this.sessions.keySet())
             {
                 if (selection + 1 > MAX_SELECTION && selection + 1 - MAX_SELECTION == counter)
-                    System.out.print("> ");
+                    sessionListBuilder.append("> ");
                 else
-                    System.out.print("  ");
+                    sessionListBuilder.append("  ");
 
-                System.out.print(counter + ". " + session);
+                if (getApproved(session) != null)
+                {
+                    sessionListBuilder.append(new Ansi(
+                        counter + ". " + session,
+                        Ansi.FG_RED,
+                        Ansi.UNDERLINE)
+                    );
+                }
+                else if (getPending(session).size() > 0)
+                {
+                    sessionListBuilder.append(new Ansi(
+                        counter + ". " + session,
+                        Ansi.FG_LIGHT_CYAN,
+                        Ansi.UNDERLINE)
+                    );
+                }
+                else
+                {
+                    sessionListBuilder.append(new Ansi(
+                        counter + ". " + session,
+                        Ansi.UNDERLINE)
+                    );
+                }
 
                 if (selection + 1 > MAX_SELECTION && selection + 1 - MAX_SELECTION == counter)
-                    System.out.print(" " + new Ansi("REMOVE", Ansi.FG_RED, Ansi.UNDERLINE).toString());
+                    sessionListBuilder.append(' ').append(new Ansi("REMOVE", Ansi.FG_RED, Ansi.UNDERLINE)).append("🚮");
 
-                System.out.println();
+                if (counter < this.sessions.keySet().size())
+                    sessionListBuilder.append('\n');
                 counter++;
             }
         }
         else
         {
-            System.out.println("NULL");
+            sessionListBuilder.append("NULL");
         }
+
+        tableBuilder.add(new ArrayList<>(Arrays.asList(new AnsiBuilder(
+            new Ansi("Sessions created:\n"),
+            sessionListBuilder
+        ))));
+
+        Table.render(frame, tableBuilder);
+    }
+
+    public ArrayList<BookingInfo> getPending(String session)
+    {
+        if (Database.Booking.getAll().get(label) != null &&
+            Database.Booking.getAll().get(label).get(date.toString()) != null &&
+            Database.Booking.getAll().get(label).get(date.toString()).get(session) != null)
+        {
+            return Database.Booking.getAll().get(label).get(date.toString()).get(session).getPending();
+        }
+        return null;
+    }
+
+    public String getApproved(String session)
+    {
+        if (Database.Booking.getAll().get(label) != null &&
+            Database.Booking.getAll().get(label).get(date.toString()) != null &&
+            Database.Booking.getAll().get(label).get(date.toString()).get(session) != null)
+        {
+            return Database.Booking.getAll().get(label).get(date.toString()).get(session).getApproved();
+        }
+        return null;
     }
 
     @Override
     public void handleAction(String action)
     {
+        if (!Database.Facility.get(label).isAvailable())
+        {
+            switch (action)
+            {
+                case "ENTER" -> {
+                    int response = JOptionPane.showConfirmDialog(
+                        null,
+                        "Are you sure you want to unlock the facility?",
+                        "Confirmation Dialog",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.WARNING_MESSAGE
+                    );
+
+                    if (response == JOptionPane.YES_OPTION)
+                    {
+                        Database.Facility.get(label).setIsAvailable(true);
+                        Database.Facility.save();
+                        Renderer.refresh();
+                    }
+                }
+                case "ESC" -> {
+                    Router.back();
+                }
+            }
+            return;
+        }
+
         if (isLocked)
         {
             switch (selection)
             {
-                case 0 -> {
+                case 1 -> {
                     handleCalenderAction(action);
                 }
-                case 1 -> {
+                case 2 -> {
                     handleDurationAction(action);
                 }
-                case 2 -> {
+                case 3 -> {
                     handleSessionAction(action);
                 }
             }
@@ -261,31 +541,31 @@ public class ConsolePage extends Subpage {
                 case "ENTER" -> {
                     switch (selection)
                     {
-                        case 0, 1, 2 ->
+                        case 0 -> {
+                            int response = JOptionPane.showConfirmDialog(
+                                null,
+                                "Are you sure you want to to lock this facility for maintenance?",
+                                "Confirmation Dialog",
+                                JOptionPane.YES_NO_OPTION,
+                                JOptionPane.WARNING_MESSAGE
+                            );
+
+                            if (response == JOptionPane.OK_OPTION)
+                            {
+                                Database.Facility.get(label).setIsAvailable(false);
+                                Database.Facility.save();
+                                this.selection = 1;
+                            }
+                        }
+                        case 1, 2, 3 ->
                         {
                             isLocked = true;
                         }
-                        case 3 -> {
+                        case 4 -> {
                             createSession();
                         }
                         default -> {
-                            if (selection + 1 > MAX_SELECTION)
-                            {
-                                int sessionIdx = selection - MAX_SELECTION;
-
-                                this.sessions.remove(new ArrayList<>(this.sessions.keySet()).get(sessionIdx));
-
-                                if (sessionIdx >= this.sessions.size())
-                                    selection--;
-                                
-                                if (this.sessions.size() == 0)
-                                {
-                                    Database.Booking.Session.remove(label, date);
-                                    sessions = null;
-                                }
-
-                                Database.Booking.save();
-                            }
+                            removeSession();
                         }
                     }
                 }
@@ -298,23 +578,82 @@ public class ConsolePage extends Subpage {
         Renderer.refresh();
     }
 
+    public void removeSession()
+    {
+        if (selection + 1 > MAX_SELECTION)
+        {
+            int sessionIdx = selection - MAX_SELECTION;
+            String session = new ArrayList<>(this.sessions.keySet()).get(sessionIdx);
+            int response = JOptionPane.YES_OPTION;
+
+            if (getApproved(session) != null)
+            {
+                response = JOptionPane.showConfirmDialog(
+                    null,
+                    "Are you sure you want to remove this session - " + session + "?\n" +
+                    "There is student approved for this session.",
+                    "Confirmation Dialog",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE
+                );
+            }
+            else if (getPending(session).size() > 0)
+            {
+                response = JOptionPane.showConfirmDialog(
+                    null,
+                    "Are you sure you want to remove this session - " + session + "?\n" +
+                    "There " + (getPending(session).size() > 1 ? "are " : "is ") +
+                    Integer.toString(getPending(session).size()) + " student" + (getPending(session).size() > 1 ? "s" : "") +
+                    " requested for this session.",
+                    "Confirmation Dialog",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE
+                );
+            }
+
+            if (response == JOptionPane.YES_OPTION)
+            {
+                this.sessions.remove(session);
+
+                if (sessionIdx >= this.sessions.size())
+                    selection--;
+                
+                if (this.sessions.size() == 0)
+                {
+                    Database.Booking.Session.remove(label, date);
+                    sessions = null;
+                }
+            }
+
+            Database.Booking.save();
+        }
+    }
+
     public void handleCalenderAction(String action)
     {
         switch (action)
         {
             case "LEFT" -> {
+                if (this.date.minusDays(1).isBefore(LocalDate.now()))
+                {
+                    return;
+                }
                 this.date = this.date.minusDays(1);
             }
             case "RIGHT" -> {
                 this.date = this.date.plusDays(1);
             }
             case "UP" -> {
+                if (this.date.minusWeeks(1).isBefore(LocalDate.now()))
+                {
+                    return;
+                }
                 this.date = this.date.minusWeeks(1);
             }
             case "DOWN" -> {
                 this.date = this.date.plusWeeks(1);
             }
-            case "ENTER" -> {
+            case "ESC", "ENTER" -> {
                 this.isLocked = false;
                 return;
             }
@@ -364,7 +703,7 @@ public class ConsolePage extends Subpage {
                     }
                 }
             }
-            case "ENTER" -> {
+            case "ESC", "ENTER" -> {
                 this.isLocked = false;
             }
         }
@@ -408,7 +747,7 @@ public class ConsolePage extends Subpage {
                     }
                 }
             }
-            case "ENTER" -> {
+            case "ESC", "ENTER" -> {
                 this.isLocked = false;
             }
         }

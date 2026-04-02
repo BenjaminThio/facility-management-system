@@ -22,6 +22,7 @@ public class Input {
         keyMap.bind("TAB", "\t");
         keyMap.bind("SHIFT_TAB", "\u001B[Z");
         keyMap.bind("F4", "\u001BOS", "\u001B[14~");
+        keyMap.bind("F1", "\u001BOP", "\u001B[11~");
 
         for (char c = 32; c <= 126; c++)
         {

@@ -1,5 +1,7 @@
 package src.models;
 
+import java.time.LocalDate;
+
 public class Report {
     public enum Severity
     {
@@ -33,6 +35,8 @@ public class Report {
     private String description = "";
     private Severity severity = Severity.LOW;
     private String imageBase64 = "";
+    private String from = "";
+    private String date = "";
 
     /*
     public Report(String title, String description, Severity severity, Image image)
@@ -44,12 +48,24 @@ public class Report {
     }
     */
 
-    public Report(String title, String description, Severity severity, String imageBase64)
+    public Report(String title, String description, Severity severity, String imageBase64, String from)
+    {
+        this(title, description, severity, imageBase64, from, LocalDate.now().toString());
+    }
+
+    public Report(String title, String description, Severity severity, String imageBase64, String from, LocalDate date)
+    {
+        this(title, description, severity, imageBase64, from, date.toString());
+    }
+
+    public Report(String title, String description, Severity severity, String imageBase64, String from, String date)
     {
         this.title =  title;
         this.description = description;
         this.severity = severity;
         this.imageBase64 = imageBase64;
+        this.from = from;
+        this.date = date;
     }
 
     public String getTitle()
@@ -90,5 +106,35 @@ public class Report {
     public void setImageBase64(String imageBase64)
     {
         this.imageBase64 = imageBase64;
+    }
+
+    public String getFrom()
+    {
+        return this.from;
+    }
+
+    public void setFrom(String from)
+    {
+        this.from = from;
+    }
+
+    public String getDate()
+    {
+        return this.date;
+    }
+
+    public void setDate(LocalDate date)
+    {
+        this.date = date.toString();
+    }
+
+    public void setDate(String date)
+    {
+        this.date = date;
+    }
+
+    public void setTodayAsDate()
+    {
+        this.date = LocalDate.now().toString();
     }
 }

@@ -1,5 +1,7 @@
 package src.pages;
 
+import java.util.ArrayList;
+
 import src.models.Facility;
 import src.models.User;
 import src.pages.admin.AnalyticsPage;
@@ -110,17 +112,23 @@ public class MenuPage extends Page {
     }
 
     @Override
-    public void render()
+    public void render(StringBuilder frame)
     {
         if (Global.getUser() != null)
         {
-            System.out.println("Welcome " + Global.getUser().getName() + '!' + String.valueOf(' ').repeat(10) + "Role: " + Global.getUser().getRole().name());
+            frame.append("Welcome " +
+                        Global.getUser().getName() +
+                        '!' +
+                        String.valueOf(' ').repeat(10) +
+                        "Role: " +
+                        Global.getUser().getRole().name()).append('\n');
         }
-        System.out.println();
-        System.out.println("💡 Press the arrow keys to navigate the selections.");
-        System.out.println("💡 Press [Enter] to select.");
-        System.out.println("💡 Press [ESC] to return to the previous page.");
-        System.out.println();
+
+        frame.append('\n')
+             .append("💡 Press the arrow keys to navigate the selections.").append('\n')
+             .append("💡 Press [Enter] to select.").append('\n')
+             .append("💡 Press [ESC] to return to the previous page.").append('\n')
+             .append('\n');
 
         if (Global.getUser() != null)
         {
@@ -131,22 +139,22 @@ public class MenuPage extends Page {
                     for (StandardSelection s : StandardSelection.values())
                     {
                         if (selection == s.getVal())
-                            System.out.print("> ");
+                            frame.append("> ");
                         else
-                            System.out.print(String.valueOf(' ').repeat(2));
+                            frame.append(String.valueOf(' ').repeat(2));
 
-                        System.out.println(Util.toTitleCase(s.name()));
+                        frame.append(Util.toTitleCase(s.name())).append('\n');
                     }
                     break;
                 case User.Role.ADMIN:
                     for (AdminSelection s : AdminSelection.values())
                     {
                         if (selection == s.getVal())
-                            System.out.print("> ");
+                            frame.append("> ");
                         else
-                            System.out.print(String.valueOf(' ').repeat(2));
+                            frame.append(String.valueOf(' ').repeat(2));
 
-                        System.out.println(Util.toTitleCase(s.name()));
+                        frame.append(Util.toTitleCase(s.name())).append('\n');
                     }
                     break;
             }
@@ -156,17 +164,27 @@ public class MenuPage extends Page {
             for (GuestSelection s : GuestSelection.values())
             {
                 if (selection == s.getVal())
-                    System.out.print("> ");
+                    frame.append("> ");
                 else
-                    System.out.print(String.valueOf(' ').repeat(2));
+                    frame.append(String.valueOf(' ').repeat(2));
 
-                System.out.println(Util.toTitleCase(s.name()));
+                frame.append(Util.toTitleCase(s.name())).append('\n');
             }
         }
     }
 
     public void select()
     {
+        ArrayList<String> availableFacilityNames = new ArrayList<String>();
+
+        for (Facility facility : Database.Facility.getAll())
+        {
+            if (facility.isAvailable())
+            {
+                availableFacilityNames.add(facility.getName());
+            }
+        }
+
         if (Global.getUser() != null)
         {
             switch (Global.getUser().getRole())
@@ -179,7 +197,7 @@ public class MenuPage extends Page {
                             Router.redirect(
                                 new ListPage(
                                     new ViewFacilityPage(),
-                                    Database.Facility.getAll().stream().map(Facility::getName).toArray(String[]::new)
+                                    availableFacilityNames.toArray(String[]::new)
                                 )
                             );
                             break;
@@ -190,7 +208,7 @@ public class MenuPage extends Page {
                             Router.redirect(
                                 new ListPage(
                                     new ReportPage(),
-                                    Database.Facility.getAll().stream().map(Facility::getName).toArray(String[]::new)
+                                    availableFacilityNames.toArray(String[]::new)
                                 )
                             );
                             break;
@@ -202,7 +220,7 @@ public class MenuPage extends Page {
                             break;
                     }
                     break;
-                case  User.Role.ADMIN:
+                case User.Role.ADMIN:
                     switch (AdminSelection.cast(selection))
                     {
                         case MANAGE_BOOKING_SESSIONS:
@@ -251,7 +269,7 @@ public class MenuPage extends Page {
                     Router.redirect(
                         new ListPage(
                             new ViewFacilityPage(),
-                            Database.Facility.getAll().stream().map(Facility::getName).toArray(String[]::new)
+                            availableFacilityNames.toArray(String[]::new)
                         )
                     );
                     break;

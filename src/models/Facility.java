@@ -19,4 +19,14 @@ public class Facility {
     {
         return this.available;
     }
+
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+
+    public void setIsAvailable(boolean available)
+    {
+        this.available = available;
+    }
 }
