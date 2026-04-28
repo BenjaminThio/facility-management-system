@@ -19,6 +19,7 @@ public class Input {
         keyMap.bind("ENTER", "\r", "\n");
         keyMap.bind("ESC", "\u001B");
         keyMap.bind("BACKSPACE", "\b");
+        keyMap.bind("DELETE", "\u001B[3~");
         keyMap.bind("TAB", "\t");
         keyMap.bind("SHIFT_TAB", "\u001B[Z");
         keyMap.bind("F4", "\u001BOS", "\u001B[14~");

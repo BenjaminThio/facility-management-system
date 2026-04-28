@@ -1,5 +1,7 @@
 package src.pages.cores;
 
+import src.utils.Renderer;
+
 public abstract class Page {
     protected int selection = 0;
 
@@ -16,5 +18,8 @@ public abstract class Page {
     // public abstract int getSelectionSize();
     public abstract void render(StringBuilder frame);
     public abstract void handleAction(String action);
-    public void updateCaret() {};
+    public void updateCaret()
+    {
+        Renderer.hideInputCaret();
+    };
 }

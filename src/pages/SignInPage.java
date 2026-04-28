@@ -29,6 +29,9 @@ public class SignInPage extends Page {
         fields[0].setBackgroundColor(selection == 0 ? Ansi.BG_LIGHT_GREEN : fields[0].error() ? Ansi.BG_RED : Ansi.BG_WHITE);
         fields[1].setBackgroundColor(selection == 1 ? Ansi.BG_LIGHT_GREEN : fields[1].error() ? Ansi.BG_RED : Ansi.BG_WHITE);
 
+        fields[0].setPlaceholderColor(selection == 0 || fields[0].error() ? Ansi.FG_BLACK : Ansi.FG_DARK_GRAY);
+        fields[1].setPlaceholderColor(selection == 1 || fields[1].error() ? Ansi.FG_BLACK : Ansi.FG_DARK_GRAY);
+
         table.add(new ArrayList<>(Arrays.asList(
             new AnsiBuilder()
                 .append(new Container("Sign In", 31, Container.Alignment.CENTER, Ansi.BG_BLACK, Ansi.FG_LIGHT_GRAY).toAnsi())
@@ -53,7 +56,12 @@ public class SignInPage extends Page {
     {
         if (selection >= 0 && selection < fields.length)
         {
+            Renderer.showInputCaret();
             fields[selection].updateCaret(1, selection * 3 + 4);
+        }
+        else
+        {
+            Renderer.hideInputCaret();
         }
     }
 

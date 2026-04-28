@@ -31,12 +31,21 @@ public class Report {
             return null;
         }
     }
+    public enum Status 
+    {
+        PENDING, IN_PROGRESS, RESOLVED
+    }
     private String title = "";
     private String description = "";
     private Severity severity = Severity.LOW;
     private String imageBase64 = "";
     private String from = "";
     private String date = "";
+    private Status status = Status.PENDING;
+    private int repairMinutes = 0; 
+    private String assignedTo = "Unassigned";
+    private String maintenanceStartTime = null;
+    private String maintenanceEndTime = null;
 
     /*
     public Report(String title, String description, Severity severity, Image image)
@@ -136,5 +145,55 @@ public class Report {
     public void setTodayAsDate()
     {
         this.date = LocalDate.now().toString();
+    }
+
+    public Status getStatus()
+    { 
+        return this.status; 
+    }
+
+    public void setStatus(Status status)
+    { 
+        this.status = status; 
+    }
+
+    public int getRepairMinutes()
+    {
+        return repairMinutes;
+    }
+
+    public void setRepairMinutes(int repairMinutes)
+    {
+        this.repairMinutes = repairMinutes;
+    }
+
+    public String getMaintenanceStartTime()
+    {
+        return this.maintenanceStartTime;
+    }
+
+    public void setMaintenanceStartTime(String maintenanceStartTime)
+    {
+        this.maintenanceStartTime = maintenanceStartTime;
+    }
+
+    public String getMaintenanceEndTime()
+    {
+        return this.maintenanceEndTime;
+    }
+
+    public void setMaintenanceEndTime(String maintenanceEndTime)
+    {
+        this.maintenanceEndTime = maintenanceEndTime;
+    }
+
+    public String getAssignedTo()
+    { 
+        return this.assignedTo; 
+    }
+
+    public void setAssignedTo(String assignedTo)
+    { 
+        this.assignedTo = assignedTo; 
     }
 }

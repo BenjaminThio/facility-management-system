@@ -348,18 +348,22 @@ public class ProcessBookingPage extends Subpage {
             {
                 for (UserBooking userBooking : Database.User.get(selectedEmail).getBookings())
                 {
-                    src.models.Booking sessionData = Database.Booking.getAll().get(userBooking.getFacilityName()).get(userBooking.getDate()).get(userBooking.getSession());
-
-                    if (sessionData != null)
+                    var facilityData = Database.Booking.getAll().get(userBooking.getFacilityName());
+                    if (facilityData != null && facilityData.get(userBooking.getDate()) != null)
                     {
-                        ArrayList<BookingInfo> userBookingInfoList = sessionData.getPending();
+                        src.models.Booking sessionData = Database.Booking.getAll().get(userBooking.getFacilityName()).get(userBooking.getDate()).get(userBooking.getSession());
 
-                        for (int i = 0; i < Database.Booking.getAll().get(userBooking.getFacilityName()).get(userBooking.getDate()).get(userBooking.getSession()).getPending().size(); i++)
+                        if (sessionData != null)
                         {
-                            if (userBookingInfoList.get(i).getEmail().equals(selectedEmail))
+                            ArrayList<BookingInfo> userBookingInfoList = sessionData.getPending();
+
+                            for (int i = 0; i < Database.Booking.getAll().get(userBooking.getFacilityName()).get(userBooking.getDate()).get(userBooking.getSession()).getPending().size(); i++)
                             {
-                                userBookingInfoList.remove(i);
-                                i--;
+                                if (userBookingInfoList.get(i).getEmail().equals(selectedEmail))
+                                {
+                                    userBookingInfoList.remove(i);
+                                    i--;
+                                }
                             }
                         }
                     }
@@ -367,6 +371,22 @@ public class ProcessBookingPage extends Subpage {
             }
 
             Database.Booking.save();
+
+            src.models.User student = Database.User.get(selectedEmail);
+            if (student != null) {
+                String facilityName = this.label; 
+                String bookingDate = this.date.toString(); 
+                
+                // Grab the currently logged-in Admin's name!
+                String currentAdminName = src.utils.Global.getUser().getName();
+
+                student.addNotification(new src.models.Notification(
+                    "[APPROVED] Your booking for " + facilityName + " on " + bookingDate + " has been approved.", 
+                    currentAdminName + " (Admin)"
+                ));
+                Database.User.save();
+            }
+
             isSublocked = false;
             isLocked = false;
             subselection = 0;

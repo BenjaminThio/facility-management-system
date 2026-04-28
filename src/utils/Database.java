@@ -22,6 +22,32 @@ import com.alibaba.fastjson2.TypeReference;
 import src.models.BookingInfo;
 
 public class Database {
+    public enum Faculty {
+        ACCOUNTANCY_AND_MANAGEMENT("Faculty of Accountancy and Management"),
+        CREATIVE_INDUSTRIES("Faculty of Creative Industries"),
+        ENGINEERING_AND_SCIENCE("Lee Kong Chian Faculty of Engineering and Science"),
+        MEDICINE_AND_HEALTH_SCIENCES("Faculty of Medicine and Health Sciences"),
+        CHINESE_STUDIES("Institute of Chinese Studies"),
+        FOUNDATION_STUDIES("Centre for Foundation Studies");
+
+        private final String name;
+
+        Faculty(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name;
+        }
+        
+        public static Faculty cast(int val) {
+            if (val >= 0 && val < values().length) {
+                return values()[val];
+            }
+            return null;
+        }
+    }
+    /*
     public enum Faculty
     {
         MEDICINE_AND_HEALTH_SCIENCES,
@@ -36,6 +62,7 @@ public class Database {
         CHINESE_STUDIES,
         EDUCATION
     }
+    */
     private static final String BASE_PATH = "database/";
     private static final String USERS_FILE = "users.json";
     private static final String FACILITIES_FILE = "facilities.json";
@@ -48,26 +75,34 @@ public class Database {
 
     public static void init()
     {
+        try {
+            java.nio.file.Files.createDirectories(java.nio.file.Paths.get(BASE_PATH));
+        } catch (java.io.IOException e) {
+            System.err.println(e.getMessage());
+        }
+
         Database.User.set(Database.User.loadAll());
         Database.Facility.set(Database.Facility.loadAll());
         Database.Report.set(Database.Report.loadAll());
         Database.Booking.set(Database.Booking.loadAll());
 
+        // --- THE CRITICAL FIX: Initialize empty database if file was empty/null ---
+        if (Database.Booking.getAll() == null) {
+            Database.Booking.set(new java.util.LinkedHashMap<>()); 
+        }
+        // --------------------------------------------------------------------------
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
-        for (String facilityName : Database.Booking.getAll().keySet())
-        {
-            for (String dateString : Database.Booking.getAll().get(facilityName).keySet())
-            {
-                for (String sessionString : Database.Booking.getAll().get(facilityName).get(dateString).keySet())
-                {
+        for (String facilityName : Database.Booking.getAll().keySet()) {
+            for (String dateString : Database.Booking.getAll().get(facilityName).keySet()) {
+                for (String sessionString : Database.Booking.getAll().get(facilityName).get(dateString).keySet()) {
                     String[] sessionBounds = sessionString.split("-");
                     // LocalTime sessionStartTime = LocalTime.parse(sessionBounds[0]);
                     String sessionEndTime = sessionBounds[1];
-                    LocalDateTime dateTime = LocalDateTime.parse(dateString + " " + sessionEndTime, formatter);
 
-                    if (dateTime.isBefore(LocalDateTime.now()))
-                    {
+                    LocalDateTime dateTime = LocalDateTime.parse(dateString + " " + sessionEndTime, formatter);
+                    if (dateTime.isBefore(LocalDateTime.now())) {
                         Database.Booking.getAll().get(facilityName).get(dateString).get(sessionString).setIsExpired(true);
                     }
                 }
@@ -75,34 +110,9 @@ public class Database {
         }
 
         Database.Booking.save();
-        /*
-        for (String facilityName : Database.Booking.getAll().keySet())
-        {
-            for (String dateString : Database.Booking.getAll().get(facilityName).keySet())
-            {
-                if (LocalDate.parse(dateString).isBefore(LocalDate.now()))
-                {
-                    Database.Booking.getAll().get(facilityName).remove(dateString);
-                }
-                else
-                {
-                    for (String sessionString : Database.Booking.getAll().get(facilityName).get(dateString).keySet())
-                    {
-                        String[] sessionBounds = sessionString.split("-");
-                        // LocalTime sessionStartTime = LocalTime.parse(sessionBounds[0]);
-                        String sessionEndTime = sessionBounds[1];
-
-                        if (LocalDate.parse(dateString).equals(LocalDate.now()) && LocalTime.parse(sessionEndTime).isBefore(LocalTime.now()))
-                        {
-                            Database.Booking.getAll().get(facilityName).get(dateString).remove(sessionEndTime);
-                        }
-                    }
-                }
-            }
-        }
-
-        Database.Booking.save();
-        */
+        Database.User.save();
+        Database.Facility.save();
+        Database.Report.save();
     }
 
     public static class User
@@ -145,8 +155,8 @@ public class Database {
             LinkedHashMap<String, src.models.User> users = new LinkedHashMap<>();
 
             for (src.models.User user : new src.models.User[] {
-                new src.models.User("Benjamin Thio Zi liang", "benjaminthio@utar.edu.my", "011-18985323", "@BenjaminThio70", src.models.User.Role.STUDENT),
-                new src.models.User("Tee Hue Leng", "teehueleng123@utar.edu.my", "011-18985323", "@TeeHueLeng70", src.models.User.Role.STUDENT)
+                new src.models.User("Benjamin Thio Zi liang", "benjaminthio@utar.edu.my", "@BenjaminThio70", "011-18985323", src.models.User.Role.STUDENT, Faculty.ENGINEERING_AND_SCIENCE),
+                new src.models.User("Tee Hue Leng", "teehueleng123@utar.edu.my", "@TeeHueLeng70", "011-18985323", src.models.User.Role.STUDENT, Faculty.ENGINEERING_AND_SCIENCE)
             })
             {
                 users.put(user.getEmail(), user);
@@ -222,6 +232,21 @@ public class Database {
         public static List<src.models.Facility> getAll()
         {
             return facilities;
+        }
+
+        public static List<src.models.Facility> getAvailabFacilities()
+        {
+            List<src.models.Facility> availableFacility = new ArrayList<>();
+
+            for (src.models.Facility facility : facilities)
+            {
+                if (facility.isAvailable())
+                {
+                    availableFacility.add(facility);
+                }
+            }
+
+            return availableFacility;
         }
 
         public static void set(List<src.models.Facility> data)
@@ -430,6 +455,47 @@ public class Database {
                     bookings.get(facilityName).get(date).get(session) != null &&
                     Database.Facility.get(facilityName) != null)
                 {
+                    src.models.Booking sessionData = bookings.get(facilityName).get(date).get(session);
+
+                    if (sessionData.isExpired())
+                    {
+                        return Status.EXPIRED;
+                    }
+                    else if (sessionData.getApproved() != null)
+                    {
+                        if (sessionData.getApproved().equals(email)) {
+                            if (Database.Facility.get(facilityName).isAvailable())
+                                return Status.APPROVED;
+                            else
+                                return Status.UNDER_MAINTENANCE;
+                        } else {
+                            return Status.DISCARDED;
+                        }
+                    }
+                    else if (sessionData.pendingContains(email))
+                    {
+                        return Status.PENDING;
+                    }
+                    else
+                    {
+                        return Status.DISCARDED;
+                    }
+                }
+                else
+                {
+                    return Status.NOT_FOUND;
+                }
+            }
+
+            /*
+            public static Status getStatus(String facilityName, String date, String session, String email)
+            {
+                
+                if (bookings.get(facilityName) != null &&
+                    bookings.get(facilityName).get(date) != null &&
+                    bookings.get(facilityName).get(date).get(session) != null &&
+                    Database.Facility.get(facilityName) != null)
+                {
                     if (bookings.get(facilityName).get(date).get(session).isExpired())
                     {
                         return Status.EXPIRED;
@@ -450,6 +516,7 @@ public class Database {
                 else
                     return Status.NOT_FOUND;
             }
+            */
         }
 
         public static LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, src.models.Booking>>> loadAll()
@@ -523,9 +590,72 @@ public class Database {
             bookings = data;
         }
 
-        public static LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, src.models.Booking>>> getAll()
-        {
+        public static LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, src.models.Booking>>> getAll() {
+            if (bookings == null)
+            {
+                bookings = new LinkedHashMap<>();
+            }
             return bookings;
+        }
+
+        public static LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, src.models.Booking>>> getActiveBookings() {
+            LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, src.models.Booking>>> activeData = new LinkedHashMap<>();
+
+            for (Map.Entry<String, LinkedHashMap<String, LinkedHashMap<String, src.models.Booking>>> facilityEntry : bookings.entrySet()) {
+                String facility = facilityEntry.getKey();
+                LinkedHashMap<String, LinkedHashMap<String, src.models.Booking>> dates = facilityEntry.getValue();
+
+                if (dates == null || dates.isEmpty() || !Database.Facility.get(facility).isAvailable()) continue;
+
+                LinkedHashMap<String, LinkedHashMap<String, src.models.Booking>> activeDates = new LinkedHashMap<>();
+
+                for (Map.Entry<String, LinkedHashMap<String, src.models.Booking>> dateEntry : dates.entrySet()) {
+                    String date = dateEntry.getKey();
+                    LinkedHashMap<String, src.models.Booking> timeSlots = dateEntry.getValue();
+                    
+                    if (timeSlots == null || timeSlots.isEmpty()) continue;
+
+                    LinkedHashMap<String, src.models.Booking> activeTimeSlots = new LinkedHashMap<>();
+
+                    for (Map.Entry<String, src.models.Booking> timeSlotEntry : timeSlots.entrySet()) {
+                        String time = timeSlotEntry.getKey();
+                        src.models.Booking booking = timeSlotEntry.getValue();
+
+                        if (booking != null && !booking.isExpired()) {
+                            activeTimeSlots.put(time, booking);
+                        }
+                    }
+
+                    if (!activeTimeSlots.isEmpty()) {
+                        activeDates.put(date, activeTimeSlots);
+                    }
+                }
+
+                if (!activeDates.isEmpty()) {
+                    activeData.put(facility, activeDates);
+                }
+            }
+
+            return activeData;
+        }
+
+        public static LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, src.models.Booking>>> getPendingRequests() {
+            LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, src.models.Booking>>> pendingData = getActiveBookings();
+
+            pendingData.values().removeIf(datesMap -> {
+                
+                datesMap.values().removeIf(timeSlotsMap -> {
+                    timeSlotsMap.values().removeIf(booking -> 
+                        booking.getPending() == null || booking.getPending().isEmpty()
+                    );
+
+                    return timeSlotsMap.isEmpty(); 
+                });
+
+                return datesMap.isEmpty(); 
+            });
+
+            return pendingData;
         }
     }
 

@@ -1,9 +1,6 @@
 package src.pages;
 
-import java.util.ArrayList;
-
 import src.models.Facility;
-import src.models.User;
 import src.pages.admin.AnalyticsPage;
 import src.pages.admin.ConsolePage;
 import src.pages.admin.ProcessBookingPage;
@@ -15,96 +12,62 @@ import src.utils.Renderer;
 import src.utils.Router;
 import src.utils.Util;
 
+import java.util.ArrayList;
+import src.components.Ansi;
+
 public class MenuPage extends Page {
-    public enum GuestSelection
-    {
+    public enum GuestSelection {
         VIEW_FACILITIES(0), SIGN_IN(1), SIGN_UP(2), EXIT(3);
-
+        
         private final int val;
-
-        private GuestSelection(int val)
-        {
-            this.val = val;
-        }
-
-        public int getVal()
-        {
-            return this.val;
-        }
-
-        public static GuestSelection cast(int val)
-        {
-            for (GuestSelection selection : values())
-            {
-                if (selection.getVal() == val)
-                    return selection;
-            }
-            return null;
-        }
-    }
-    public enum StandardSelection
-    {
-        VIEW_FACILITIES(0), MY_BOOKINGS(1), REPORT_ISSUE(2), LOGOUT(3), EXIT(4);
-
-        private final int val;
-
-        private StandardSelection(int val)
-        {
-            this.val = val;
-        }
-
-        public int getVal()
-        {
-            return this.val;
-        }
-
-        public static StandardSelection cast(int val)
-        {
-            for (StandardSelection selection : values())
-            {
-                if (selection.getVal() == val)
-                    return selection;
-            }
-            return null;
-        }
-    }
-    public enum AdminSelection
-    {
-        MANAGE_BOOKING_SESSIONS(0), PROCESS_BOOKING_REQUESTS(1), MANAGE_FACILITY_MAINTENANCE(2), GENERATE_ANALYTICS_REPORT(3), LOGOUT(4), EXIT(5);
-
-        private final int val;
-
-        private AdminSelection(int val)
-        {
-            this.val = val;
-        }
-
-        public int getVal()
-        {
-            return this.val;
-        }
-
-        public static AdminSelection cast(int val)
-        {
-            for (AdminSelection selection : values())
-            {
-                if (selection.getVal() == val)
-                    return selection;
+        private GuestSelection(int val) { this.val = val; }
+        public int getVal() { return this.val; }
+        
+        public static GuestSelection cast(int val) {
+            for (GuestSelection selection : values()) {
+                if (selection.getVal() == val) return selection;
             }
             return null;
         }
     }
 
-    public int getSelectionSize()
-    {
-        if (Global.getUser() != null)
-        {
-            switch (Global.getUser().getRole())
-            {
-                case User.Role.STUDENT:
-                case User.Role.STAFF:
+    public enum StandardSelection {
+        VIEW_FACILITIES(0), SEARCH_FACILITY(1), MY_BOOKINGS(2), NOTIFICATIONS(3), PROFILE(4), REPORT_ISSUE(5), LOGOUT(6), EXIT(7);
+        
+        private final int val;
+        private StandardSelection(int val) { this.val = val; }
+        public int getVal() { return this.val; }
+        
+        public static StandardSelection cast(int val) {
+            for (StandardSelection selection : values()) {
+                if (selection.getVal() == val) return selection;
+            }
+            return null;
+        }
+    }
+
+    public enum AdminSelection {
+        MANAGE_BOOKING_SESSIONS(0), PROCESS_BOOKING_REQUESTS(1), MANAGE_FACILITY_MAINTENANCE(2), GENERATE_ANALYTICS_REPORT(3), NOTIFICATIONS(4), PROFILE(5), LOGOUT(6), EXIT(7);
+        
+        private final int val;
+        private AdminSelection(int val) { this.val = val; }
+        public int getVal() { return this.val; }
+        
+        public static AdminSelection cast(int val) {
+            for (AdminSelection selection : values()) {
+                if (selection.getVal() == val) return selection;
+            }
+            return null;
+        }
+    }
+
+    public int getSelectionSize() {
+        if (Global.getUser() != null) {
+            switch (Global.getUser().getRole()) {
+                case STUDENT:
+                case STAFF:
                     return StandardSelection.values().length;
-                case User.Role.ADMIN:
+                case ADMIN:
                     return AdminSelection.values().length;
             }
         }
@@ -112,16 +75,15 @@ public class MenuPage extends Page {
     }
 
     @Override
-    public void render(StringBuilder frame)
-    {
-        if (Global.getUser() != null)
-        {
-            frame.append("Welcome " +
-                        Global.getUser().getName() +
-                        '!' +
-                        String.valueOf(' ').repeat(10) +
-                        "Role: " +
-                        Global.getUser().getRole().name()).append('\n');
+    public void render(StringBuilder frame) {
+        if (Global.getUser() != null) {
+            frame.append("Welcome ")
+                 .append(Global.getUser().getName())
+                 .append('!')
+                 .append(String.valueOf(' ').repeat(10))
+                 .append("Role: ")
+                 .append(Global.getUser().getRole().name())
+                 .append('\n');
         }
 
         frame.append('\n')
@@ -130,124 +92,91 @@ public class MenuPage extends Page {
              .append("💡 Press [ESC] to return to the previous page.").append('\n')
              .append('\n');
 
-        if (Global.getUser() != null)
-        {
-            switch (Global.getUser().getRole())
-            {
-                case User.Role.STUDENT:
-                case User.Role.STAFF:
-                    for (StandardSelection s : StandardSelection.values())
-                    {
+        if (Global.getUser() != null) {
+            // --- DYNAMIC NOTIFICATION INDICATOR LOGIC ---
+            int unreadCount = Global.getUser().getUnreadNotificationCount();
+            String notificationLabel = "Notifications";
+            if (unreadCount > 0) {
+                notificationLabel = "Notifications (" + unreadCount + " New) *";
+            }
+            // --------------------------------------------
+
+            switch (Global.getUser().getRole()) {
+                case STUDENT:
+                case STAFF:
+                    for (StandardSelection s : StandardSelection.values()) {
                         if (selection == s.getVal())
                             frame.append("> ");
                         else
                             frame.append(String.valueOf(' ').repeat(2));
-
-                        frame.append(Util.toTitleCase(s.name())).append('\n');
+                        
+                        if (s == StandardSelection.NOTIFICATIONS) {
+                            frame.append(notificationLabel).append('\n');
+                        } else {
+                            frame.append(Util.toTitleCase(s.name())).append('\n');
+                        }
                     }
                     break;
-                case User.Role.ADMIN:
-                    for (AdminSelection s : AdminSelection.values())
-                    {
+                case ADMIN:
+                    for (AdminSelection s : AdminSelection.values()) {
                         if (selection == s.getVal())
                             frame.append("> ");
                         else
                             frame.append(String.valueOf(' ').repeat(2));
-
-                        frame.append(Util.toTitleCase(s.name())).append('\n');
+                        
+                        if (s == AdminSelection.NOTIFICATIONS) {
+                            frame.append(notificationLabel).append('\n');
+                        } else {
+                            frame.append(Util.toTitleCase(s.name())).append('\n');
+                        }
                     }
                     break;
             }
-        }
-        else
-        {
-            for (GuestSelection s : GuestSelection.values())
-            {
+        } else {
+            for (GuestSelection s : GuestSelection.values()) {
                 if (selection == s.getVal())
                     frame.append("> ");
                 else
                     frame.append(String.valueOf(' ').repeat(2));
-
+                
                 frame.append(Util.toTitleCase(s.name())).append('\n');
             }
         }
     }
 
-    public void select()
-    {
-        ArrayList<String> availableFacilityNames = new ArrayList<String>();
-
-        for (Facility facility : Database.Facility.getAll())
-        {
-            if (facility.isAvailable())
-            {
-                availableFacilityNames.add(facility.getName());
-            }
-        }
-
-        if (Global.getUser() != null)
-        {
-            switch (Global.getUser().getRole())
-            {
-                case User.Role.STUDENT:
-                case User.Role.STAFF:
-                    switch (StandardSelection.cast(selection))
-                    {
-                        case StandardSelection.VIEW_FACILITIES:
+    public void select() {
+        if (Global.getUser() != null) {
+            switch (Global.getUser().getRole()) {
+                case STUDENT:
+                case STAFF:
+                    switch (StandardSelection.cast(selection)) {
+                        case VIEW_FACILITIES:
                             Router.redirect(
-                                new ListPage(
+                                new ListViewPage(
                                     new ViewFacilityPage(),
-                                    availableFacilityNames.toArray(String[]::new)
+                                    Database.Booking.getActiveBookings().keySet().toArray(String[]::new)
                                 )
                             );
                             break;
-                        case StandardSelection.MY_BOOKINGS:
+                        case SEARCH_FACILITY:
+                            Router.redirect(new SearchFacilityPage());
+                            break;
+                        case MY_BOOKINGS:
                             Router.redirect(new MyBookingPage());
                             break;
-                        case StandardSelection.REPORT_ISSUE:
+                        case NOTIFICATIONS:
+                            Router.redirect(new NotificationPage());
+                            break;
+                        case PROFILE:
+                            Router.redirect(new ProfilePage());
+                            break;
+                        case REPORT_ISSUE:
                             Router.redirect(
-                                new ListPage(
+                                new ListViewPage(
                                     new ReportPage(),
-                                    availableFacilityNames.toArray(String[]::new)
+                                    Database.Facility.getAvailabFacilities().stream().map(Facility::getName).toArray(String[]::new)
                                 )
                             );
-                            break;
-                        case StandardSelection.LOGOUT:
-                            logout();
-                            break;
-                        case StandardSelection.EXIT:
-                            System.exit(0);
-                            break;
-                    }
-                    break;
-                case User.Role.ADMIN:
-                    switch (AdminSelection.cast(selection))
-                    {
-                        case MANAGE_BOOKING_SESSIONS:
-                            Router.redirect(new ListPage(new ConsolePage(), Database.Facility.getAll().stream().map(Facility::getName).toArray(String[]::new)));
-                            break;
-                        case PROCESS_BOOKING_REQUESTS:
-                        {
-                            Router.redirect(
-                                new ListPage(
-                                    new ProcessBookingPage(),
-                                    Database.Booking.getAll().keySet().toArray(String[]::new)
-                                )
-                            );
-                            break;
-                        }
-                        case MANAGE_FACILITY_MAINTENANCE:
-                        {
-                            Router.redirect(
-                                new ListPage(
-                                    new ListPage(new ReviewReportPage(), subpage -> Database.Report.getAll().get(subpage.getLabel()).stream().map(report -> report.getTitle()).toArray(String[]::new)),
-                                    Database.Report.getAll().keySet().toArray(String[]::new)
-                                )
-                            );
-                            break;
-                        }
-                        case GENERATE_ANALYTICS_REPORT:
-                            Router.redirect(new AnalyticsPage());
                             break;
                         case LOGOUT:
                             logout();
@@ -255,31 +184,103 @@ public class MenuPage extends Page {
                         case EXIT:
                             System.exit(0);
                             break;
-                        default:
+                    }
+                    break;
+                case ADMIN:
+                    switch (AdminSelection.cast(selection)) {
+                        case MANAGE_BOOKING_SESSIONS:
+                            Router.redirect(new ListViewPage(new ConsolePage(), Database.Facility.getAll().stream().map(Facility::getName).toArray(String[]::new)));
+                            break;
+                        case PROCESS_BOOKING_REQUESTS:
+                            Router.redirect(
+                                new ListViewPage(
+                                    new ProcessBookingPage(),
+                                    Database.Booking.getPendingRequests().keySet().toArray(String[]::new)
+                                )
+                            );
+                            break;
+                        case MANAGE_FACILITY_MAINTENANCE:
+                        {
+                            ArrayList<String> activeFacilities = new ArrayList<>();
+                            for (String fac : Database.Report.getAll().keySet()) {
+                                for (src.models.Report r : Database.Report.getAll().get(fac)) {
+                                    if (r.getStatus() != src.models.Report.Status.RESOLVED) {
+                                        activeFacilities.add(fac);
+                                        break;
+                                    }
+                                }
+                            }
+
+                            ListViewPage reportListPage = new ListViewPage(new ReviewReportPage(), subpage -> {
+                                ArrayList<String> pendingTitles = new ArrayList<>();
+                                for (src.models.Report r : Database.Report.getAll().get(subpage.getLabel())) {
+                                    if (r.getStatus() != src.models.Report.Status.RESOLVED) {
+                                        pendingTitles.add(r.getTitle());
+                                    }
+                                }
+                                return pendingTitles.toArray(String[]::new);
+                            });
+
+                            reportListPage.setColorMapper((page, index, title) -> {
+                                String facilityName = page.getLabel(); 
+                                if (facilityName != null && Database.Report.getAll().get(facilityName) != null) {
+                                    int current = 0;
+                                    for (src.models.Report r : Database.Report.getAll().get(facilityName)) {
+                                        if (r.getStatus() != src.models.Report.Status.RESOLVED) {
+                                            if (current == index) { 
+                                                if (r.getStatus() == src.models.Report.Status.PENDING) return Ansi.FG_RED;
+                                                if (r.getStatus() == src.models.Report.Status.IN_PROGRESS) return Ansi.FG_YELLOW;
+                                            }
+                                            current++;
+                                        }
+                                    }
+                                }
+                                return Ansi.FG_WHITE;
+                            });
+
+                            Router.redirect(
+                                new ListViewPage(
+                                    reportListPage,
+                                    activeFacilities.toArray(String[]::new)
+                                )
+                            );
+                            break;
+                        }
+                        case GENERATE_ANALYTICS_REPORT:
+                            Router.redirect(new AnalyticsPage());
+                            break;
+                        case NOTIFICATIONS:
+                            Router.redirect(new NotificationPage());
+                            break;
+                        case PROFILE:
+                            Router.redirect(new ProfilePage());
+                            break;
+                        case LOGOUT:
+                            logout();
+                            break;
+                        case EXIT:
+                            System.exit(0);
                             break;
                     }
                     break;
             }
-        }
-        else
-        {
-            switch (GuestSelection.cast(selection))
-            {
-                case GuestSelection.VIEW_FACILITIES:
+        } else {
+            switch (GuestSelection.cast(selection)) {
+                case VIEW_FACILITIES:
                     Router.redirect(
-                        new ListPage(
+                        new ListViewPage(
                             new ViewFacilityPage(),
-                            availableFacilityNames.toArray(String[]::new)
+                            Database.Booking.getActiveBookings().keySet().toArray(String[]::new)
                         )
                     );
                     break;
-                case GuestSelection.SIGN_IN:
+                case SIGN_IN:
                     Router.redirect(new SignInPage());
                     break;
-                case GuestSelection.SIGN_UP:
+                case SIGN_UP:
                     Router.redirect(new SignUpPage());
                     break;
-                case GuestSelection.EXIT:
+                case EXIT:
                     System.exit(0);
                     break;
             }
@@ -287,27 +288,19 @@ public class MenuPage extends Page {
     }
 
     @Override
-    public void handleAction(String action)
-    {
-        switch (action)
-        {
+    public void handleAction(String action) {
+        switch (action) {
             case "UP":
-                if (selection - 1 >= 0)
-                {
+                if (selection - 1 >= 0) {
                     selection--;
-                }
-                else
-                {
+                } else {
                     selection = getSelectionSize() - 1;
                 }
                 break;
             case "DOWN":
-                if (selection + 1 < getSelectionSize())
-                {
+                if (selection + 1 < getSelectionSize()) {
                     selection++;
-                }
-                else
-                {
+                } else {
                     selection = 0;
                 }
                 break;
@@ -317,12 +310,10 @@ public class MenuPage extends Page {
             default:
                 break;
         }
-
         Renderer.refresh();
     }
 
-    private void logout()
-    {
+    private void logout() {
         selection = 0;
         Global.clearSession();
     }

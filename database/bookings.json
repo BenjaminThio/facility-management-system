@@ -1,33 +1,18 @@
 {
-	"KB101":{
-		"2026-03-25":{
-			"01:00-01:30":{
-				"approved":null,
-				"expired":true,
-				"pending":[]
-			}
-		}
-	},
 	"KB100":{
-		"2026-03-25":{
-			"00:00-00:30":{
+		"2026-04-29":{
+			"08:00-09:00":{
 				"approved":null,
-				"expired":true,
+				"expired":false,
 				"pending":[]
 			}
 		},
-		"2026-03-26":{
-			"13:00-14:30":{
+		"2026-04-30":{
+			"11:00-12:00":{
 				"approved":"benjaminthio@utar.edu.my",
-				"expired":true,
-				"pending":[]
-			},
-			"15:00-16:30":{
-				"approved":"benjaminthio@utar.edu.my",
-				"expired":true,
+				"expired":false,
 				"pending":[]
 			}
 		}
-	},
-	"KB104":{}
+	}
 }

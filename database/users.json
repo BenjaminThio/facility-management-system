@@ -2,47 +2,52 @@
 	"benjaminthio@utar.edu.my":{
 		"bookings":[
 			{
-				"date":"2026-03-25",
-				"facilityName":"KB101",
-				"session":"12:00-13:30"
+				"date":"2026-04-30",
+				"facilityName":"KB100",
+				"session":"11:00-12:00"
 			},
 			{
-				"date":"2026-03-26",
+				"date":"2026-04-30",
 				"facilityName":"KB100",
-				"session":"13:00-14:30"
-			},
-			{
-				"date":"2026-03-26",
-				"facilityName":"KB100",
-				"session":"15:00-16:30"
+				"session":"11:00-12:00"
 			}
 		],
 		"email":"benjaminthio@utar.edu.my",
-		"name":"Benjamin Thio Zi liang",
+		"faculty":"ENGINEERING_AND_SCIENCE",
+		"name":"Benjamin Thio Zi Liang",
+		"notifications":[
+			{
+				"content":"[APPROVED] Your booking for KB100 on 2026-04-30 has been approved.",
+				"from":"Tee Hue Leng (Admin)",
+				"read":true,
+				"timestamp":"2026-04-29 05:24"
+			}
+		],
 		"password":"@BenjaminThio70",
 		"phoneNumber":"011-18985323",
-		"role":"STUDENT"
+		"role":"STUDENT",
+		"unreadNotificationCount":0
 	},
-	"test123@utar.edu.my":{
+	"teehueleng@utar.edu.my":{
 		"bookings":[],
-		"email":"test123@utar.edu.my",
+		"email":"teehueleng@utar.edu.my",
+		"faculty":"ENGINEERING_AND_SCIENCE",
+		"name":"Tee Hue Leng",
+		"notifications":[],
+		"password":"@TeeHueLeng70",
+		"phoneNumber":"011-18985323",
+		"role":"ADMIN",
+		"unreadNotificationCount":0
+	},
+	"test@utar.edu.my":{
+		"bookings":[],
+		"email":"test@utar.edu.my",
+		"faculty":"ENGINEERING_AND_SCIENCE",
 		"name":"Test",
-		"password":"@Testing123",
-		"phoneNumber":"019-3788991",
-		"role":"ADMIN"
-	},
-	"hellomum@utar.edu.my":{
-		"bookings":[],
-		"email":"hellomum@utar.edu.my",
-		"name":"Hello Mum",
-		"password":"0193788991",
-		"role":"STAFF"
-	},
-	"tee123@utar.edu.my":{
-		"bookings":[],
-		"email":"tee123@utar.edu.my",
-		"name":"tee",
-		"password":"0193788991",
-		"role":"ADMIN"
+		"notifications":[],
+		"password":"@TeeHueLeng70",
+		"phoneNumber":"011-18985323",
+		"role":"STAFF",
+		"unreadNotificationCount":0
 	}
 }

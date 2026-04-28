@@ -25,12 +25,17 @@ public abstract class Field {
 
     public void setBackgroundColor(int ansiCode)
     {
-        backgroundColor = ansiCode;
+        this.backgroundColor = ansiCode;
     }
 
     public void setTextColor(int ansiCode)
     {
-        textColor = ansiCode;
+        this.textColor = ansiCode;
+    }
+
+    public void setPlaceholderColor(int ansiCode)
+    {
+        this.placeholderColor = ansiCode;
     }
 
     abstract public String getValue();

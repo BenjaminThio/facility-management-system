@@ -15,6 +15,7 @@ public class Main
             AudioEngine.init();
             Database.init();
             Global.init();
+            Renderer.hideInputCaret();
             Renderer.refresh();
             Input.setup();
             Input.listen();

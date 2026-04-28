@@ -15,12 +15,37 @@ public class Global {
     private static final String SESSION_PATH = "database/session.txt";
     private static User user = null; // new User("Benjamin Thio Zi Liang", "benjaminthio@utar.edu.my", "1", User.Role.STUDENT);
     private static Terminal terminal;
+    private static int MAX_STUDENT_SESSION_NUMBER = 10;
+    private static int MAX_STAFF_SESSION_NUMBER = 15;
+    private static int MAX_STUDENT_APPROVED_SESSION_NUMBER = 5;
+    private static int MAX_STAFF_APPROVED_SESSION_NUMBER = 10;
+
+    public static int getMaxSessionNumber()
+    {
+        return switch (user.getRole())
+        {
+            case STUDENT -> MAX_STUDENT_SESSION_NUMBER;
+            case STAFF -> MAX_STAFF_SESSION_NUMBER;
+            case ADMIN -> -1;
+        };
+    }
+
+    public static int getMaxApprovedSessionNumber()
+    {
+        return switch (user.getRole())
+        {
+            case STUDENT -> MAX_STUDENT_APPROVED_SESSION_NUMBER;
+            case STAFF -> MAX_STAFF_APPROVED_SESSION_NUMBER;
+            case ADMIN -> -1;
+        };
+    }
 
     public static void clearSession()
     {
         try (FileChannel fileChannel = FileChannel.open(Paths.get(SESSION_PATH), StandardOpenOption.WRITE))
         {
-            fileChannel.truncate(0);
+            // fileChannel.truncate(0);
+            Files.writeString(Paths.get(SESSION_PATH), "");
             user = null;
         }
         catch (IOException e)
@@ -90,6 +115,13 @@ public class Global {
     }
 
     public static void init() throws IOException {
+        Files.createDirectories(Paths.get("database"));
+
+        Path sessionPath = Paths.get(SESSION_PATH);
+        if (!Files.exists(sessionPath)) {
+            Files.createFile(sessionPath);
+        }
+
         user = Database.User.get(getSession());
         terminal = TerminalBuilder.builder().system(true).build();
         terminal.enterRawMode();

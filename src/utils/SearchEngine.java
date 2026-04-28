@@ -1,114 +1,136 @@
 package src.utils;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 public class SearchEngine {
-    public static class SearchResult implements Comparable<SearchResult> {
-        public final int originalIndex;
-        public final String text;
-        public final double similarityScore;
 
-        public SearchResult(int originalIndex, String text, double similarityScore) {
-            this.originalIndex = originalIndex;
+    // Wrapper class so we can sort by best match
+    public static class SearchResult {
+        public String text;
+        public double score;
+
+        public SearchResult(String text, double score) {
             this.text = text;
-            this.similarityScore = similarityScore;
-        }
-
-        @Override
-        public int compareTo(SearchResult other) {
-            return Double.compare(other.similarityScore, this.similarityScore);
-        }
-
-        @Override
-        public String toString() {
-            return String.format("Score: %.0f%% | Index: %d | Text: '%s'", similarityScore * 100, originalIndex, text);
+            this.score = score;
         }
     }
 
-    public static int levenshteinDistance(String s1, String s2) {
-        if (s1.length() < s2.length()) {
-            return levenshteinDistance(s2, s1);
+    // --- Utility: Lowercase + strip punctuation ---
+    private static String normalize(String s) {
+        StringBuilder out = new StringBuilder();
+        for (char c : s.toCharArray()) {
+            if (Character.isLetterOrDigit(c)) {
+                out.append(Character.toLowerCase(c));
+            }
         }
-        if (s2.isEmpty()) {
-            return s1.length();
+        return out.toString();
+    }
+
+    // --- Levenshtein Distance (1D Array Optimization) ---
+    private static int levenshtein(String s1, String s2) {
+        int n = s1.length();
+        int m = s2.length();
+        int[] prev = new int[m + 1];
+        int[] curr = new int[m + 1];
+
+        for (int j = 0; j <= m; j++) {
+            prev[j] = j;
         }
 
-        int[] previousRow = new int[s2.length() + 1];
-        for (int i = 0; i <= s2.length(); i++) {
-            previousRow[i] = i;
+        for (int i = 1; i <= n; i++) {
+            curr[0] = i;
+            for (int j = 1; j <= m; j++) {
+                if (s1.charAt(i - 1) == s2.charAt(j - 1)) {
+                    curr[j] = prev[j - 1];
+                } else {
+                    curr[j] = 1 + Math.min(prev[j], Math.min(curr[j - 1], prev[j - 1]));
+                }
+            }
+            int[] temp = prev;
+            prev = curr;
+            curr = temp;
+        }
+        return prev[m];
+    }
+
+    // --- Similarity Ratio ---
+    private static double similarityRatio(String a, String b) {
+        if (a.isEmpty() && b.isEmpty()) return 1.0;
+        if (a.isEmpty() || b.isEmpty()) return 0.0;
+        int dist = levenshtein(a, b);
+        return 1.0 - ((double) dist / Math.max(a.length(), b.length()));
+    }
+
+    // --- Main Tokenized Search Function ---
+    public static SearchResult[] searchSimilar(String query, String[] list, double threshold) {
+        if (query == null || query.trim().isEmpty()) {
+            SearchResult[] results = new SearchResult[list.length];
+            for (int i = 0; i < list.length; i++) {
+                results[i] = new SearchResult(list[i], 1.0);
+            }
+            return results;
         }
 
-        for (int i = 0; i < s1.length(); i++) {
-            int[] currentRow = new int[s2.length() + 1];
-            currentRow[0] = i + 1;
-            
-            for (int j = 0; j < s2.length(); j++) {
-                int insertions = previousRow[j + 1] + 1;
-                int deletions = currentRow[j] + 1;
-                int substitutions = previousRow[j] + (s1.charAt(i) == s2.charAt(j) ? 0 : 1);
+        // Split query into keywords
+        String[] keywords = query.split("\\s+");
+        for (int i = 0; i < keywords.length; i++) {
+            keywords[i] = normalize(keywords[i]);
+        }
+
+        ArrayList<SearchResult> results = new ArrayList<>();
+
+        for (String item : list) {
+            // Split target item into text segments
+            String[] textSegments = item.split("\\s+");
+            for (int i = 0; i < textSegments.length; i++) {
+                textSegments[i] = normalize(textSegments[i]);
+            }
+
+            boolean isMatch = false;
+            double totalKwScore = 0.0;
+            int validKws = 0;
+
+            for (String kw : keywords) {
+                if (kw.isEmpty()) continue;
+                validKws++;
+                double bestSegScore = 0.0;
                 
-                currentRow[j + 1] = Math.min(Math.min(insertions, deletions), substitutions);
+                // Compare keyword against EVERY segment in the target string
+                for (String seg : textSegments) {
+                    if (seg.isEmpty()) continue;
+                    double sim = similarityRatio(kw, seg);
+                    if (sim > bestSegScore) {
+                        bestSegScore = sim;
+                    }
+                }
+                
+                totalKwScore += bestSegScore;
+                
+                // If ANY keyword matches a segment >= threshold, we include it! (Matches your C++ logic)
+                if (bestSegScore >= threshold) {
+                    isMatch = true;
+                }
             }
-            previousRow = currentRow;
-        }
-        return previousRow[s2.length()];
-    }
 
-    public static String normalizeText(String text) {
-        if (text == null) return "";
-        return text.toLowerCase().replaceAll("\\s+", " ").trim();
-    }
+            // Average score so perfect full-name matches float above partial matches
+            double finalScore = validKws > 0 ? (totalKwScore / validKws) : 0.0;
 
-    public static SearchResult[] searchSimilar(String targetString, String[] stringArray, double minThreshold) {
-        List<SearchResult> results = new ArrayList<>();
-        if (stringArray == null || stringArray.length == 0) {
-            return results.toArray(SearchResult[]::new);
-        }
-
-        String normalizedTarget = normalizeText(targetString);
-
-        for (int i = 0; i < stringArray.length; i++) {
-            String normalizedCurrent = normalizeText(stringArray[i]);
-            int distance = levenshteinDistance(normalizedTarget, normalizedCurrent);
-            int maxLength = Math.max(normalizedTarget.length(), normalizedCurrent.length());
-            double similarity = (maxLength == 0) ? 1.0 : (double) (maxLength - distance) / maxLength;
-
-            if (similarity >= minThreshold) {
-                results.add(new SearchResult(i, stringArray[i], similarity));
+            // Fallback: Check for raw substring inclusion (e.g. searching "lec" matching "Lecture")
+            String normItem = normalize(item);
+            String normQuery = normalize(query.replaceAll("\\s+", ""));
+            if (!normQuery.isEmpty() && normItem.contains(normQuery)) {
+                isMatch = true;
+                finalScore = Math.max(finalScore, 0.9); 
             }
-        }
 
-        Collections.sort(results);
-
-        return results.toArray(SearchResult[]::new);
-    }
-
-    public static void main(String[] args) {
-        String[] database = {
-            "Apple iPhone 14 Pro",
-            "Apple iPhone 14",
-            "Apple iPhone 13 Pro",
-            "Samsung Galaxy S23 Ultra",
-            "Sony PlayStation 5",
-            "  aple iphone 14  ", 
-            "Nintendo Switch OLED"
-        };
-
-        String searchQuery = " aPple iphne 14 ";
-        double threshold = 0.50;
-        SearchResult[] matches = searchSimilar(searchQuery, database, threshold);
-
-        System.out.println("Search Query: '" + searchQuery + "'\n");
-        System.out.println("Top Matches:");
-        
-        if (matches.length == 0) {
-            System.out.println("No matches found above the threshold.");
-        } else {
-            for (SearchResult match : matches) {
-                System.out.println(match.toString());
+            if (isMatch) {
+                results.add(new SearchResult(item, finalScore));
             }
         }
+
+        // Sort results so the absolute best matches are at index 0
+        results.sort((a, b) -> Double.compare(b.score, a.score));
+
+        return results.toArray(new SearchResult[0]);
     }
 }

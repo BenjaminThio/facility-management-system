@@ -29,7 +29,7 @@ public class ConsolePage extends Subpage {
     private static final int MAX_SELECTION = 5;
     private static final int DURATION_HOUR_STEP = 1;
     private static final int DURATION_MINUTE_STEP = 30;
-    private static final LocalTime MIN_DURATION = LocalTime.of(0, DURATION_MINUTE_STEP);
+    private static final LocalTime MIN_DURATION = LocalTime.of(DURATION_HOUR_STEP, 0);
     private static final int MAX_SESSION_QUANTITY = 10;
     private static final DateTimeFormatter FORMATTER_12_HOURS = DateTimeFormatter.ofPattern("hh:mma", Locale.ENGLISH);
     private boolean isLocked = false;
@@ -37,7 +37,7 @@ public class ConsolePage extends Subpage {
     private int sessionComponent = 0;
     private LocalDate date;
     private LocalTime duration = MIN_DURATION;
-    private LocalTime sessionStartTime = LocalTime.of(0, 0);
+    private LocalTime sessionStartTime = LocalTime.of(8, 0);
     private LinkedHashMap<String, Booking> sessions;
 
     public Subpage copy()
@@ -582,6 +582,10 @@ public class ConsolePage extends Subpage {
     {
         if (selection + 1 > MAX_SELECTION)
         {
+            if (this.sessions == null || this.sessions.isEmpty()) {
+                return;
+            }
+
             int sessionIdx = selection - MAX_SELECTION;
             String session = new ArrayList<>(this.sessions.keySet()).get(sessionIdx);
             int response = JOptionPane.YES_OPTION;
@@ -613,12 +617,15 @@ public class ConsolePage extends Subpage {
 
             if (response == JOptionPane.YES_OPTION)
             {
+                Database.Booking.getAll().get(label).get(date.toString()).remove(session);
                 this.sessions.remove(session);
 
-                if (sessionIdx >= this.sessions.size())
+                updateSessions();
+
+                if (this.sessions != null && sessionIdx >= this.sessions.size())
                     selection--;
                 
-                if (this.sessions.size() == 0)
+                if (this.sessions == null || this.sessions.size() == 0)
                 {
                     Database.Booking.Session.remove(label, date);
                     sessions = null;

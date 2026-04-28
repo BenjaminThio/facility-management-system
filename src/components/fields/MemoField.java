@@ -18,13 +18,11 @@ public class MemoField extends Field {
         String text;
         int startIdx; // Absolute index where this visual line starts
         int endIdx;   // Absolute index where this visual line ends
-        // int skip;     // Characters skipped after this line (e.g., 1 for space or \n, 0 for hard wrap)
 
         public VisualLine(String text, int startIdx, int endIdx, int skip) {
             this.text = text;
             this.startIdx = startIdx;
             this.endIdx = endIdx;
-            // this.skip = skip;
         }
     }
 
@@ -36,8 +34,24 @@ public class MemoField extends Field {
     private int caretVisualY = 0;
     private int scrollOffsetY = 0;
 
-    // private int minHeight = 10;
     private int height = 10;
+    private boolean scrollable = false;
+    
+    // ADDED: Boundary tracking variable
+    private boolean outOfRange = false;
+
+    public void setScrollable(boolean scrollable) {
+        this.scrollable = scrollable;
+        reflow();
+    }
+
+    public boolean isScrollable() {
+        return scrollable;
+    }
+
+    public boolean isOutOfRange() {
+        return outOfRange;
+    }
 
     public MemoField copy()
     {
@@ -57,6 +71,8 @@ public class MemoField extends Field {
         clone.caretVisualY = this.caretVisualY;
         clone.scrollOffsetY = this.scrollOffsetY;
         clone.height = this.height;
+        clone.scrollable = this.scrollable; 
+        clone.outOfRange = this.outOfRange; // ADDED: copy outOfRange state
 
         return clone;
     }
@@ -64,7 +80,6 @@ public class MemoField extends Field {
     private MemoField() {}
 
     public MemoField(String text, int minHeight, int length, String placeholder, boolean overflowX) {
-        // this.minHeight = minHeight
         this.text = new StringBuilder(text);
         this.length = length;
         this.height = minHeight;
@@ -73,7 +88,6 @@ public class MemoField extends Field {
     }
 
     public MemoField(int minHeight, int length, String placeholder, boolean overflowX) {
-        // this.minHeight = minHeight;
         this.length = length;
         this.height = minHeight;
         this.placeholder = placeholder;
@@ -154,6 +168,13 @@ public class MemoField extends Field {
 
     @Override
     public void handleInput(String input) {
+        // ADDED: Reset the flag on every new keystroke
+        outOfRange = false;
+
+        // Snapshot the state before applying changes
+        String previousText = text.toString();
+        int previousCaret = absoluteCaret;
+
         switch (input) {
             case "LEFT":
                 if (absoluteCaret > 0) absoluteCaret--;
@@ -166,6 +187,9 @@ public class MemoField extends Field {
                     VisualLine prevLine = visualLines.get(caretVisualY - 1);
                     int targetX = Math.min(caretVisualX, prevLine.text.length());
                     absoluteCaret = prevLine.startIdx + targetX;
+                } else {
+                    // ADDED: Hit the top boundary
+                    outOfRange = true;
                 }
                 break;
             case "DOWN":
@@ -173,6 +197,9 @@ public class MemoField extends Field {
                     VisualLine nextLine = visualLines.get(caretVisualY + 1);
                     int targetX = Math.min(caretVisualX, nextLine.text.length());
                     absoluteCaret = nextLine.startIdx + targetX;
+                } else {
+                    // ADDED: Hit the bottom boundary
+                    outOfRange = true;
                 }
                 break;
             case "BACKSPACE":
@@ -198,11 +225,23 @@ public class MemoField extends Field {
 
         reflow(); 
 
-        // Keep the caret visually in frame
-        if (caretVisualY < scrollOffsetY) {
-            scrollOffsetY = caretVisualY;
-        } else if (caretVisualY >= scrollOffsetY + height) {
-            scrollOffsetY = caretVisualY - height + 1;
+        // Revert changes if scrolling is disabled and the new lines exceed max height
+        if (!scrollable && visualLines.size() > height) {
+            text = new StringBuilder(previousText);
+            absoluteCaret = previousCaret;
+            reflow();
+            return; // Exit early, skipping the render refresh
+        }
+
+        // Keep the caret visually in frame based on scroll setting
+        if (scrollable) {
+            if (caretVisualY < scrollOffsetY) {
+                scrollOffsetY = caretVisualY;
+            } else if (caretVisualY >= scrollOffsetY + height) {
+                scrollOffsetY = caretVisualY - height + 1;
+            }
+        } else {
+            scrollOffsetY = 0;
         }
 
         Renderer.refresh();

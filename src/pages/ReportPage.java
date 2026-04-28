@@ -27,11 +27,11 @@ public class ReportPage extends Subpage {
     private static final int MAX_DESCRIPTION_LENGTH = 250;
     private int severity = 0;
     private boolean isLocked = false;
-    private FileExplorer fileExplorer;
+    private FileExplorer fileExplorer = null;
 
     private Field[] fields = new Field[]{
         new InputField(50, "Broken Air-con..."),
-        new MemoField("", 23, 50, "Type something...", false)
+        new MemoField("", 14, 50, "Type something...", false) // minHeight: 23
     };
 
     @Override
@@ -67,7 +67,7 @@ public class ReportPage extends Subpage {
         );
 
         table.add(new ArrayList<>(Arrays.asList(new AnsiBuilder(
-            "Facility Name: " + Database.Facility.getAll().get(id).getName()
+            "Facility Name: " + this.label
         ))));
 
         AnsiBuilder severitySelect = new AnsiBuilder();
@@ -104,6 +104,20 @@ public class ReportPage extends Subpage {
             }
         }
 
+        for (int i = 0; i <= 1; i++)
+        {
+            this.fields[i].setBackgroundColor(Ansi.BG_WHITE);
+            this.fields[i].setPlaceholderColor(Ansi.FG_DARK_GRAY);
+        }
+
+        switch (this.selection)
+        {
+            case 0, 1 -> {
+                this.fields[this.selection].setBackgroundColor(Ansi.BG_GREEN);
+                this.fields[this.selection].setPlaceholderColor(Ansi.FG_BLACK);
+            }
+        }
+
         table.add(new ArrayList<>(Arrays.asList(new AnsiBuilder(
             "Title:\n",
             this.fields[0].toAnsiBuilder(),
@@ -121,7 +135,7 @@ public class ReportPage extends Subpage {
         if (fileExplorer != null && fileExplorer.getPath() != null)
         {
             table.add(new ArrayList<>(Arrays.asList(new AnsiBuilder(
-                "Proof Image File:\n",
+                "Proof Image File (Optional):\n",
                 new Ansi(" Upload File ",
                     this.selection == 3 ? Ansi.BG_GREEN : Ansi.BG_WHITE,
                     Ansi.FG_BLACK),
@@ -137,7 +151,7 @@ public class ReportPage extends Subpage {
         else
         {
             table.add(new ArrayList<>(Arrays.asList(new AnsiBuilder(
-                "Proof Image File:\n",
+                "Proof Image File (Optional):\n",
                 " ".repeat(18),
                 new Ansi(" Upload File ",
                     this.selection == 3 ? Ansi.BG_GREEN : Ansi.BG_WHITE,
@@ -159,10 +173,13 @@ public class ReportPage extends Subpage {
     {
         switch (this.selection)
         {
-            case 0:
-            case 1:
+            case 0, 1 -> {
+                Renderer.showInputCaret();
                 this.fields[this.selection].updateCaret(1, (3 * this.selection) + 4);
-                break;
+            }
+            default -> {
+                Renderer.hideInputCaret();
+            }
         }
     }
 
@@ -177,39 +194,128 @@ public class ReportPage extends Subpage {
                 return;
         }
 
-        Image image = new Image(fileExplorer.getPath().getFullPath());
+        Database.Report.add(
+            this.label,
+            new Report(this.fields[0].getValue(),
+            this.fields[1].getValue(),
+            Report.Severity.cast(severity),
+            (fileExplorer == null || fileExplorer.getPath() == null ?
+                null
+                :
+                new Image(fileExplorer.getPath().getFullPath()).getBase64()),
+            Global.getUser().getEmail()));
 
-        Database.Report.add(Database.Facility.get(id).getName(), new Report(this.fields[0].getValue(), this.fields[1].getValue(), Report.Severity.cast(severity), image.getBase64(), Global.getUser().getEmail()));
+        int reportCount = Database.Report.getAll().get(this.label).size();
+
+        if (reportCount > 10) {
+            for (src.models.User u : Database.User.getAll().values()) {
+                if (u.getRole() == src.models.User.Role.ADMIN) {
+                    u.addNotification(new src.models.Notification(
+                        "[ALERT] " + this.label + " has exceeded 10 reports! Immediate action required.", 
+                        "System"
+                    ));
+                }
+            }
+            Database.User.save();
+        }
+
         Database.Report.save();
         Router.clear();
     }
 
+    @Override
+    public void handleAction(String action)
+    {
+        boolean handledByField = false;
+
+        if (!isLocked && this.selection == 1 && this.fields[1] instanceof MemoField memoField) {
+            if (action.equals("UP") || action.equals("DOWN")) {
+                memoField.handleInput(action);
+                handledByField = true;
+
+                if (memoField.isOutOfRange()) {
+                    handledByField = false; 
+                }
+            }
+        }
+
+        if (!handledByField) {
+            switch (action)
+            {
+                case "DOWN":
+                    if (isLocked) break;
+                    this.selection = (this.selection + 1 <= this.fields.length + 2) ? this.selection + 1 : 0;
+                    break;
+                case "UP":
+                    if (isLocked) break;
+                    this.selection = (this.selection - 1 >= 0) ? this.selection - 1 : this.fields.length + 2;
+                    break;
+                case "LEFT":
+                    if (isLocked) {
+                        severity = (severity - 1 >= 0) ? severity - 1 : Report.Severity.values().length - 1;
+                    }
+                    break;
+                case "RIGHT":
+                    if (isLocked) {
+                        severity = (severity + 1 < Report.Severity.values().length) ? severity + 1 : 0;
+                    }
+                    break;
+                case "ESC":
+                    Router.back();
+                    break;
+                case "ENTER":
+                    if (this.selection == 2) isLocked = !isLocked;
+                    else if (this.selection == 3) fileExplorer = new FileExplorer();
+                    else if (this.selection == 4) submit();
+                    break;
+            }
+        }
+
+        if (!action.equals("UP") && !action.equals("DOWN")) {
+            switch (this.selection)
+            {
+                case 0, 1:
+                    this.fields[this.selection].handleInput(action);
+                    break;
+            }
+        }
+
+        Renderer.refresh();
+    }
+
+    /*
     public void handleAction(String action)
     {
         switch (action)
         {
-            case "TAB":
+            case "DOWN":
                 if (isLocked)
                     return;
-                if (this.selection + 1 <= this.fields.length + 2)
+                if (this.selection == 1 && this.fields[1] instanceof MemoField memoField && memoField.isOutOfRange() || this.selection != 1)
                 {
-                    this.selection++;
-                }
-                else
-                {
-                    this.selection = 0;
+                    if (this.selection + 1 <= this.fields.length + 2)
+                    {
+                        this.selection++;
+                    }
+                    else
+                    {
+                        this.selection = 0;
+                    }
                 }
                 break;
-            case "SHIFT_TAB":
+            case "UP":
                 if (isLocked)
                     return;
-                if (this.selection - 1 >= 0)
+                if (this.selection == 1 && this.fields[1] instanceof MemoField memoField && memoField.isOutOfRange() || this.selection != 1)
                 {
-                    this.selection--;
-                }
-                else
-                {
-                    this.selection = fields.length + 2;
+                    if (this.selection - 1 >= 0)
+                    {
+                        this.selection--;
+                    }
+                    else
+                    {
+                        this.selection = fields.length + 2;
+                    }
                 }
                 break;
             case "LEFT":
@@ -262,4 +368,5 @@ public class ReportPage extends Subpage {
         }
         Renderer.refresh();
     }
+    */
 }

@@ -1,264 +1,186 @@
 package src.pages.admin;
 
-import src.pages.cores.Page;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import src.components.Ansi;
-import src.components.fields.InputField;
+import src.components.AnsiBuilder;
+import src.components.Container;
+import src.components.Table;
+import src.pages.cores.Page;
+import src.pages.ListViewPage;
 import src.utils.Database;
 import src.utils.Renderer;
 import src.utils.Router;
-import src.utils.SearchEngine;
-
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-
-class Analytic
-{
-    public enum Status
-    {
-        AVAILABLE,
-        UNDER_MAINTENANCE
-    }
-    private Status status;
-    private int sessionQuantity;
-    private int pendingBookingQuantity;
-    private int approvedBookingQuantity;
-    private int reportQuantity;
-
-    public Analytic(Status status, int sessionQuantity, int pendingBookingQuantity, int approvedBookingQuantity, int reportQuantity)
-    {
-        this.status = status;
-        this.sessionQuantity = sessionQuantity;
-        this.pendingBookingQuantity = pendingBookingQuantity;
-        this.approvedBookingQuantity = approvedBookingQuantity;
-        this.reportQuantity = reportQuantity;
-    }
-
-    public Status getStatus()
-    {
-        return this.status;
-    }
-
-    public int getSessionQuatity()
-    {
-        return this.sessionQuantity;
-    }
-
-    public int getPendingBookingQuantity()
-    {
-        return this.pendingBookingQuantity;
-    }
-
-    public int getApprovedBookingQuantity()
-    {
-        return this.approvedBookingQuantity;
-    }
-
-    public int getReportQuantity()
-    {
-        return this.reportQuantity;
-    }
-}
 
 public class AnalyticsPage extends Page {
-    private static final int VISIBLE_NUMBER = 30;
-    private InputField inputField = new InputField(20, "Type something...");
-    private int selectionOffset = 0;
-    private LinkedHashMap<String, Analytic> analytics = new LinkedHashMap<>();
-    private String[] searchResult;
 
-    private int getTotalSessions(String facilityName)
-    {
-        if (Database.Booking.getAll().get(facilityName) != null)
-        {
-            int counter = 0;
+    public enum TimeFrame {
+        LIFETIME("Lifetime (All Records)"),
+        CURRENT_MONTH("Current Month"),
+        CURRENT_SEMESTER("Current Semester (Last 6 Months)"),
+        CURRENT_YEAR("Current Year");
 
-            for (String sessionDateString : Database.Booking.getAll().get(facilityName).keySet())
-            {
-                counter += Database.Booking.getAll().get(facilityName).get(sessionDateString).size();
-            }
-
-            return counter;
-        }
-        else
-        {
-            return 0;
+        private String label;
+        TimeFrame(String label) { this.label = label; }
+        public String getLabel() { return label; }
+        
+        public static TimeFrame cast(int val) {
+            if (val >= 0 && val < values().length) return values()[val];
+            return LIFETIME;
         }
     }
 
-    private int getTotalPending(String facilityName)
-    {
-        if (Database.Booking.getAll().get(facilityName) != null)
-        {
-            int counter = 0;
+    private TimeFrame selectedTimeFrame = TimeFrame.LIFETIME;
+    private static final int MAX_SELECTION = 1; 
 
-            for (String sessionDateString : Database.Booking.getAll().get(facilityName).keySet())
-            {
-                for (String sessionString : Database.Booking.getAll().get(facilityName).get(sessionDateString).keySet())
-                {
-                    counter += Database.Booking.getAll()
-                                               .get(facilityName)
-                                               .get(sessionDateString)
-                                               .get(sessionString)
-                                               .getPending().size();
-                }
-            }
-
-            return counter;
-        }
-        else
-        {
-            return 0;
-        }
+    public AnalyticsPage() {
+        this.selection = 0;
     }
 
-    private int getTotalApproved(String facilityName)
-    {
-        if (Database.Booking.getAll().get(facilityName) != null)
-        {
-            int counter = 0;
-
-            for (String sessionDateString : Database.Booking.getAll().get(facilityName).keySet())
-            {
-                for (String sessionString : Database.Booking.getAll().get(facilityName).get(sessionDateString).keySet())
-                {
-                    if (Database.Booking.getAll()
-                                        .get(facilityName)
-                                        .get(sessionDateString)
-                                        .get(sessionString)
-                                        .getApproved() != null)
-                        counter++;
-                }
-            }
-
-            return counter;
-        }
-        else
-        {
-            return 0;
-        }
-    }
-
-    public AnalyticsPage()
-    {
-        for (int i = 0; i < Database.Facility.getAll().size(); i++)
-        {
-            String facilityName = Database.Facility.get(i).getName();
-
-            analytics.put(facilityName, new Analytic(
-                Database.Facility.get(facilityName).isAvailable() ? Analytic.Status.AVAILABLE : Analytic.Status.UNDER_MAINTENANCE,
-                getTotalSessions(facilityName),
-                getTotalPending(facilityName),
-                getTotalApproved(facilityName),
-                Database.Report.get(facilityName) == null ? 0 : Database.Report.get(facilityName).size()
-            ));
-        }
-
-        updateSearchResult();
-    }
-
-    @Override
-    public void render(StringBuilder frame)
-    {
-        frame.append("Search: ");
-
-        inputField.setBackgroundColor(selection == 0 ? Ansi.BG_GREEN : Ansi.BG_WHITE);
-        inputField.render(frame);
-
-        frame.append('\n');
-
-        for (int i = selectionOffset; i < selectionOffset + (searchResult.length < VISIBLE_NUMBER ? searchResult.length : VISIBLE_NUMBER); i++)
-        {
-            if (selection + selectionOffset - 1 == i)
-            {
-                frame.append("> ");
-            }
-            else
-            {
-                frame.append("  ");
-            }
-            frame.append(
-                Integer.toString(i + 1) +
-                ". " +
-                searchResult[i] +
-                String.format(
-                    " [Status: %s, Total Sessions: %d, Pending Booking: %d, Approved Booking: %d, Report: %d]",
-                    analytics.get(searchResult[i]).getStatus().toString(),
-                    analytics.get(searchResult[i]).getSessionQuatity(),
-                    analytics.get(searchResult[i]).getPendingBookingQuantity(),
-                    analytics.get(searchResult[i]).getApprovedBookingQuantity(),
-                    analytics.get(searchResult[i]).getReportQuantity()
-                )
-            ).append('\n');
+    private boolean isDateInTimeFrame(String dateStr, TimeFrame tf) {
+        if (tf == TimeFrame.LIFETIME) return true;
+        
+        try {
+            LocalDate date = LocalDate.parse(dateStr);
+            LocalDate now = LocalDate.now();
+            
+            return switch(tf) {
+                case CURRENT_MONTH -> date.getYear() == now.getYear() && date.getMonthValue() == now.getMonthValue();
+                case CURRENT_SEMESTER -> !date.isBefore(now.minusMonths(6)); 
+                case CURRENT_YEAR -> date.getYear() == now.getYear();
+                default -> true;
+            };
+        } catch (Exception e) {
+            return false; 
         }
     }
 
     @Override
-    public void updateCaret()
-    {
-        inputField.updateCaret("Search: ".length(), 0);
+    public void render(StringBuilder frame) {
+        ArrayList<ArrayList<AnsiBuilder>> table = new ArrayList<>();
+
+        table.add(new ArrayList<>(Arrays.asList(
+            new AnsiBuilder().append(new Container("Advanced Analytics Report", 72, Container.Alignment.CENTER, Ansi.BG_BLACK, Ansi.FG_LIGHT_GRAY).toAnsi())
+        )));
+
+        int totalSlots = 0;
+        int usedSlots = 0;
+        HashMap<String, Integer> peakHours = new HashMap<>();
+        HashMap<String, Integer> typeUsage = new HashMap<>();
+
+        @SuppressWarnings("unchecked")
+        Map<String, LinkedHashMap<String, LinkedHashMap<String, src.models.Booking>>> allBookings = 
+            (Map<String, LinkedHashMap<String, LinkedHashMap<String, src.models.Booking>>>) (Object) Database.Booking.getAll();
+
+        for (Map.Entry<String, LinkedHashMap<String, LinkedHashMap<String, src.models.Booking>>> facEntry : allBookings.entrySet()) {
+            String facName = facEntry.getKey();
+            src.models.Facility fModel = Database.Facility.get(facName);
+            String facType = (fModel != null && fModel.getType() != null) ? fModel.getType().getName() : "General";
+
+            for (Map.Entry<String, LinkedHashMap<String, src.models.Booking>> dateEntry : facEntry.getValue().entrySet()) {
+                String dateStr = dateEntry.getKey();
+                
+                if (!isDateInTimeFrame(dateStr, selectedTimeFrame)) continue; 
+
+                for (Map.Entry<String, src.models.Booking> sessionEntry : dateEntry.getValue().entrySet()) {
+                    totalSlots++;
+                    src.models.Booking session = sessionEntry.getValue();
+                    
+                    if (session.getApproved() != null) {
+                        usedSlots++;
+                        String timeStr = sessionEntry.getKey();
+                        peakHours.put(timeStr, peakHours.getOrDefault(timeStr, 0) + 1);
+                        typeUsage.put(facType, typeUsage.getOrDefault(facType, 0) + 1);
+                    }
+                }
+            }
+        }
+
+        HashMap<String, Integer> maintenanceCases = new HashMap<>();
+        int totalRepairMinutes = 0;
+        int resolvedReports = 0;
+
+        for (Map.Entry<String, List<src.models.Report>> reportList : Database.Report.getAll().entrySet()) {
+            String facName = reportList.getKey();
+            for (src.models.Report r : reportList.getValue()) {
+                
+                if (!isDateInTimeFrame(r.getDate(), selectedTimeFrame)) continue;
+
+                maintenanceCases.put(facName, maintenanceCases.getOrDefault(facName, 0) + 1);
+                
+                if (r.getStatus() == src.models.Report.Status.RESOLVED) {
+                    resolvedReports++;
+                    totalRepairMinutes += r.getRepairMinutes();
+                }
+            }
+        }
+
+        String topPeakHour = "N/A"; int maxPeak = 0;
+        for (Map.Entry<String, Integer> e : peakHours.entrySet()) if (e.getValue() > maxPeak) { maxPeak = e.getValue(); topPeakHour = e.getKey(); }
+
+        String topType = "N/A"; int maxType = 0;
+        for (Map.Entry<String, Integer> e : typeUsage.entrySet()) if (e.getValue() > maxType) { maxType = e.getValue(); topType = e.getKey(); }
+
+        String worstFacility = "N/A"; int maxMaint = 0;
+        for (Map.Entry<String, Integer> e : maintenanceCases.entrySet()) if (e.getValue() > maxMaint) { maxMaint = e.getValue(); worstFacility = e.getKey(); }
+
+        double utilRate = totalSlots == 0 ? 0.0 : ((double) usedSlots / totalSlots) * 100.0;
+        
+        int avgRepairMinutes = resolvedReports == 0 ? 0 : (totalRepairMinutes / resolvedReports);
+        int avgHrsDisplay = avgRepairMinutes / 60;
+        int avgMinsDisplay = avgRepairMinutes % 60;
+        String repairTimeStr = String.format("%d Hrs %d Mins", avgHrsDisplay, avgMinsDisplay);
+
+        AnsiBuilder content = new AnsiBuilder();
+        
+        String filterText = "   Timeframe Filter : [ " + selectedTimeFrame.getLabel() + " ]";
+        content.append(new Container(filterText, 72, Container.Alignment.LEFT, selection == 0 ? Ansi.BG_LIGHT_GREEN : Ansi.BG_WHITE, Ansi.FG_BLACK).toAnsi()).append("\n");
+        content.append(new Container("", 72, Container.Alignment.LEFT, Ansi.BG_WHITE, Ansi.FG_BLACK).toAnsi()).append("\n");
+
+        content.append(new Container(" Booking Trends & Utilization ", 72, Container.Alignment.LEFT, Ansi.BG_DARK_GRAY, Ansi.FG_WHITE).toAnsi()).append("\n");
+        content.append(new Container(String.format("   Overall Utilization Rate : %.1f%% (%d/%d slots)", utilRate, usedSlots, totalSlots), 72, Container.Alignment.LEFT, Ansi.BG_WHITE, Ansi.FG_BLACK).toAnsi()).append("\n");
+        content.append(new Container(String.format("   Peak Booking Hour        : %s (%d bookings)", topPeakHour, maxPeak), 72, Container.Alignment.LEFT, Ansi.BG_WHITE, Ansi.FG_BLACK).toAnsi()).append("\n");
+        content.append(new Container(String.format("   Most Popular Type        : %s (%d bookings)", topType, maxType), 72, Container.Alignment.LEFT, Ansi.BG_WHITE, Ansi.FG_BLACK).toAnsi()).append("\n");
+        
+        content.append(new Container("", 72, Container.Alignment.LEFT, Ansi.BG_WHITE, Ansi.FG_BLACK).toAnsi()).append("\n");
+
+        content.append(new Container(" Maintenance & Reliability ", 72, Container.Alignment.LEFT, Ansi.BG_DARK_GRAY, Ansi.FG_WHITE).toAnsi()).append("\n");
+        content.append(new Container(String.format("   Most Maintenance Cases   : %s (%d cases)", worstFacility, maxMaint), 72, Container.Alignment.LEFT, Ansi.BG_WHITE, Ansi.FG_BLACK).toAnsi()).append("\n");
+        content.append(new Container(String.format("   Average Repair Time      : %s", repairTimeStr), 72, Container.Alignment.LEFT, Ansi.BG_WHITE, Ansi.FG_BLACK).toAnsi());
+
+        table.add(new ArrayList<>(Arrays.asList(content)));
+        Table.render(frame, table);
     }
 
-    public void handleAction(String action)
-    {
-        switch (action)
-        {
+    @Override
+    public void handleAction(String action) {
+        switch (action) {
             case "UP" -> {
-                if (selection - 1 >= 1)
-                {
-                    selection--;
-                }
-                else if (selectionOffset - 1 >= 0)
-                {
-                    selectionOffset--;
-                }
-                else if (selection - 1 >= 0)
-                {
-                    selection--;
-                }
+                if (selection > 0) selection--;
+                else selection = MAX_SELECTION - 1;
             }
             case "DOWN" -> {
-                if (selection + 1 <= (searchResult.length < VISIBLE_NUMBER ? searchResult.length : VISIBLE_NUMBER))
-                {
-                    selection++;
-                }
-                else if (selection + selectionOffset + 1 <= searchResult.length)
-                {
-                    selectionOffset++;
-                }
+                if (selection < MAX_SELECTION - 1) selection++;
+                else selection = 0;
             }
-            case "ESC" -> {
-                Router.back();
+            case "ESC" -> Router.back();
+            case "ENTER" -> {
+                if (selection == 0) {
+                    Router.redirect(new ListViewPage(
+                        Arrays.stream(TimeFrame.values()).map(TimeFrame::getLabel).toArray(String[]::new),
+                        (index) -> {
+                            this.selectedTimeFrame = TimeFrame.cast(index);
+                        }
+                    ));
+                }
             }
         }
-
-        switch (selection)
-        {
-            case 0 -> {
-                inputField.handleInput(action);
-                updateSearchResult();
-            }
-        }
-
         Renderer.refresh();
     }
-
-    private void updateSearchResult()
-    {
-        if (inputField.getValue().equals(""))
-        {
-            searchResult = analytics.keySet().toArray(String[]::new);
-        }
-        else
-        {
-            searchResult = Arrays.stream(
-                SearchEngine.searchSimilar(
-                    inputField.getValue(),
-                    analytics.keySet().toArray(String[]::new),
-                    0.6
-                )
-            ).map(result -> result.text).toArray(String[]::new);
-        }
-    }
 }
-
