@@ -1,1552 +1,842 @@
 [
 	{
 		"available":true,
+		"name":"KB Meeting Room (Ground)",
+		"type":"DISCUSSION_ROOM"
+	},
+	{
+		"available":true,
+		"name":"KB Multipurpose Hall (Ground)",
+		"type":"MULTIPURPOSE_HALL"
+	},
+	{
+		"available":false,
 		"name":"KB100",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB101",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB102",
-		"type":"GENERAL"
+		"type":"LECTURE_HALL"
 	},
 	{
 		"available":true,
 		"name":"KB103",
-		"type":"GENERAL"
+		"type":"LECTURE_HALL"
 	},
 	{
 		"available":true,
 		"name":"KB104",
-		"type":"GENERAL"
+		"type":"LECTURE_HALL"
 	},
 	{
 		"available":true,
 		"name":"KB105",
-		"type":"GENERAL"
+		"type":"LECTURE_HALL"
+	},
+	{
+		"available":true,
+		"name":"KB101",
+		"type":"DISCUSSION_ROOM"
+	},
+	{
+		"available":true,
+		"name":"KB102",
+		"type":"DISCUSSION_ROOM"
+	},
+	{
+		"available":true,
+		"name":"KB110",
+		"type":"DISCUSSION_ROOM"
+	},
+	{
+		"available":false,
+		"name":"KB112",
+		"type":"DISCUSSION_ROOM"
 	},
 	{
 		"available":true,
 		"name":"KB106",
-		"type":"GENERAL"
+		"type":"LECTURE_HALL"
 	},
 	{
 		"available":true,
 		"name":"KB107",
-		"type":"GENERAL"
+		"type":"LECTURE_HALL"
 	},
 	{
 		"available":true,
-		"name":"KB108",
-		"type":"GENERAL"
+		"name":"KB Sports Facilities & Gym",
+		"type":"SPORTS_COURT"
 	},
 	{
 		"available":true,
-		"name":"KB109",
-		"type":"GENERAL"
-	},
-	{
-		"available":false,
-		"name":"KB110",
-		"type":"GENERAL"
-	},
-	{
-		"available":false,
-		"name":"KB111",
-		"type":"GENERAL"
+		"name":"Student Activity Centre (KB)",
+		"type":"MULTIPURPOSE_HALL"
 	},
 	{
 		"available":true,
-		"name":"KB112",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB113",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB114",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB115",
-		"type":"GENERAL"
-	},
-	{
-		"available":false,
-		"name":"KB116",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB117",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB118",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB119",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB120",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB121",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB122",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB123",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB124",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB125",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB126",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB127",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB128",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB129",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB130",
-		"type":"GENERAL"
+		"name":"KB Multipurpose Area (Level 1)",
+		"type":"MULTIPURPOSE_HALL"
 	},
 	{
 		"available":true,
 		"name":"KB200",
-		"type":"GENERAL"
+		"type":"LECTURE_HALL"
 	},
 	{
 		"available":true,
 		"name":"KB201",
-		"type":"GENERAL"
+		"type":"LECTURE_HALL"
 	},
 	{
 		"available":true,
 		"name":"KB202",
-		"type":"GENERAL"
+		"type":"LECTURE_HALL"
 	},
 	{
 		"available":true,
 		"name":"KB203",
-		"type":"GENERAL"
+		"type":"LECTURE_HALL"
 	},
 	{
 		"available":true,
 		"name":"KB204",
-		"type":"GENERAL"
+		"type":"LECTURE_HALL"
 	},
 	{
 		"available":true,
 		"name":"KB205",
-		"type":"GENERAL"
+		"type":"LECTURE_HALL"
 	},
 	{
 		"available":true,
 		"name":"KB206",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB207",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB208",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB209",
-		"type":"GENERAL"
+		"type":"LECTURE_HALL"
 	},
 	{
 		"available":true,
 		"name":"KB210",
-		"type":"GENERAL"
+		"type":"LECTURE_HALL"
 	},
 	{
 		"available":true,
 		"name":"KB211",
-		"type":"GENERAL"
+		"type":"LECTURE_HALL"
 	},
 	{
 		"available":true,
-		"name":"KB212",
-		"type":"GENERAL"
+		"name":"KB207",
+		"type":"LECTURE_HALL"
+	},
+	{
+		"available":true,
+		"name":"KB208",
+		"type":"LECTURE_HALL"
+	},
+	{
+		"available":true,
+		"name":"KB209",
+		"type":"LECTURE_HALL"
 	},
 	{
 		"available":true,
 		"name":"KB213",
-		"type":"GENERAL"
+		"type":"LECTURE_HALL"
 	},
 	{
 		"available":true,
 		"name":"KB214",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB215",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB216",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB217",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB218",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB219",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB220",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB221",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB222",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB223",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB224",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB225",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB226",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB227",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB228",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB229",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB230",
-		"type":"GENERAL"
+		"type":"LECTURE_HALL"
 	},
 	{
 		"available":true,
 		"name":"KB300",
-		"type":"GENERAL"
+		"type":"LECTURE_HALL"
 	},
 	{
 		"available":true,
 		"name":"KB301",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB302",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB303",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB304",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB305",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB306",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB307",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB308",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB309",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB310",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB311",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB312",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB313",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB314",
-		"type":"GENERAL"
+		"type":"LECTURE_HALL"
 	},
 	{
 		"available":true,
 		"name":"KB315",
-		"type":"GENERAL"
+		"type":"LECTURE_HALL"
 	},
 	{
 		"available":true,
 		"name":"KB316",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB317",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB318",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB319",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB320",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB321",
-		"type":"GENERAL"
+		"type":"LECTURE_HALL"
 	},
 	{
 		"available":true,
 		"name":"KB322",
-		"type":"GENERAL"
+		"type":"LECTURE_HALL"
 	},
 	{
 		"available":true,
 		"name":"KB323",
-		"type":"GENERAL"
+		"type":"LECTURE_HALL"
 	},
 	{
 		"available":true,
 		"name":"KB324",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB325",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB326",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB327",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB328",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB329",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB330",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB400",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB401",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB402",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB403",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB404",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB405",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB406",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB407",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB408",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB409",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB410",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB411",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB412",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB413",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB414",
-		"type":"GENERAL"
+		"type":"LECTURE_HALL"
 	},
 	{
 		"available":true,
-		"name":"KB415",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB416",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB417",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB418",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB419",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB420",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB421",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB422",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB423",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB424",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB425",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB426",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB427",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB428",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB429",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB430",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB500",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB501",
-		"type":"GENERAL"
+		"name":"KB303",
+		"type":"DISCUSSION_ROOM"
 	},
 	{
 		"available":true,
-		"name":"KB502",
-		"type":"GENERAL"
+		"name":"KB304",
+		"type":"DISCUSSION_ROOM"
 	},
 	{
 		"available":true,
-		"name":"KB503",
-		"type":"GENERAL"
+		"name":"KB305",
+		"type":"DISCUSSION_ROOM"
 	},
 	{
 		"available":true,
-		"name":"KB504",
-		"type":"GENERAL"
+		"name":"KB306",
+		"type":"DISCUSSION_ROOM"
 	},
 	{
 		"available":true,
-		"name":"KB505",
-		"type":"GENERAL"
+		"name":"KB307",
+		"type":"DISCUSSION_ROOM"
 	},
 	{
 		"available":true,
-		"name":"KB506",
-		"type":"GENERAL"
+		"name":"KB308",
+		"type":"DISCUSSION_ROOM"
 	},
 	{
 		"available":true,
-		"name":"KB507",
-		"type":"GENERAL"
+		"name":"KB309",
+		"type":"DISCUSSION_ROOM"
 	},
 	{
 		"available":true,
-		"name":"KB508",
-		"type":"GENERAL"
+		"name":"KB310",
+		"type":"DISCUSSION_ROOM"
 	},
 	{
 		"available":true,
-		"name":"KB509",
-		"type":"GENERAL"
+		"name":"KB311",
+		"type":"DISCUSSION_ROOM"
 	},
 	{
 		"available":true,
-		"name":"KB510",
-		"type":"GENERAL"
+		"name":"KB312",
+		"type":"DISCUSSION_ROOM"
 	},
 	{
 		"available":true,
-		"name":"KB511",
-		"type":"GENERAL"
+		"name":"KB313",
+		"type":"DISCUSSION_ROOM"
 	},
 	{
 		"available":true,
-		"name":"KB512",
-		"type":"GENERAL"
+		"name":"KB314",
+		"type":"DISCUSSION_ROOM"
 	},
 	{
 		"available":true,
-		"name":"KB513",
-		"type":"GENERAL"
+		"name":"KB318",
+		"type":"DISCUSSION_ROOM"
 	},
 	{
 		"available":true,
-		"name":"KB514",
-		"type":"GENERAL"
+		"name":"KB319",
+		"type":"DISCUSSION_ROOM"
 	},
 	{
 		"available":true,
-		"name":"KB515",
-		"type":"GENERAL"
+		"name":"KB320",
+		"type":"DISCUSSION_ROOM"
 	},
 	{
 		"available":true,
-		"name":"KB516",
-		"type":"GENERAL"
+		"name":"KB321",
+		"type":"DISCUSSION_ROOM"
 	},
 	{
 		"available":true,
-		"name":"KB517",
+		"name":"LKC FES Control Lab",
 		"type":"GENERAL"
 	},
 	{
 		"available":true,
-		"name":"KB518",
-		"type":"GENERAL"
+		"name":"Internet and Teaching Lab",
+		"type":"COMPUTER_LAB"
 	},
 	{
 		"available":true,
-		"name":"KB519",
+		"name":"CFS Chemistry Lab I (KB501)",
 		"type":"GENERAL"
 	},
 	{
 		"available":true,
-		"name":"KB520",
+		"name":"CFS Chemistry Lab II (KB503)",
 		"type":"GENERAL"
 	},
 	{
 		"available":true,
-		"name":"KB521",
+		"name":"CFS Biology Lab (KB504)",
 		"type":"GENERAL"
 	},
 	{
 		"available":true,
-		"name":"KB522",
+		"name":"CFS Physics Lab (KB505)",
 		"type":"GENERAL"
 	},
 	{
 		"available":true,
-		"name":"KB523",
+		"name":"LKC FES Unit Operation Lab (KB508)",
 		"type":"GENERAL"
 	},
 	{
 		"available":true,
-		"name":"KB524",
+		"name":"LKC FES Process Control Lab (KB509)",
 		"type":"GENERAL"
 	},
 	{
 		"available":true,
-		"name":"KB525",
+		"name":"LKC FES Bioprocess Lab (KB510)",
 		"type":"GENERAL"
 	},
 	{
 		"available":true,
-		"name":"KB526",
+		"name":"LKC FES Instrumentation Lab (KB511)",
 		"type":"GENERAL"
 	},
 	{
 		"available":true,
-		"name":"KB527",
+		"name":"LKC FES Chemical Lab (KB514)",
 		"type":"GENERAL"
 	},
 	{
 		"available":true,
-		"name":"KB528",
-		"type":"GENERAL"
+		"name":"CFS Multipurpose Hall",
+		"type":"MULTIPURPOSE_HALL"
 	},
 	{
 		"available":true,
-		"name":"KB529",
+		"name":"LKC FES Foundry Lab (KB617)",
 		"type":"GENERAL"
 	},
 	{
 		"available":true,
-		"name":"KB530",
+		"name":"LKC FES PCB Lab (KB619)",
 		"type":"GENERAL"
 	},
 	{
 		"available":true,
-		"name":"KB600",
+		"name":"LKC FES Physics Lab (KB600)",
 		"type":"GENERAL"
 	},
 	{
 		"available":true,
-		"name":"KB601",
+		"name":"LKC FES Telecom Lab (KB601)",
 		"type":"GENERAL"
 	},
 	{
 		"available":true,
-		"name":"KB602",
+		"name":"LKC FES Electromagnetics Lab (KB602)",
 		"type":"GENERAL"
 	},
 	{
 		"available":true,
-		"name":"KB603",
+		"name":"LKC FES Electronics Lab (KB603)",
 		"type":"GENERAL"
 	},
 	{
 		"available":true,
 		"name":"KB604",
-		"type":"GENERAL"
+		"type":"COMPUTER_LAB"
 	},
 	{
 		"available":true,
 		"name":"KB605",
-		"type":"GENERAL"
+		"type":"COMPUTER_LAB"
 	},
 	{
 		"available":true,
 		"name":"KB606",
-		"type":"GENERAL"
+		"type":"COMPUTER_LAB"
 	},
 	{
 		"available":true,
 		"name":"KB607",
-		"type":"GENERAL"
+		"type":"COMPUTER_LAB"
 	},
 	{
 		"available":true,
 		"name":"KB608",
+		"type":"COMPUTER_LAB"
+	},
+	{
+		"available":true,
+		"name":"LKC FES Power Machine Lab (KB610)",
 		"type":"GENERAL"
 	},
 	{
 		"available":true,
-		"name":"KB609",
+		"name":"LKC FES Digital Lab (KB611)",
 		"type":"GENERAL"
 	},
 	{
 		"available":true,
-		"name":"KB610",
+		"name":"LKC FES Analog Lab (KB612)",
 		"type":"GENERAL"
 	},
 	{
 		"available":true,
-		"name":"KB611",
+		"name":"LKC FES Robotics Lab (KB613)",
 		"type":"GENERAL"
 	},
 	{
 		"available":true,
-		"name":"KB612",
+		"name":"LKC FES Biomedical Lab (KB614)",
 		"type":"GENERAL"
 	},
 	{
 		"available":true,
-		"name":"KB613",
+		"name":"LKC FES Tissue Eng Lab (KB615)",
 		"type":"GENERAL"
 	},
 	{
 		"available":true,
-		"name":"KB614",
+		"name":"LKC FES Architecture Studio",
 		"type":"GENERAL"
 	},
 	{
 		"available":true,
-		"name":"KB615",
+		"name":"FCI EH Lab (KB700)",
 		"type":"GENERAL"
 	},
 	{
 		"available":true,
-		"name":"KB616",
+		"name":"FCI Audio Lab (KB705)",
 		"type":"GENERAL"
 	},
 	{
 		"available":true,
-		"name":"KB617",
+		"name":"FCI Audio Lab (KB706)",
 		"type":"GENERAL"
 	},
 	{
 		"available":true,
-		"name":"KB618",
+		"name":"FCI Audio Lab (KB707)",
 		"type":"GENERAL"
 	},
 	{
 		"available":true,
-		"name":"KB619",
+		"name":"FCI Online Audio Lab (KB708)",
 		"type":"GENERAL"
 	},
 	{
 		"available":true,
-		"name":"KB620",
+		"name":"FCI Mac Lab (KB711)",
+		"type":"COMPUTER_LAB"
+	},
+	{
+		"available":true,
+		"name":"FCI Mac Lab (KB712)",
+		"type":"COMPUTER_LAB"
+	},
+	{
+		"available":true,
+		"name":"FCI Mac Lab (KB713)",
+		"type":"COMPUTER_LAB"
+	},
+	{
+		"available":true,
+		"name":"FCI PC Lab (KB714)",
+		"type":"COMPUTER_LAB"
+	},
+	{
+		"available":true,
+		"name":"FCI PC Lab (KB715)",
+		"type":"COMPUTER_LAB"
+	},
+	{
+		"available":true,
+		"name":"FCI PC Lab (KB716)",
+		"type":"COMPUTER_LAB"
+	},
+	{
+		"available":true,
+		"name":"LKC FES Traffic Eng Lab (KB722)",
 		"type":"GENERAL"
 	},
 	{
 		"available":true,
-		"name":"KB621",
+		"name":"LKC FES Hydraulics Lab (KB723)",
 		"type":"GENERAL"
 	},
 	{
 		"available":true,
-		"name":"KB622",
+		"name":"LKC FES Manufacturing Lab (KB724)",
 		"type":"GENERAL"
 	},
 	{
 		"available":true,
-		"name":"KB623",
+		"name":"LKC FES Furnace Lab (KB725)",
 		"type":"GENERAL"
 	},
 	{
 		"available":true,
-		"name":"KB624",
+		"name":"LKC FES Chemical Lab II (KB728)",
 		"type":"GENERAL"
 	},
 	{
 		"available":true,
-		"name":"KB625",
+		"name":"LKC FES Mechanics Lab (KB729)",
 		"type":"GENERAL"
 	},
 	{
 		"available":true,
-		"name":"KB626",
+		"name":"LKC FES Mechanics Lab (KB730)",
 		"type":"GENERAL"
 	},
 	{
 		"available":true,
-		"name":"KB627",
+		"name":"LKC FES Thermofluids Lab (KB731)",
 		"type":"GENERAL"
 	},
 	{
 		"available":true,
-		"name":"KB628",
+		"name":"LKC FES Microscopy Lab (KB732)",
 		"type":"GENERAL"
 	},
 	{
 		"available":true,
-		"name":"KB629",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB630",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB700",
+		"name":"LKC FES Advance Materials Lab (KB733)",
 		"type":"GENERAL"
 	},
 	{
 		"available":true,
 		"name":"KB701",
-		"type":"GENERAL"
+		"type":"DISCUSSION_ROOM"
 	},
 	{
 		"available":true,
 		"name":"KB702",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB703",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB704",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB705",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB706",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB707",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB708",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB709",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB710",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB711",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB712",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB713",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB714",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB715",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB716",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB717",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB718",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB719",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB720",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB721",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB722",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB723",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB724",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB725",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB726",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB727",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB728",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB729",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB730",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB800",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB801",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB802",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB803",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB804",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB805",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB806",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB807",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB808",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB809",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB810",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB811",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB812",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB813",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB814",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB815",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB816",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB817",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB818",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB819",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB820",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB821",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB822",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB823",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB824",
-		"type":"GENERAL"
+		"type":"DISCUSSION_ROOM"
 	},
 	{
 		"available":true,
-		"name":"KB825",
+		"name":"FCI Photo Studio (KB703)",
 		"type":"GENERAL"
 	},
 	{
 		"available":true,
-		"name":"KB826",
+		"name":"FCI Photo Studio (KB704)",
 		"type":"GENERAL"
 	},
 	{
 		"available":true,
-		"name":"KB827",
+		"name":"FCI Photo Studio (KB709)",
 		"type":"GENERAL"
 	},
 	{
 		"available":true,
-		"name":"KB828",
+		"name":"FCI Photo Studio (KB710)",
 		"type":"GENERAL"
 	},
 	{
 		"available":true,
-		"name":"KB829",
+		"name":"FCI Art Room (KB717)",
 		"type":"GENERAL"
 	},
 	{
 		"available":true,
-		"name":"KB830",
+		"name":"FCI Game Room (KB718)",
 		"type":"GENERAL"
 	},
 	{
 		"available":true,
-		"name":"KB900",
+		"name":"FCI Design Room (KB719)",
 		"type":"GENERAL"
 	},
 	{
 		"available":true,
-		"name":"KB901",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB902",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB903",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB904",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB905",
-		"type":"GENERAL"
+		"name":"KB Meeting Room (Level 8)",
+		"type":"DISCUSSION_ROOM"
 	},
 	{
 		"available":true,
-		"name":"KB906",
-		"type":"GENERAL"
-	},
-	{
-		"available":true,
-		"name":"KB907",
-		"type":"GENERAL"
+		"name":"MIMOS Lab",
+		"type":"COMPUTER_LAB"
 	},
 	{
 		"available":true,
-		"name":"KB908",
+		"name":"LKC FES Mechatronics Lab (KB902)",
 		"type":"GENERAL"
 	},
 	{
 		"available":true,
-		"name":"KB909",
-		"type":"GENERAL"
+		"name":"LKC FES Actuarial Lab (KB903)",
+		"type":"COMPUTER_LAB"
 	},
 	{
 		"available":true,
-		"name":"KB910",
-		"type":"GENERAL"
+		"name":"Trading Strategies Lab (KB904)",
+		"type":"COMPUTER_LAB"
 	},
 	{
 		"available":true,
-		"name":"KB911",
-		"type":"GENERAL"
+		"name":"High Performance Computing Lab (KB905)",
+		"type":"COMPUTER_LAB"
 	},
 	{
 		"available":true,
-		"name":"KB912",
-		"type":"GENERAL"
+		"name":"KB Conference Room (Level 10)",
+		"type":"MULTIPURPOSE_HALL"
 	},
 	{
 		"available":true,
-		"name":"KB913",
+		"name":"Multimedia and Photo Taking Room",
 		"type":"GENERAL"
 	},
 	{
 		"available":true,
-		"name":"KB914",
-		"type":"GENERAL"
+		"name":"KA Multipurpose Hall (Ground)",
+		"type":"MULTIPURPOSE_HALL"
 	},
 	{
 		"available":true,
-		"name":"KB915",
-		"type":"GENERAL"
+		"name":"KG01",
+		"type":"LECTURE_HALL"
 	},
 	{
 		"available":true,
-		"name":"KB916",
-		"type":"GENERAL"
+		"name":"KG02",
+		"type":"LECTURE_HALL"
 	},
 	{
 		"available":true,
-		"name":"KB917",
-		"type":"GENERAL"
+		"name":"KG03",
+		"type":"LECTURE_HALL"
 	},
 	{
 		"available":true,
-		"name":"KB918",
-		"type":"GENERAL"
+		"name":"KA Meeting Room (Mezzanine)",
+		"type":"DISCUSSION_ROOM"
 	},
 	{
 		"available":true,
-		"name":"KB919",
+		"name":"Library Workshop (Level 1)",
 		"type":"GENERAL"
 	},
 	{
 		"available":true,
-		"name":"KB920",
+		"name":"KA Reading Room (Level 1)",
 		"type":"GENERAL"
 	},
 	{
 		"available":true,
-		"name":"KB921",
-		"type":"GENERAL"
+		"name":"K209",
+		"type":"DISCUSSION_ROOM"
 	},
 	{
 		"available":true,
-		"name":"KB922",
-		"type":"GENERAL"
+		"name":"K210",
+		"type":"DISCUSSION_ROOM"
 	},
 	{
 		"available":true,
-		"name":"KB923",
-		"type":"GENERAL"
+		"name":"K211",
+		"type":"DISCUSSION_ROOM"
 	},
 	{
 		"available":true,
-		"name":"KB924",
+		"name":"Simulation Ward (Level 3)",
 		"type":"GENERAL"
 	},
 	{
 		"available":true,
-		"name":"KB925",
-		"type":"GENERAL"
+		"name":"KA Gymnasium (Level 3)",
+		"type":"SPORTS_COURT"
 	},
 	{
 		"available":true,
-		"name":"KB926",
-		"type":"GENERAL"
+		"name":"Wet Tutorial Room (Level 3)",
+		"type":"DISCUSSION_ROOM"
 	},
 	{
 		"available":true,
-		"name":"KB927",
-		"type":"GENERAL"
+		"name":"K403",
+		"type":"COMPUTER_LAB"
 	},
 	{
 		"available":true,
-		"name":"KB928",
-		"type":"GENERAL"
+		"name":"K404",
+		"type":"COMPUTER_LAB"
 	},
 	{
 		"available":true,
-		"name":"KB929",
-		"type":"GENERAL"
+		"name":"K405",
+		"type":"COMPUTER_LAB"
 	},
 	{
 		"available":true,
-		"name":"KB930",
-		"type":"GENERAL"
+		"name":"K406",
+		"type":"COMPUTER_LAB"
 	},
 	{
 		"available":true,
-		"name":"KB1000",
-		"type":"GENERAL"
+		"name":"K407",
+		"type":"COMPUTER_LAB"
 	},
 	{
 		"available":true,
-		"name":"KB1001",
-		"type":"GENERAL"
+		"name":"K408",
+		"type":"COMPUTER_LAB"
 	},
 	{
 		"available":true,
-		"name":"KB1002",
-		"type":"GENERAL"
+		"name":"K409",
+		"type":"COMPUTER_LAB"
 	},
 	{
 		"available":true,
-		"name":"KB1003",
-		"type":"GENERAL"
+		"name":"K410",
+		"type":"COMPUTER_LAB"
 	},
 	{
 		"available":true,
-		"name":"KB1004",
-		"type":"GENERAL"
+		"name":"K411",
+		"type":"COMPUTER_LAB"
 	},
 	{
 		"available":true,
-		"name":"KB1005",
-		"type":"GENERAL"
+		"name":"K400A",
+		"type":"DISCUSSION_ROOM"
 	},
 	{
 		"available":true,
-		"name":"KB1006",
-		"type":"GENERAL"
+		"name":"K400B",
+		"type":"DISCUSSION_ROOM"
 	},
 	{
 		"available":true,
-		"name":"KB1007",
-		"type":"GENERAL"
+		"name":"K400C",
+		"type":"DISCUSSION_ROOM"
 	},
 	{
 		"available":true,
-		"name":"KB1008",
-		"type":"GENERAL"
+		"name":"K401",
+		"type":"LECTURE_HALL"
 	},
 	{
 		"available":true,
-		"name":"KB1009",
-		"type":"GENERAL"
+		"name":"K402",
+		"type":"LECTURE_HALL"
 	},
 	{
 		"available":true,
-		"name":"KB1010",
-		"type":"GENERAL"
+		"name":"K501",
+		"type":"DISCUSSION_ROOM"
 	},
 	{
 		"available":true,
-		"name":"KB1011",
-		"type":"GENERAL"
+		"name":"K502",
+		"type":"DISCUSSION_ROOM"
 	},
 	{
 		"available":true,
-		"name":"KB1012",
-		"type":"GENERAL"
+		"name":"K503",
+		"type":"DISCUSSION_ROOM"
 	},
 	{
 		"available":true,
-		"name":"KB1013",
-		"type":"GENERAL"
+		"name":"K504",
+		"type":"DISCUSSION_ROOM"
 	},
 	{
 		"available":true,
-		"name":"KB1014",
-		"type":"GENERAL"
+		"name":"K505",
+		"type":"DISCUSSION_ROOM"
 	},
 	{
 		"available":true,
-		"name":"KB1015",
-		"type":"GENERAL"
+		"name":"K507",
+		"type":"DISCUSSION_ROOM"
 	},
 	{
 		"available":true,
-		"name":"KB1016",
-		"type":"GENERAL"
+		"name":"K508",
+		"type":"DISCUSSION_ROOM"
 	},
 	{
 		"available":true,
-		"name":"KB1017",
-		"type":"GENERAL"
+		"name":"K509",
+		"type":"DISCUSSION_ROOM"
 	},
 	{
 		"available":true,
-		"name":"KB1018",
-		"type":"GENERAL"
+		"name":"K510",
+		"type":"DISCUSSION_ROOM"
 	},
 	{
 		"available":true,
-		"name":"KB1019",
-		"type":"GENERAL"
+		"name":"K511",
+		"type":"DISCUSSION_ROOM"
 	},
 	{
 		"available":true,
-		"name":"KB1020",
-		"type":"GENERAL"
+		"name":"K506",
+		"type":"LECTURE_HALL"
 	},
 	{
 		"available":true,
-		"name":"KB1021",
-		"type":"GENERAL"
+		"name":"K512",
+		"type":"LECTURE_HALL"
 	},
 	{
 		"available":true,
-		"name":"KB1022",
-		"type":"GENERAL"
+		"name":"KA Meeting Room (Level 6)",
+		"type":"DISCUSSION_ROOM"
 	},
 	{
 		"available":true,
-		"name":"KB1023",
-		"type":"GENERAL"
+		"name":"KA Lecture Hall (Level 7)",
+		"type":"LECTURE_HALL"
 	},
 	{
 		"available":true,
-		"name":"KB1024",
-		"type":"GENERAL"
+		"name":"KA Lecture Room (Level 7)",
+		"type":"LECTURE_HALL"
 	},
 	{
 		"available":true,
-		"name":"KB1025",
-		"type":"GENERAL"
+		"name":"K800",
+		"type":"DISCUSSION_ROOM"
 	},
 	{
 		"available":true,
-		"name":"KB1026",
-		"type":"GENERAL"
+		"name":"K801",
+		"type":"DISCUSSION_ROOM"
 	},
 	{
 		"available":true,
-		"name":"KB1027",
-		"type":"GENERAL"
+		"name":"K802",
+		"type":"DISCUSSION_ROOM"
 	},
 	{
 		"available":true,
-		"name":"KB1028",
-		"type":"GENERAL"
+		"name":"K803",
+		"type":"DISCUSSION_ROOM"
 	},
 	{
 		"available":true,
-		"name":"KB1029",
-		"type":"GENERAL"
+		"name":"K804",
+		"type":"LECTURE_HALL"
 	},
 	{
 		"available":true,
-		"name":"KB1030",
-		"type":"GENERAL"
+		"name":"K805",
+		"type":"LECTURE_HALL"
 	}
 ]

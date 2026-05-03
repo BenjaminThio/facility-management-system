@@ -68,10 +68,10 @@ public class ProfilePage extends Page {
             .append("Password:\n")
             .append(fields[2].toAnsiBuilder())
             .append('\n')
-            .append("Faculty:\n")
+            .append("Faculty:\n ")
             .append(new Container(
                 faculty == null ? "NULL" : faculty.getName(),
-                FIELD_LENGTH,
+                (FIELD_LENGTH - 2),
                 Container.Alignment.CENTER,
                 selection == 3 ? Ansi.BG_LIGHT_GREEN : Ansi.BG_WHITE,
                 Ansi.FG_BLACK

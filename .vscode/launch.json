@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "UserMigrator",
+            "request": "launch",
+            "mainClass": "src.utils.UserMigrator",
+            "projectName": "facility-management-system_1b71b80"
+        },
+        {
+            "type": "java",
             "name": "Container",
             "request": "launch",
             "mainClass": "src.components.Container",

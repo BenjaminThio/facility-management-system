@@ -37,7 +37,9 @@ public class AnalyticsPage extends Page {
     }
 
     private TimeFrame selectedTimeFrame = TimeFrame.LIFETIME;
-    private static final int MAX_SELECTION = 1; 
+    // --- UPDATED: We now have 2 selectable items (Filter & Detailed View Button) ---
+    private static final int MAX_SELECTION = 2; 
+    // -------------------------------------------------------------------------------
 
     public AnalyticsPage() {
         this.selection = 0;
@@ -152,7 +154,12 @@ public class AnalyticsPage extends Page {
 
         content.append(new Container(" Maintenance & Reliability ", 72, Container.Alignment.LEFT, Ansi.BG_DARK_GRAY, Ansi.FG_WHITE).toAnsi()).append("\n");
         content.append(new Container(String.format("   Most Maintenance Cases   : %s (%d cases)", worstFacility, maxMaint), 72, Container.Alignment.LEFT, Ansi.BG_WHITE, Ansi.FG_BLACK).toAnsi()).append("\n");
-        content.append(new Container(String.format("   Average Repair Time      : %s", repairTimeStr), 72, Container.Alignment.LEFT, Ansi.BG_WHITE, Ansi.FG_BLACK).toAnsi());
+        content.append(new Container(String.format("   Average Repair Time      : %s", repairTimeStr), 72, Container.Alignment.LEFT, Ansi.BG_WHITE, Ansi.FG_BLACK).toAnsi()).append("\n");
+        
+        // --- NEW: Detailed View Button ---
+        content.append(new Container("", 72, Container.Alignment.LEFT, Ansi.BG_WHITE, Ansi.FG_BLACK).toAnsi()).append("\n");
+        content.append(new Container("    View Detailed Facility Breakdown >>    ", 72, Container.Alignment.CENTER, selection == 1 ? Ansi.BG_LIGHT_GREEN : Ansi.BG_DARK_GRAY, selection == 1 ? Ansi.FG_BLACK : Ansi.FG_WHITE).toAnsi());
+        // ---------------------------------
 
         table.add(new ArrayList<>(Arrays.asList(content)));
         Table.render(frame, table);
@@ -178,6 +185,9 @@ public class AnalyticsPage extends Page {
                             this.selectedTimeFrame = TimeFrame.cast(index);
                         }
                     ));
+                } else if (selection == 1) {
+                    // --- NEW: Route to Detailed View ---
+                    Router.redirect(new DetailedAnalyticsPage());
                 }
             }
         }

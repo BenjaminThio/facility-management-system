@@ -3,12 +3,12 @@ package src.models;
 public class Facility
 {
     public enum Type {
+        GENERAL("General"),
         LECTURE_HALL("Lecture Hall"),
         DISCUSSION_ROOM("Discussion Room"),
         SPORTS_COURT("Sports Court"),
         COMPUTER_LAB("Computer Lab"),
-        MULTIPURPOSE_HALL("Multipurpose Hall"),
-        GENERAL("General");
+        MULTIPURPOSE_HALL("Multipurpose Hall");
 
         private final String name;
 

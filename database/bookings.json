@@ -3,14 +3,84 @@
 		"2026-04-29":{
 			"08:00-09:00":{
 				"approved":null,
-				"expired":false,
+				"expired":true,
 				"pending":[]
 			}
 		},
-		"2026-04-30":{
+		"2026-05-01":{
+			"08:00-09:00":{
+				"approved":"benjaminthio@utar.edu.my",
+				"expired":true,
+				"pending":[]
+			}
+		},
+		"2026-05-02":{
+			"08:00-09:00":{
+				"approved":"benjaminthio@utar.edu.my",
+				"expired":true,
+				"pending":[]
+			},
+			"09:00-10:00":{
+				"approved":"benjaminthio@utar.edu.my",
+				"expired":true,
+				"pending":[]
+			},
+			"10:00-11:00":{
+				"approved":"benjaminthio@utar.edu.my",
+				"expired":true,
+				"pending":[]
+			},
 			"11:00-12:00":{
 				"approved":"benjaminthio@utar.edu.my",
-				"expired":false,
+				"expired":true,
+				"pending":[]
+			},
+			"12:00-13:00":{
+				"approved":null,
+				"expired":true,
+				"pending":[]
+			},
+			"13:00-14:00":{
+				"approved":null,
+				"expired":true,
+				"pending":[]
+			},
+			"14:00-15:00":{
+				"approved":null,
+				"expired":true,
+				"pending":[]
+			},
+			"15:00-16:00":{
+				"approved":null,
+				"expired":true,
+				"pending":[]
+			},
+			"16:00-17:00":{
+				"approved":null,
+				"expired":true,
+				"pending":[]
+			},
+			"17:00-18:00":{
+				"approved":null,
+				"expired":true,
+				"pending":[]
+			}
+		}
+	},
+	"KB101":{
+		"2026-05-01":{
+			"08:00-09:00":{
+				"approved":"azwani@utar.edu.my",
+				"expired":true,
+				"pending":[]
+			}
+		}
+	},
+	"KB107":{
+		"2026-04-30":{
+			"09:00-10:00":{
+				"approved":"benjaminthio@utar.edu.my",
+				"expired":true,
 				"pending":[]
 			}
 		}

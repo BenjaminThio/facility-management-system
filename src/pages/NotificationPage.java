@@ -15,6 +15,7 @@ import src.utils.Renderer;
 import src.utils.Router;
 
 public class NotificationPage extends Page {
+    private static final int PAGE_WIDTH = 95;
 
     public NotificationPage() {
         this.selection = 0;
@@ -26,15 +27,15 @@ public class NotificationPage extends Page {
         ArrayList<Notification> inbox = Global.getUser().getNotifications();
 
         table.add(new ArrayList<>(Arrays.asList(
-            new AnsiBuilder().append(new Container(" Notification Center ", 72, Container.Alignment.CENTER, Ansi.BG_BLACK, Ansi.FG_LIGHT_GRAY).toAnsi())
+            new AnsiBuilder().append(new Container(" Notification Center ", PAGE_WIDTH, Container.Alignment.CENTER, Ansi.BG_BLACK, Ansi.FG_LIGHT_GRAY).toAnsi())
         )));
 
         AnsiBuilder content = new AnsiBuilder();
-        content.append(new Container("", 72, Container.Alignment.LEFT, Ansi.BG_WHITE, Ansi.FG_BLACK).toAnsi()).append("\n");
+        content.append(new Container("", PAGE_WIDTH, Container.Alignment.LEFT, Ansi.BG_WHITE, Ansi.FG_BLACK).toAnsi()).append("\n");
 
         if (inbox.isEmpty()) {
-            content.append(new Container(" You have no notifications. ", 72, Container.Alignment.CENTER, Ansi.BG_WHITE, Ansi.FG_DARK_GRAY).toAnsi()).append("\n");
-            content.append(new Container("", 72, Container.Alignment.LEFT, Ansi.BG_WHITE, Ansi.FG_BLACK).toAnsi());
+            content.append(new Container(" You have no notifications. ", PAGE_WIDTH, Container.Alignment.CENTER, Ansi.BG_WHITE, Ansi.FG_DARK_GRAY).toAnsi()).append("\n");
+            content.append(new Container("", PAGE_WIDTH, Container.Alignment.LEFT, Ansi.BG_WHITE, Ansi.FG_BLACK).toAnsi());
         } else {
             for (Notification n : inbox) {
                 int bgColor = Ansi.BG_WHITE;
@@ -54,9 +55,9 @@ public class NotificationPage extends Page {
                 String prefix = n.isRead() ? "      " : " NEW! ";
                 String displayStr = String.format("%s [%s] %s", prefix, n.getFrom(), n.getContent());
 
-                content.append(new Container(displayStr, 72, Container.Alignment.LEFT, bgColor, fgColor).toAnsi()).append("\n");
-                content.append(new Container(String.format("        %s", n.getTimestamp()), 72, Container.Alignment.LEFT, Ansi.BG_WHITE, Ansi.FG_DARK_GRAY).toAnsi()).append("\n");
-                content.append(new Container("", 72, Container.Alignment.LEFT, Ansi.BG_WHITE, Ansi.FG_BLACK).toAnsi()).append("\n"); 
+                content.append(new Container(displayStr, PAGE_WIDTH, Container.Alignment.LEFT, bgColor, fgColor).toAnsi()).append("\n");
+                content.append(new Container(String.format("        %s", n.getTimestamp()), PAGE_WIDTH, Container.Alignment.LEFT, Ansi.BG_WHITE, Ansi.FG_DARK_GRAY).toAnsi()).append("\n");
+                content.append(new Container("", PAGE_WIDTH, Container.Alignment.LEFT, Ansi.BG_WHITE, Ansi.FG_BLACK).toAnsi()).append("\n"); 
             }
         }
 

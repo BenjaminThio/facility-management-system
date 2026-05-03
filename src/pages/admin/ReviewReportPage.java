@@ -191,7 +191,7 @@ public class ReviewReportPage extends Subpage {
                                 }
                                 // ----------------------------------------
 
-                                JOptionPane.showMessageDialog(null, "Personnel assigned! Status updated to ON_PROGRESS.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                                JOptionPane.showMessageDialog(null, "Personnel assigned! Status updated to IN PROGRESS.", "Success", JOptionPane.INFORMATION_MESSAGE);
                             }));
                         }
                     }

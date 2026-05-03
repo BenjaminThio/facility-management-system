@@ -1581,234 +1581,6 @@ public class MemoField extends Field {
 }
 ```
 
-src/components/fields/MemoFieldTest.java
-```
-package src.components.fields;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import org.jline.utils.InfoCmp.Capability;
-
-import src.components.Ansi;
-import src.models.Position;
-import src.utils.Global;
-import src.utils.Renderer;
-
-public class MemoFieldTest {
-    private List<String> lines = new ArrayList<>(Arrays.asList(""));
-    private int minHeight = 10;
-    private int length = 20;
-    private int height = 10;
-    private String placeholder = "";
-    private Position caretPosition = new Position();
-    private Position caretOffset = new Position();
-    private int backgroundColor = Ansi.BG_WHITE;
-    private int textColor = Ansi.FG_BLACK;
-    private int placeholderColor = Ansi.FG_DARK_GRAY;
-    private boolean overflowX = false;
-    // private boolean overflowY = false;
-
-    public MemoFieldTest(int minHeight, int length, String placeholder, boolean overflowX)
-    {
-        this.minHeight = minHeight;
-        this.length = length;
-        this.placeholder = placeholder;
-        this.overflowX = overflowX;
-    }
-
-    public void render()
-    {
-        for (int i = 0; i < Math.max(lines.size(), minHeight); i++)
-        {
-            if (i < lines.size())
-            {
-                if (i == 0 && lines.size() == 1 && lines.get(0).isEmpty())
-                {
-                    if (this.placeholder.isEmpty())
-                        System.out.print(new Ansi(" ".repeat(this.length), backgroundColor).toString());
-                    else if (this.placeholder.length() < this.length)
-                        System.out.print(new Ansi(this.placeholder + " ".repeat(this.length - this.placeholder.length()), backgroundColor, placeholderColor).toString());
-                    else
-                        System.out.print(new Ansi(this.placeholder.substring(0, this.length - 1) + "…", backgroundColor, placeholderColor).toString());
-                }
-                else if (lines.get(i).length() < this.length)
-                {
-                    System.out.print(new Ansi(lines.get(i) + " ".repeat(this.length - lines.get(i).length()), backgroundColor, textColor).toString());
-                }
-                else
-                {
-                    System.out.print(new Ansi(lines.get(i).substring(this.caretOffset.x, Math.max(this.caretPosition.x + this.caretOffset.x, this.length)), backgroundColor, textColor).toString());
-                }
-            }
-            else
-            {
-                System.out.print(new Ansi(" ".repeat(this.length), backgroundColor).toString());
-            }
-            System.out.println();
-        }
-        Global.getTerminal().puts(Capability.cursor_address, this.caretPosition.y, this.caretPosition.x);
-    }
-
-    public void handleInput(String input)
-    {
-        switch (input)
-        {
-            case "LEFT":
-            {
-                if (this.caretOffset.x - 1 >= 0)
-                {
-                    this.caretOffset.x--;
-                }
-                else if (this.caretPosition.x - 1 >= 0)
-                {
-                    this.caretPosition.x--;
-                }
-                break;
-            }
-            case "RIGHT":
-            {
-                if (this.caretPosition.x + 1 <= Math.min(this.lines.get(caretPosition.y + caretOffset.y).length(), this.length))
-                {
-                    this.caretPosition.x++;
-                }
-                else if (this.caretPosition.x + this.caretOffset.x + 1 <= this.lines.get(caretPosition.y + caretOffset.y).length())
-                {
-                    this.caretOffset.x++;
-                }
-                break;
-            }
-            case "BACKSPACE":
-            {
-                switch (caretPosition.x + caretOffset.x)
-                {
-                    case 0:
-                        return;
-                }
-
-                StringBuilder stringBuilder = new StringBuilder(this.lines.get(this.caretPosition.y + this.caretOffset.y));
-
-                stringBuilder.deleteCharAt(caretPosition.x + caretOffset.x - 1);
-                this.lines.set(this.caretPosition.y + this.caretOffset.y, stringBuilder.toString());
-
-                if (this.caretOffset.x - 1 >= 0)
-                {
-                    this.caretOffset.x--;
-                }
-                else if (this.caretPosition.x - 1 >= 0)
-                {
-                    this.caretPosition.x--;
-                }
-                break;
-            }
-            case "ENTER":
-            {
-                String currentLine = getCurrentLine();
-
-                if (caretPosition.x + caretOffset.x == currentLine.length())
-                {
-                    this.lines.add(caretPosition.y + caretOffset.y, currentLine);
-                    this.lines.set(caretPosition.y + caretOffset.y + 1, "");
-                }
-                else
-                {
-                    this.lines.set(caretPosition.y + caretOffset.y, currentLine.substring(0, caretPosition.x + caretOffset.x));
-                    this.lines.add(caretPosition.y + caretOffset.y + 1, currentLine.substring(caretPosition.x + caretOffset.x, currentLine.length()));
-                }
-
-                this.caretPosition.x = 0;
-                this.caretPosition.y++;
-                /*
-                if (this.caretPosition.y + 1 <= this.minHeight)
-                    this.caretPosition.y++;
-                else
-                    this.caretOffset.y++;
-                */
-                break;
-            }
-            case "UP":
-                if (this.caretPosition.y - 1 >= 0)
-                {
-                    this.caretPosition.y--;
-
-                    Position globalCaretPosition = getCaretGlobalPosition();
-
-                    setCaretGlobalPosition(Math.min(globalCaretPosition.x, getCurrentLine().length()), globalCaretPosition.y);
-                }
-                break;
-            case "DOWN":
-                if (this.caretPosition.y + 1 < this.lines.size())
-                {
-                    this.caretPosition.y++;
-
-                    Position globalCaretPosition = getCaretGlobalPosition();
-
-                    setCaretGlobalPosition(Math.min(globalCaretPosition.x, getCurrentLine().length()), globalCaretPosition.y);
-                }
-                break;
-            default:
-            {
-                switch (input.length())
-                {
-                    case 1:
-                        if (!overflowX && getCurrentLine().length() + 1 > length)
-                        {
-                            return;
-                        }
-
-                        StringBuilder stringBuilder = new StringBuilder(getCurrentLine());
-
-                        stringBuilder.insert(caretPosition.x + caretOffset.x, input);
-                        this.lines.set(this.caretPosition.y + this.caretOffset.y, stringBuilder.toString());
-
-                        if (this.caretPosition.x + 1 <= this.length)
-                            this.caretPosition.x++;
-                        else
-                            this.caretOffset.x++;
-                        break;
-                }
-                break;
-            }
-        }
-        Renderer.refresh();
-    }
-
-    public String getCurrentLine()
-    {
-        return this.lines.get(this.caretPosition.y + this.caretOffset.y);
-    }
-
-    public void setCaretGlobalPosition(int x, int y)
-    {
-        if (x > this.length)
-            this.caretPosition.x = this.length;
-        else
-            this.caretPosition.x = x;
-
-        if (y > this.height)
-            this.caretPosition.y = this.height;
-        else
-            this.caretPosition.x = x;
-    }
-
-    public void setCaretGlobalPosition(Position other)
-    {
-        setCaretGlobalPosition(other.x, other.y);
-    }
-
-    public Position getCaretGlobalPosition()
-    {
-        Position caretGlobalPosition = new Position();
-
-        caretGlobalPosition.x = caretPosition.x + caretOffset.x;
-        caretGlobalPosition.y = caretPosition.y + caretOffset.y;
-
-        return caretGlobalPosition;
-    }
-}
-```
-
 src/components/fields/core/Field.java
 ```
 package src.components.fields.core;
@@ -1986,12 +1758,12 @@ package src.models;
 public class Facility
 {
     public enum Type {
+        GENERAL("General"),
         LECTURE_HALL("Lecture Hall"),
         DISCUSSION_ROOM("Discussion Room"),
         SPORTS_COURT("Sports Court"),
         COMPUTER_LAB("Computer Lab"),
-        MULTIPURPOSE_HALL("Multipurpose Hall"),
-        GENERAL("General");
+        MULTIPURPOSE_HALL("Multipurpose Hall");
 
         private final String name;
 
@@ -3076,7 +2848,7 @@ import src.components.Ansi;
 
 public class MenuPage extends Page {
     public enum GuestSelection {
-        VIEW_FACILITIES(0), SIGN_IN(1), SIGN_UP(2), EXIT(3);
+        VIEW_FACILITIES(0), SEARCH_FACILITY(1), SIGN_IN(2), SIGN_UP(3), EXIT(4);
         
         private final int val;
         private GuestSelection(int val) { this.val = val; }
@@ -3332,6 +3104,9 @@ public class MenuPage extends Page {
                             Database.Booking.getActiveBookings().keySet().toArray(String[]::new)
                         )
                     );
+                    break;
+                case SEARCH_FACILITY:
+                    Router.redirect(new SearchFacilityPage());
                     break;
                 case SIGN_IN:
                     Router.redirect(new SignInPage());
@@ -3728,6 +3503,7 @@ import src.utils.Renderer;
 import src.utils.Router;
 
 public class NotificationPage extends Page {
+    private static final int PAGE_WIDTH = 95;
 
     public NotificationPage() {
         this.selection = 0;
@@ -3739,15 +3515,15 @@ public class NotificationPage extends Page {
         ArrayList<Notification> inbox = Global.getUser().getNotifications();
 
         table.add(new ArrayList<>(Arrays.asList(
-            new AnsiBuilder().append(new Container(" Notification Center ", 72, Container.Alignment.CENTER, Ansi.BG_BLACK, Ansi.FG_LIGHT_GRAY).toAnsi())
+            new AnsiBuilder().append(new Container(" Notification Center ", PAGE_WIDTH, Container.Alignment.CENTER, Ansi.BG_BLACK, Ansi.FG_LIGHT_GRAY).toAnsi())
         )));
 
         AnsiBuilder content = new AnsiBuilder();
-        content.append(new Container("", 72, Container.Alignment.LEFT, Ansi.BG_WHITE, Ansi.FG_BLACK).toAnsi()).append("\n");
+        content.append(new Container("", PAGE_WIDTH, Container.Alignment.LEFT, Ansi.BG_WHITE, Ansi.FG_BLACK).toAnsi()).append("\n");
 
         if (inbox.isEmpty()) {
-            content.append(new Container(" You have no notifications. ", 72, Container.Alignment.CENTER, Ansi.BG_WHITE, Ansi.FG_DARK_GRAY).toAnsi()).append("\n");
-            content.append(new Container("", 72, Container.Alignment.LEFT, Ansi.BG_WHITE, Ansi.FG_BLACK).toAnsi());
+            content.append(new Container(" You have no notifications. ", PAGE_WIDTH, Container.Alignment.CENTER, Ansi.BG_WHITE, Ansi.FG_DARK_GRAY).toAnsi()).append("\n");
+            content.append(new Container("", PAGE_WIDTH, Container.Alignment.LEFT, Ansi.BG_WHITE, Ansi.FG_BLACK).toAnsi());
         } else {
             for (Notification n : inbox) {
                 int bgColor = Ansi.BG_WHITE;
@@ -3767,9 +3543,9 @@ public class NotificationPage extends Page {
                 String prefix = n.isRead() ? "      " : " NEW! ";
                 String displayStr = String.format("%s [%s] %s", prefix, n.getFrom(), n.getContent());
 
-                content.append(new Container(displayStr, 72, Container.Alignment.LEFT, bgColor, fgColor).toAnsi()).append("\n");
-                content.append(new Container(String.format("        %s", n.getTimestamp()), 72, Container.Alignment.LEFT, Ansi.BG_WHITE, Ansi.FG_DARK_GRAY).toAnsi()).append("\n");
-                content.append(new Container("", 72, Container.Alignment.LEFT, Ansi.BG_WHITE, Ansi.FG_BLACK).toAnsi()).append("\n"); 
+                content.append(new Container(displayStr, PAGE_WIDTH, Container.Alignment.LEFT, bgColor, fgColor).toAnsi()).append("\n");
+                content.append(new Container(String.format("        %s", n.getTimestamp()), PAGE_WIDTH, Container.Alignment.LEFT, Ansi.BG_WHITE, Ansi.FG_DARK_GRAY).toAnsi()).append("\n");
+                content.append(new Container("", PAGE_WIDTH, Container.Alignment.LEFT, Ansi.BG_WHITE, Ansi.FG_BLACK).toAnsi()).append("\n"); 
             }
         }
 
@@ -3864,10 +3640,10 @@ public class ProfilePage extends Page {
             .append("Password:\n")
             .append(fields[2].toAnsiBuilder())
             .append('\n')
-            .append("Faculty:\n")
+            .append("Faculty:\n ")
             .append(new Container(
                 faculty == null ? "NULL" : faculty.getName(),
-                FIELD_LENGTH,
+                (FIELD_LENGTH - 2),
                 Container.Alignment.CENTER,
                 selection == 3 ? Ansi.BG_LIGHT_GREEN : Ansi.BG_WHITE,
                 Ansi.FG_BLACK
@@ -4830,6 +4606,7 @@ public class SignUpPage extends Page {
     private int role = 0;
     private boolean isLocked = false;
     private Database.Faculty faculty = null;
+    private boolean facultySelectionError = false;
 
     @Override
     public void render(StringBuilder frame)
@@ -4871,12 +4648,12 @@ public class SignUpPage extends Page {
             .append("Confirm Password:\n")
             .append(fields[4].toAnsiBuilder())
             .append('\n')
-            .append("Faculty:\n")
+            .append("Faculty:\n ")
             .append(new Container(
                 faculty == null ? "NULL" : faculty.getName(),
-                FIELD_LENGTH,
+                FIELD_LENGTH - 2,
                 Container.Alignment.CENTER, 
-                selection == 5 ? Ansi.BG_LIGHT_GREEN : Ansi.BG_WHITE,
+                selection == 5 ? Ansi.BG_LIGHT_GREEN : (facultySelectionError ? Ansi.BG_RED : Ansi.BG_WHITE),
                 Ansi.FG_BLACK
             ).toAnsi())
             .append("\n\n")
@@ -4950,13 +4727,16 @@ public class SignUpPage extends Page {
         this.fields[2].setError(!PHONE_NUMBER_PATTERN.matcher(this.fields[2].getValue()).matches());
         this.fields[3].setError(!PASSWORD_PATTERN.matcher(this.fields[3].getValue()).matches() || !this.fields[3].getValue().equals(this.fields[4].getValue()));
         this.fields[4].setError(this.fields[3].error());
+        facultySelectionError = (this.faculty == null);
 
         Renderer.refresh();
 
+        /*
         if (this.faculty == null) {
             JOptionPane.showMessageDialog(null, "Please select a faculty.", "Missing Faculty", JOptionPane.WARNING_MESSAGE);
             return;
         }
+        */
 
         if (Database.User.isExists(this.fields[1].getValue()))
         {
@@ -5422,36 +5202,6 @@ public class SignUpPage extends Page {
     }
 }
 */
-```
-
-src/pages/TestPage.java
-```
-package src.pages;
-
-import src.components.fields.InputField;
-import src.pages.cores.Page;
-
-public class TestPage extends Page {
-    InputField inputField = new InputField(20, "Type something...");
-    // MemoField memoField = new MemoField(20, 30, "Type something...", false);
-
-    public void select()
-    {
-
-    }
-
-    public void render(StringBuilder frame)
-    {
-        inputField.render(frame);
-        // memoField.render();
-    }
-
-    public void handleAction(String action)
-    {
-        inputField.handleInput(action);
-        // memoField.handleInput(action);
-    }
-}
 ```
 
 src/pages/ViewFacilityPage.java
@@ -6864,7 +6614,9 @@ public class AnalyticsPage extends Page {
     }
 
     private TimeFrame selectedTimeFrame = TimeFrame.LIFETIME;
-    private static final int MAX_SELECTION = 1; 
+    // --- UPDATED: We now have 2 selectable items (Filter & Detailed View Button) ---
+    private static final int MAX_SELECTION = 2; 
+    // -------------------------------------------------------------------------------
 
     public AnalyticsPage() {
         this.selection = 0;
@@ -6979,7 +6731,12 @@ public class AnalyticsPage extends Page {
 
         content.append(new Container(" Maintenance & Reliability ", 72, Container.Alignment.LEFT, Ansi.BG_DARK_GRAY, Ansi.FG_WHITE).toAnsi()).append("\n");
         content.append(new Container(String.format("   Most Maintenance Cases   : %s (%d cases)", worstFacility, maxMaint), 72, Container.Alignment.LEFT, Ansi.BG_WHITE, Ansi.FG_BLACK).toAnsi()).append("\n");
-        content.append(new Container(String.format("   Average Repair Time      : %s", repairTimeStr), 72, Container.Alignment.LEFT, Ansi.BG_WHITE, Ansi.FG_BLACK).toAnsi());
+        content.append(new Container(String.format("   Average Repair Time      : %s", repairTimeStr), 72, Container.Alignment.LEFT, Ansi.BG_WHITE, Ansi.FG_BLACK).toAnsi()).append("\n");
+        
+        // --- NEW: Detailed View Button ---
+        content.append(new Container("", 72, Container.Alignment.LEFT, Ansi.BG_WHITE, Ansi.FG_BLACK).toAnsi()).append("\n");
+        content.append(new Container("    View Detailed Facility Breakdown >>    ", 72, Container.Alignment.CENTER, selection == 1 ? Ansi.BG_LIGHT_GREEN : Ansi.BG_DARK_GRAY, selection == 1 ? Ansi.FG_BLACK : Ansi.FG_WHITE).toAnsi());
+        // ---------------------------------
 
         table.add(new ArrayList<>(Arrays.asList(content)));
         Table.render(frame, table);
@@ -7005,6 +6762,9 @@ public class AnalyticsPage extends Page {
                             this.selectedTimeFrame = TimeFrame.cast(index);
                         }
                     ));
+                } else if (selection == 1) {
+                    // --- NEW: Route to Detailed View ---
+                    Router.redirect(new DetailedAnalyticsPage());
                 }
             }
         }
@@ -8876,7 +8636,7 @@ public class ReviewReportPage extends Subpage {
                                 }
                                 // ----------------------------------------
 
-                                JOptionPane.showMessageDialog(null, "Personnel assigned! Status updated to ON_PROGRESS.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                                JOptionPane.showMessageDialog(null, "Personnel assigned! Status updated to IN PROGRESS.", "Success", JOptionPane.INFORMATION_MESSAGE);
                             }));
                         }
                     }
@@ -9529,21 +9289,28 @@ public class Database {
         Database.Report.set(Database.Report.loadAll());
         Database.Booking.set(Database.Booking.loadAll());
 
+        if (Database.User.getAll() == null) Database.User.set(new java.util.LinkedHashMap<>()); 
+        if (Database.Facility.getAll() == null) Database.Facility.set(new java.util.ArrayList<>()); 
+        if (Database.Report.getAll() == null) Database.Report.set(new java.util.LinkedHashMap<>()); 
+        if (Database.Booking.getAll() == null) Database.Booking.set(new java.util.LinkedHashMap<>());
+
+        // --- THE CRITICAL FIX: Initialize empty database if file was empty/null ---
+        if (Database.Booking.getAll() == null) {
+            Database.Booking.set(new java.util.LinkedHashMap<>()); 
+        }
+        // --------------------------------------------------------------------------
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
-        for (String facilityName : Database.Booking.getAll().keySet())
-        {
-            for (String dateString : Database.Booking.getAll().get(facilityName).keySet())
-            {
-                for (String sessionString : Database.Booking.getAll().get(facilityName).get(dateString).keySet())
-                {
+        for (String facilityName : Database.Booking.getAll().keySet()) {
+            for (String dateString : Database.Booking.getAll().get(facilityName).keySet()) {
+                for (String sessionString : Database.Booking.getAll().get(facilityName).get(dateString).keySet()) {
                     String[] sessionBounds = sessionString.split("-");
                     // LocalTime sessionStartTime = LocalTime.parse(sessionBounds[0]);
                     String sessionEndTime = sessionBounds[1];
-                    LocalDateTime dateTime = LocalDateTime.parse(dateString + " " + sessionEndTime, formatter);
 
-                    if (dateTime.isBefore(LocalDateTime.now()))
-                    {
+                    LocalDateTime dateTime = LocalDateTime.parse(dateString + " " + sessionEndTime, formatter);
+                    if (dateTime.isBefore(LocalDateTime.now())) {
                         Database.Booking.getAll().get(facilityName).get(dateString).get(sessionString).setIsExpired(true);
                     }
                 }
@@ -9554,34 +9321,6 @@ public class Database {
         Database.User.save();
         Database.Facility.save();
         Database.Report.save();
-        /*
-        for (String facilityName : Database.Booking.getAll().keySet())
-        {
-            for (String dateString : Database.Booking.getAll().get(facilityName).keySet())
-            {
-                if (LocalDate.parse(dateString).isBefore(LocalDate.now()))
-                {
-                    Database.Booking.getAll().get(facilityName).remove(dateString);
-                }
-                else
-                {
-                    for (String sessionString : Database.Booking.getAll().get(facilityName).get(dateString).keySet())
-                    {
-                        String[] sessionBounds = sessionString.split("-");
-                        // LocalTime sessionStartTime = LocalTime.parse(sessionBounds[0]);
-                        String sessionEndTime = sessionBounds[1];
-
-                        if (LocalDate.parse(dateString).equals(LocalDate.now()) && LocalTime.parse(sessionEndTime).isBefore(LocalTime.now()))
-                        {
-                            Database.Booking.getAll().get(facilityName).get(dateString).remove(sessionEndTime);
-                        }
-                    }
-                }
-            }
-        }
-
-        Database.Booking.save();
-        */
     }
 
     public static class User
@@ -9789,6 +9528,22 @@ public class Database {
 
         public static void add(String name, src.models.Report report)
         {
+            if (reports == null) {
+                reports = new LinkedHashMap<>();
+            }
+
+            if (reports.get(name) != null) {
+                reports.get(name).add(report);
+            } else {
+                ArrayList<src.models.Report> newList = new ArrayList<>();
+                newList.add(report);
+                reports.put(name, newList);
+            }
+        }
+
+        /*
+        public static void add(String name, src.models.Report report)
+        {
             if (reports.get(name) != null)
                 reports.get(name).add(report);
             else
@@ -9796,6 +9551,7 @@ public class Database {
                 reports.put(name, new ArrayList<>(Arrays.asList(report)));
             }
         }
+        */
 
         public static void save(LinkedHashMap<String, List<src.models.Report>> reports)
         {
@@ -10059,8 +9815,11 @@ public class Database {
             bookings = data;
         }
 
-        public static LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, src.models.Booking>>> getAll()
-        {
+        public static LinkedHashMap<String, LinkedHashMap<String, LinkedHashMap<String, src.models.Booking>>> getAll() {
+            if (bookings == null)
+            {
+                bookings = new LinkedHashMap<>();
+            }
             return bookings;
         }
 
@@ -10800,115 +10559,137 @@ src/utils/SearchEngine.java
 package src.utils;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 public class SearchEngine {
-    public static class SearchResult implements Comparable<SearchResult> {
-        public final int originalIndex;
-        public final String text;
-        public final double similarityScore;
 
-        public SearchResult(int originalIndex, String text, double similarityScore) {
-            this.originalIndex = originalIndex;
+    // Wrapper class so we can sort by best match
+    public static class SearchResult {
+        public String text;
+        public double score;
+
+        public SearchResult(String text, double score) {
             this.text = text;
-            this.similarityScore = similarityScore;
-        }
-
-        @Override
-        public int compareTo(SearchResult other) {
-            return Double.compare(other.similarityScore, this.similarityScore);
-        }
-
-        @Override
-        public String toString() {
-            return String.format("Score: %.0f%% | Index: %d | Text: '%s'", similarityScore * 100, originalIndex, text);
+            this.score = score;
         }
     }
 
-    public static int levenshteinDistance(String s1, String s2) {
-        if (s1.length() < s2.length()) {
-            return levenshteinDistance(s2, s1);
+    // --- Utility: Lowercase + strip punctuation ---
+    private static String normalize(String s) {
+        StringBuilder out = new StringBuilder();
+        for (char c : s.toCharArray()) {
+            if (Character.isLetterOrDigit(c)) {
+                out.append(Character.toLowerCase(c));
+            }
         }
-        if (s2.isEmpty()) {
-            return s1.length();
+        return out.toString();
+    }
+
+    // --- Levenshtein Distance (1D Array Optimization) ---
+    private static int levenshtein(String s1, String s2) {
+        int n = s1.length();
+        int m = s2.length();
+        int[] prev = new int[m + 1];
+        int[] curr = new int[m + 1];
+
+        for (int j = 0; j <= m; j++) {
+            prev[j] = j;
         }
 
-        int[] previousRow = new int[s2.length() + 1];
-        for (int i = 0; i <= s2.length(); i++) {
-            previousRow[i] = i;
+        for (int i = 1; i <= n; i++) {
+            curr[0] = i;
+            for (int j = 1; j <= m; j++) {
+                if (s1.charAt(i - 1) == s2.charAt(j - 1)) {
+                    curr[j] = prev[j - 1];
+                } else {
+                    curr[j] = 1 + Math.min(prev[j], Math.min(curr[j - 1], prev[j - 1]));
+                }
+            }
+            int[] temp = prev;
+            prev = curr;
+            curr = temp;
+        }
+        return prev[m];
+    }
+
+    // --- Similarity Ratio ---
+    private static double similarityRatio(String a, String b) {
+        if (a.isEmpty() && b.isEmpty()) return 1.0;
+        if (a.isEmpty() || b.isEmpty()) return 0.0;
+        int dist = levenshtein(a, b);
+        return 1.0 - ((double) dist / Math.max(a.length(), b.length()));
+    }
+
+    // --- Main Tokenized Search Function ---
+    public static SearchResult[] searchSimilar(String query, String[] list, double threshold) {
+        if (query == null || query.trim().isEmpty()) {
+            SearchResult[] results = new SearchResult[list.length];
+            for (int i = 0; i < list.length; i++) {
+                results[i] = new SearchResult(list[i], 1.0);
+            }
+            return results;
         }
 
-        for (int i = 0; i < s1.length(); i++) {
-            int[] currentRow = new int[s2.length() + 1];
-            currentRow[0] = i + 1;
-            
-            for (int j = 0; j < s2.length(); j++) {
-                int insertions = previousRow[j + 1] + 1;
-                int deletions = currentRow[j] + 1;
-                int substitutions = previousRow[j] + (s1.charAt(i) == s2.charAt(j) ? 0 : 1);
+        // Split query into keywords
+        String[] keywords = query.split("\\s+");
+        for (int i = 0; i < keywords.length; i++) {
+            keywords[i] = normalize(keywords[i]);
+        }
+
+        ArrayList<SearchResult> results = new ArrayList<>();
+
+        for (String item : list) {
+            // Split target item into text segments
+            String[] textSegments = item.split("\\s+");
+            for (int i = 0; i < textSegments.length; i++) {
+                textSegments[i] = normalize(textSegments[i]);
+            }
+
+            boolean isMatch = false;
+            double totalKwScore = 0.0;
+            int validKws = 0;
+
+            for (String kw : keywords) {
+                if (kw.isEmpty()) continue;
+                validKws++;
+                double bestSegScore = 0.0;
                 
-                currentRow[j + 1] = Math.min(Math.min(insertions, deletions), substitutions);
+                // Compare keyword against EVERY segment in the target string
+                for (String seg : textSegments) {
+                    if (seg.isEmpty()) continue;
+                    double sim = similarityRatio(kw, seg);
+                    if (sim > bestSegScore) {
+                        bestSegScore = sim;
+                    }
+                }
+                
+                totalKwScore += bestSegScore;
+                
+                // If ANY keyword matches a segment >= threshold, we include it! (Matches your C++ logic)
+                if (bestSegScore >= threshold) {
+                    isMatch = true;
+                }
             }
-            previousRow = currentRow;
-        }
-        return previousRow[s2.length()];
-    }
 
-    public static String normalizeText(String text) {
-        if (text == null) return "";
-        return text.toLowerCase().replaceAll("\\s+", " ").trim();
-    }
+            // Average score so perfect full-name matches float above partial matches
+            double finalScore = validKws > 0 ? (totalKwScore / validKws) : 0.0;
 
-    public static SearchResult[] searchSimilar(String targetString, String[] stringArray, double minThreshold) {
-        List<SearchResult> results = new ArrayList<>();
-        if (stringArray == null || stringArray.length == 0) {
-            return results.toArray(SearchResult[]::new);
-        }
-
-        String normalizedTarget = normalizeText(targetString);
-
-        for (int i = 0; i < stringArray.length; i++) {
-            String normalizedCurrent = normalizeText(stringArray[i]);
-            int distance = levenshteinDistance(normalizedTarget, normalizedCurrent);
-            int maxLength = Math.max(normalizedTarget.length(), normalizedCurrent.length());
-            double similarity = (maxLength == 0) ? 1.0 : (double) (maxLength - distance) / maxLength;
-
-            if (similarity >= minThreshold) {
-                results.add(new SearchResult(i, stringArray[i], similarity));
+            // Fallback: Check for raw substring inclusion (e.g. searching "lec" matching "Lecture")
+            String normItem = normalize(item);
+            String normQuery = normalize(query.replaceAll("\\s+", ""));
+            if (!normQuery.isEmpty() && normItem.contains(normQuery)) {
+                isMatch = true;
+                finalScore = Math.max(finalScore, 0.9); 
             }
-        }
 
-        Collections.sort(results);
-
-        return results.toArray(SearchResult[]::new);
-    }
-
-    public static void main(String[] args) {
-        String[] database = {
-            "Apple iPhone 14 Pro",
-            "Apple iPhone 14",
-            "Apple iPhone 13 Pro",
-            "Samsung Galaxy S23 Ultra",
-            "Sony PlayStation 5",
-            "  aple iphone 14  ", 
-            "Nintendo Switch OLED"
-        };
-
-        String searchQuery = " aPple iphne 14 ";
-        double threshold = 0.50;
-        SearchResult[] matches = searchSimilar(searchQuery, database, threshold);
-
-        System.out.println("Search Query: '" + searchQuery + "'\n");
-        System.out.println("Top Matches:");
-        
-        if (matches.length == 0) {
-            System.out.println("No matches found above the threshold.");
-        } else {
-            for (SearchResult match : matches) {
-                System.out.println(match.toString());
+            if (isMatch) {
+                results.add(new SearchResult(item, finalScore));
             }
         }
+
+        // Sort results so the absolute best matches are at index 0
+        results.sort((a, b) -> Double.compare(b.score, a.score));
+
+        return results.toArray(new SearchResult[0]);
     }
 }
 ```

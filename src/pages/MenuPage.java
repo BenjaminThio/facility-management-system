@@ -17,7 +17,7 @@ import src.components.Ansi;
 
 public class MenuPage extends Page {
     public enum GuestSelection {
-        VIEW_FACILITIES(0), SIGN_IN(1), SIGN_UP(2), EXIT(3);
+        VIEW_FACILITIES(0), SEARCH_FACILITY(1), SIGN_IN(2), SIGN_UP(3), EXIT(4);
         
         private final int val;
         private GuestSelection(int val) { this.val = val; }
@@ -273,6 +273,9 @@ public class MenuPage extends Page {
                             Database.Booking.getActiveBookings().keySet().toArray(String[]::new)
                         )
                     );
+                    break;
+                case SEARCH_FACILITY:
+                    Router.redirect(new SearchFacilityPage());
                     break;
                 case SIGN_IN:
                     Router.redirect(new SignInPage());

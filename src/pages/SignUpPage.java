@@ -36,6 +36,7 @@ public class SignUpPage extends Page {
     private int role = 0;
     private boolean isLocked = false;
     private Database.Faculty faculty = null;
+    private boolean facultySelectionError = false;
 
     @Override
     public void render(StringBuilder frame)
@@ -77,12 +78,12 @@ public class SignUpPage extends Page {
             .append("Confirm Password:\n")
             .append(fields[4].toAnsiBuilder())
             .append('\n')
-            .append("Faculty:\n")
+            .append("Faculty:\n ")
             .append(new Container(
                 faculty == null ? "NULL" : faculty.getName(),
-                FIELD_LENGTH,
+                FIELD_LENGTH - 2,
                 Container.Alignment.CENTER, 
-                selection == 5 ? Ansi.BG_LIGHT_GREEN : Ansi.BG_WHITE,
+                selection == 5 ? Ansi.BG_LIGHT_GREEN : (facultySelectionError ? Ansi.BG_RED : Ansi.BG_WHITE),
                 Ansi.FG_BLACK
             ).toAnsi())
             .append("\n\n")
@@ -156,13 +157,16 @@ public class SignUpPage extends Page {
         this.fields[2].setError(!PHONE_NUMBER_PATTERN.matcher(this.fields[2].getValue()).matches());
         this.fields[3].setError(!PASSWORD_PATTERN.matcher(this.fields[3].getValue()).matches() || !this.fields[3].getValue().equals(this.fields[4].getValue()));
         this.fields[4].setError(this.fields[3].error());
+        facultySelectionError = (this.faculty == null);
 
         Renderer.refresh();
 
+        /*
         if (this.faculty == null) {
             JOptionPane.showMessageDialog(null, "Please select a faculty.", "Missing Faculty", JOptionPane.WARNING_MESSAGE);
             return;
         }
+        */
 
         if (Database.User.isExists(this.fields[1].getValue()))
         {

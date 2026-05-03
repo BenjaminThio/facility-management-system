@@ -1,53 +1,1627 @@
 {
-	"benjaminthio@utar.edu.my":{
-		"bookings":[
-			{
-				"date":"2026-04-30",
-				"facilityName":"KB100",
-				"session":"11:00-12:00"
-			},
-			{
-				"date":"2026-04-30",
-				"facilityName":"KB100",
-				"session":"11:00-12:00"
-			}
-		],
-		"email":"benjaminthio@utar.edu.my",
-		"faculty":"ENGINEERING_AND_SCIENCE",
-		"name":"Benjamin Thio Zi Liang",
-		"notifications":[
-			{
-				"content":"[APPROVED] Your booking for KB100 on 2026-04-30 has been approved.",
-				"from":"Tee Hue Leng (Admin)",
-				"read":true,
-				"timestamp":"2026-04-29 05:24"
-			}
-		],
-		"password":"@BenjaminThio70",
-		"phoneNumber":"011-18985323",
+	"afiqahh@utar.edu.my":{
+		"bookings":[],
+		"email":"afiqahh@utar.edu.my",
+		"faculty":"CREATIVE_INDUSTRIES",
+		"name":"Fatin Afiqah Binti Hamdan",
+		"notifications":[],
+		"password":"@FatinAfiqahBintiHamdan123",
+		"phoneNumber":"018-5289228",
 		"role":"STUDENT",
 		"unreadNotificationCount":0
 	},
-	"teehueleng@utar.edu.my":{
+	"audah@utar.edu.my":{
 		"bookings":[],
-		"email":"teehueleng@utar.edu.my",
-		"faculty":"ENGINEERING_AND_SCIENCE",
-		"name":"Tee Hue Leng",
+		"email":"audah@utar.edu.my",
+		"faculty":"FOUNDATION_STUDIES",
+		"name":"Fatimah Audah binti Md. Zaki",
+		"notifications":[
+			{
+				"content":"[ASSIGNMENT] You have been assigned to fix: Report 3 at KB112",
+				"from":"Azizah binti Abd Manaf (Admin)",
+				"read":false,
+				"timestamp":"2026-05-03 04:55"
+			},
+			{
+				"content":"[ASSIGNMENT] You have been assigned to fix: Report 2 at KB111",
+				"from":"Azizah binti Abd Manaf (Admin)",
+				"read":false,
+				"timestamp":"2026-05-03 04:55"
+			}
+		],
+		"password":"@FatimahAudahbintiMd.Zaki123",
+		"phoneNumber":"016-8395682",
+		"role":"STAFF",
+		"unreadNotificationCount":2
+	},
+	"azizahm@utar.edu.my":{
+		"bookings":[],
+		"email":"azizahm@utar.edu.my",
+		"faculty":"CHINESE_STUDIES",
+		"name":"Azizah binti Abd Manaf",
 		"notifications":[],
-		"password":"@TeeHueLeng70",
-		"phoneNumber":"011-18985323",
+		"password":"@Azizah123",
+		"phoneNumber":"011-7170730",
 		"role":"ADMIN",
 		"unreadNotificationCount":0
 	},
-	"test@utar.edu.my":{
-		"bookings":[],
-		"email":"test@utar.edu.my",
+	"azwani@utar.edu.my":{
+		"bookings":[
+			{
+				"date":"2026-05-01",
+				"facilityName":"KB101",
+				"session":"08:00-09:00"
+			}
+		],
+		"email":"azwani@utar.edu.my",
 		"faculty":"ENGINEERING_AND_SCIENCE",
-		"name":"Test",
+		"name":"Ibtisam Azwani Binti Mat Ya'acob",
+		"notifications":[
+			{
+				"content":"[APPROVED] Your booking for KB101 on 2026-05-01 has been approved.",
+				"from":"teehueleng (Admin)",
+				"read":false,
+				"timestamp":"2026-05-03 04:55"
+			}
+		],
+		"password":"@IbtisamAzwaniBintiMatYa'acob123",
+		"phoneNumber":"018-7506226",
+		"role":"STUDENT",
+		"unreadNotificationCount":1
+	},
+	"behhc@utar.edu.my":{
+		"bookings":[],
+		"email":"behhc@utar.edu.my",
+		"faculty":"FOUNDATION_STUDIES",
+		"name":"Beh Hooi Ching",
 		"notifications":[],
-		"password":"@TeeHueLeng70",
-		"phoneNumber":"011-18985323",
+		"password":"@BehHooiChing123",
+		"phoneNumber":"016-3796212",
 		"role":"STAFF",
+		"unreadNotificationCount":0
+	},
+	"benjaminthio@utar.edu.my":{
+		"bookings":[],
+		"email":"benjaminthio@utar.edu.my",
+		"faculty":"MEDICINE_AND_HEALTH_SCIENCES",
+		"name":"Benjamin Thio Zi Liang",
+		"notifications":[
+			{
+				"content":"[APPROVED] Your booking for KB100 on 2026-05-02 has been approved.",
+				"from":"teehueleng (Admin)",
+				"read":true,
+				"timestamp":"2026-05-03 04:55"
+			},
+			{
+				"content":"[ASSIGNMENT] You have been assigned to fix: Report 1 at KB110",
+				"from":"teehueleng (Admin)",
+				"read":true,
+				"timestamp":"2026-05-03 04:55"
+			},
+			{
+				"content":"[APPROVED] Your booking for KB100 on 2026-05-02 has been approved.",
+				"from":"teehueleng (Admin)",
+				"read":true,
+				"timestamp":"2026-05-03 04:55"
+			},
+			{
+				"content":"[APPROVED] Your booking for KB100 on 2026-05-02 has been approved.",
+				"from":"teehueleng (Admin)",
+				"read":true,
+				"timestamp":"2026-05-03 04:55"
+			},
+			{
+				"content":"[APPROVED] Your booking for KB100 on 2026-05-02 has been approved.",
+				"from":"teehueleng (Admin)",
+				"read":true,
+				"timestamp":"2026-05-03 04:55"
+			},
+			{
+				"content":"[APPROVED] Your booking for KB100 on 2026-05-01 has been approved.",
+				"from":"teehueleng (Admin)",
+				"read":true,
+				"timestamp":"2026-05-03 04:55"
+			},
+			{
+				"content":"[APPROVED] Your booking for KB107 on 2026-04-30 has been approved.",
+				"from":"teehueleng (Admin)",
+				"read":true,
+				"timestamp":"2026-05-03 04:55"
+			},
+			{
+				"content":"[APPROVED] Your booking for KB100 on 2026-04-30 has been approved.",
+				"from":"teehueleng (Admin)",
+				"read":true,
+				"timestamp":"2026-05-03 04:55"
+			}
+		],
+		"password":"@BenjaminThio123",
+		"phoneNumber":"011-5494239",
+		"role":"STAFF",
+		"unreadNotificationCount":0
+	},
+	"bhyap@utar.edu.my":{
+		"bookings":[],
+		"email":"bhyap@utar.edu.my",
+		"faculty":"MEDICINE_AND_HEALTH_SCIENCES",
+		"name":"Jeffrey Yap Boon Hui",
+		"notifications":[],
+		"password":"@JeffreyYapBoonHui123",
+		"phoneNumber":"011-7552648",
+		"role":"STUDENT",
+		"unreadNotificationCount":0
+	},
+	"chuahht@utar.edu.my":{
+		"bookings":[],
+		"email":"chuahht@utar.edu.my",
+		"faculty":"FOUNDATION_STUDIES",
+		"name":"Chuah Hean Teik",
+		"notifications":[],
+		"password":"@ChuahHeanTeik123",
+		"phoneNumber":"013-9123932",
+		"role":"STUDENT",
+		"unreadNotificationCount":0
+	},
+	"chuakh@utar.edu.my":{
+		"bookings":[],
+		"email":"chuakh@utar.edu.my",
+		"faculty":"ACCOUNTANCY_AND_MANAGEMENT",
+		"name":"Chua Kein Huat",
+		"notifications":[],
+		"password":"@ChuaKeinHuat123",
+		"phoneNumber":"010-8640677",
+		"role":"STUDENT",
+		"unreadNotificationCount":0
+	},
+	"chungbk@utar.edu.my":{
+		"bookings":[],
+		"email":"chungbk@utar.edu.my",
+		"faculty":"CHINESE_STUDIES",
+		"name":"Chung Boon Kuan",
+		"notifications":[],
+		"password":"@ChungBoonKuan123",
+		"phoneNumber":"016-7348233",
+		"role":"STAFF",
+		"unreadNotificationCount":0
+	},
+	"deniswong@utar.edu.my":{
+		"bookings":[],
+		"email":"deniswong@utar.edu.my",
+		"faculty":"FOUNDATION_STUDIES",
+		"name":"Denis Wong Chee Keong",
+		"notifications":[],
+		"password":"@DenisWongCheeKeong123",
+		"phoneNumber":"019-3452925",
+		"role":"ADMIN",
+		"unreadNotificationCount":0
+	},
+	"eweht@utar.edu.my":{
+		"bookings":[],
+		"email":"eweht@utar.edu.my",
+		"faculty":"ACCOUNTANCY_AND_MANAGEMENT",
+		"name":"Ewe Hong Tat",
+		"notifications":[],
+		"password":"@EweHongTat123",
+		"phoneNumber":"010-9369304",
+		"role":"STAFF",
+		"unreadNotificationCount":0
+	},
+	"faidzar@utar.edu.my":{
+		"bookings":[],
+		"email":"faidzar@utar.edu.my",
+		"faculty":"ACCOUNTANCY_AND_MANAGEMENT",
+		"name":"Faidz bin Abd Rahman",
+		"notifications":[],
+		"password":"@FaidzbinAbdRahman123",
+		"phoneNumber":"013-1407170",
+		"role":"ADMIN",
+		"unreadNotificationCount":0
+	},
+	"faranak@utar.edu.my":{
+		"bookings":[],
+		"email":"faranak@utar.edu.my",
+		"faculty":"ENGINEERING_AND_SCIENCE",
+		"name":"Faranak Nejati",
+		"notifications":[],
+		"password":"@FaranakNejati123",
+		"phoneNumber":"018-3509387",
+		"role":"STUDENT",
+		"unreadNotificationCount":0
+	},
+	"fauziahi@utar.edu.my":{
+		"bookings":[],
+		"email":"fauziahi@utar.edu.my",
+		"faculty":"MEDICINE_AND_HEALTH_SCIENCES",
+		"name":"Siti Fauziah Idris",
+		"notifications":[],
+		"password":"@SitiFauziahIdris123",
+		"phoneNumber":"010-1512280",
+		"role":"ADMIN",
+		"unreadNotificationCount":0
+	},
+	"fernando@utar.edu.my":{
+		"bookings":[],
+		"email":"fernando@utar.edu.my",
+		"faculty":"MEDICINE_AND_HEALTH_SCIENCES",
+		"name":"Fernando Paulo Da Costa Andrade",
+		"notifications":[],
+		"password":"@FernandoPauloDaCostaAndrade123",
+		"phoneNumber":"017-1646840",
+		"role":"STAFF",
+		"unreadNotificationCount":0
+	},
+	"ganch@utar.edu.my":{
+		"bookings":[],
+		"email":"ganch@utar.edu.my",
+		"faculty":"ACCOUNTANCY_AND_MANAGEMENT",
+		"name":"Gan Chin Heng",
+		"notifications":[],
+		"password":"@GanChinHeng123",
+		"phoneNumber":"017-8555604",
+		"role":"ADMIN",
+		"unreadNotificationCount":0
+	},
+	"gobiv@utar.edu.my":{
+		"bookings":[],
+		"email":"gobiv@utar.edu.my",
+		"faculty":"CHINESE_STUDIES",
+		"name":"Gobi A/L Vetharatnam",
+		"notifications":[],
+		"password":"@GobiA/LVetharatnam123",
+		"phoneNumber":"012-1791749",
+		"role":"STAFF",
+		"unreadNotificationCount":0
+	},
+	"gohyk@utar.edu.my":{
+		"bookings":[],
+		"email":"gohyk@utar.edu.my",
+		"faculty":"CREATIVE_INDUSTRIES",
+		"name":"Goh Yong Kheng",
+		"notifications":[],
+		"password":"@GohYongKheng123",
+		"phoneNumber":"010-6191552",
+		"role":"STUDENT",
+		"unreadNotificationCount":0
+	},
+	"gohyl@utar.edu.my":{
+		"bookings":[],
+		"email":"gohyl@utar.edu.my",
+		"faculty":"ENGINEERING_AND_SCIENCE",
+		"name":"Goh Yann Ling",
+		"notifications":[],
+		"password":"@GohYannLing123",
+		"phoneNumber":"014-1232748",
+		"role":"STAFF",
+		"unreadNotificationCount":0
+	},
+	"goibm@utar.edu.my":{
+		"bookings":[],
+		"email":"goibm@utar.edu.my",
+		"faculty":"CREATIVE_INDUSTRIES",
+		"name":"Goi Bok Min",
+		"notifications":[],
+		"password":"@GoiBokMin123",
+		"phoneNumber":"014-8412180",
+		"role":"ADMIN",
+		"unreadNotificationCount":0
+	},
+	"gulnaziya@utar.edu.my":{
+		"bookings":[],
+		"email":"gulnaziya@utar.edu.my",
+		"faculty":"CREATIVE_INDUSTRIES",
+		"name":"Gulnaziya Issabayeva",
+		"notifications":[],
+		"password":"@GulnaziyaIssabayeva123",
+		"phoneNumber":"015-8027000",
+		"role":"STAFF",
+		"unreadNotificationCount":0
+	},
+	"gunavathi@utar.edu.my":{
+		"bookings":[],
+		"email":"gunavathi@utar.edu.my",
+		"faculty":"CHINESE_STUDIES",
+		"name":"Gunavathi a/p Duraisamy",
+		"notifications":[],
+		"password":"@Gunavathia/pDuraisamy123",
+		"phoneNumber":"018-9827070",
+		"role":"ADMIN",
+		"unreadNotificationCount":0
+	},
+	"hafizba@utar.edu.my":{
+		"bookings":[],
+		"email":"hafizba@utar.edu.my",
+		"faculty":"ENGINEERING_AND_SCIENCE",
+		"name":"Hafiz Bin Basarudin",
+		"notifications":[],
+		"password":"@HafizBinBasarudin123",
+		"phoneNumber":"010-8479686",
+		"role":"ADMIN",
+		"unreadNotificationCount":0
+	},
+	"hafizm@utar.edu.my":{
+		"bookings":[],
+		"email":"hafizm@utar.edu.my",
+		"faculty":"ACCOUNTANCY_AND_MANAGEMENT",
+		"name":"Tengku Muhamad Badrul Hafiz Bin Tengku Mahmood",
+		"notifications":[],
+		"password":"@TengkuMuhamadBadrulHafizBinTengkuMahmood123",
+		"phoneNumber":"014-8976859",
+		"role":"STAFF",
+		"unreadNotificationCount":0
+	},
+	"hanirah@utar.edu.my":{
+		"bookings":[],
+		"email":"hanirah@utar.edu.my",
+		"faculty":"FOUNDATION_STUDIES",
+		"name":"Siti Hanirah Binti Rahmat",
+		"notifications":[],
+		"password":"@SitiHanirahBintiRahmat123",
+		"phoneNumber":"015-5700421",
+		"role":"STUDENT",
+		"unreadNotificationCount":0
+	},
+	"hanisahmu@utar.edu.my":{
+		"bookings":[],
+		"email":"hanisahmu@utar.edu.my",
+		"faculty":"CHINESE_STUDIES",
+		"name":"Hanisah Binti Mustaffa",
+		"notifications":[],
+		"password":"@HanisahBintiMustaffa123",
+		"phoneNumber":"012-1141307",
+		"role":"STUDENT",
+		"unreadNotificationCount":0
+	},
+	"helloworld@utar.edu.my":{
+		"bookings":[],
+		"email":"helloworld@utar.edu.my",
+		"faculty":"ACCOUNTANCY_AND_MANAGEMENT",
+		"name":"Hello World",
+		"notifications":[],
+		"password":"@HelloWorld123",
+		"phoneNumber":"015-4343797",
+		"role":"ADMIN",
+		"unreadNotificationCount":0
+	},
+	"hocc@utar.edu.my":{
+		"bookings":[],
+		"email":"hocc@utar.edu.my",
+		"faculty":"FOUNDATION_STUDIES",
+		"name":"Ho Chan Cheong",
+		"notifications":[],
+		"password":"@HoChanCheong123",
+		"phoneNumber":"012-3084896",
+		"role":"STUDENT",
+		"unreadNotificationCount":0
+	},
+	"hoomh@utar.edu.my":{
+		"bookings":[],
+		"email":"hoomh@utar.edu.my",
+		"faculty":"ACCOUNTANCY_AND_MANAGEMENT",
+		"name":"Hoo Meei Hao",
+		"notifications":[],
+		"password":"@HooMeeiHao123",
+		"phoneNumber":"017-4234667",
+		"role":"STAFF",
+		"unreadNotificationCount":0
+	},
+	"hoonyap@utar.edu.my":{
+		"bookings":[],
+		"email":"hoonyap@utar.edu.my",
+		"faculty":"ENGINEERING_AND_SCIENCE",
+		"name":"Hoon Yap",
+		"notifications":[],
+		"password":"@HoonYap123",
+		"phoneNumber":"015-3728383",
+		"role":"STAFF",
+		"unreadNotificationCount":0
+	},
+	"huangyf@utar.edu.my":{
+		"bookings":[],
+		"email":"huangyf@utar.edu.my",
+		"faculty":"CREATIVE_INDUSTRIES",
+		"name":"Huang Yuk Feng",
+		"notifications":[],
+		"password":"@HuangYukFeng123",
+		"phoneNumber":"014-1594251",
+		"role":"ADMIN",
+		"unreadNotificationCount":0
+	},
+	"humyc@utar.edu.my":{
+		"bookings":[],
+		"email":"humyc@utar.edu.my",
+		"faculty":"FOUNDATION_STUDIES",
+		"name":"Hum Yan Chai",
+		"notifications":[],
+		"password":"@HumYanChai123",
+		"phoneNumber":"013-9777981",
+		"role":"ADMIN",
+		"unreadNotificationCount":0
+	},
+	"husam@utar.edu.my":{
+		"bookings":[],
+		"email":"husam@utar.edu.my",
+		"faculty":"ENGINEERING_AND_SCIENCE",
+		"name":"Husam Bin Abdul Fatah Haron",
+		"notifications":[],
+		"password":"@HusamBinAbdulFatahHaron123",
+		"phoneNumber":"013-2976076",
+		"role":"STAFF",
+		"unreadNotificationCount":0
+	},
+	"jeffreychin@utar.edu.my":{
+		"bookings":[],
+		"email":"jeffreychin@utar.edu.my",
+		"faculty":"CHINESE_STUDIES",
+		"name":"Jeffrey Chin Kong Leong",
+		"notifications":[],
+		"password":"@JeffreyChinKongLeong123",
+		"phoneNumber":"011-9623346",
+		"role":"STAFF",
+		"unreadNotificationCount":0
+	},
+	"jongsy@utar.edu.my":{
+		"bookings":[],
+		"email":"jongsy@utar.edu.my",
+		"faculty":"ACCOUNTANCY_AND_MANAGEMENT",
+		"name":"Jong Seow Yung",
+		"notifications":[],
+		"password":"@JongSeowYung123",
+		"phoneNumber":"015-4894199",
+		"role":"STUDENT",
+		"unreadNotificationCount":0
+	},
+	"jubaidah@utar.edu.my":{
+		"bookings":[],
+		"email":"jubaidah@utar.edu.my",
+		"faculty":"ACCOUNTANCY_AND_MANAGEMENT",
+		"name":"Jubaidah Binti Sarayon",
+		"notifications":[],
+		"password":"@JubaidahBintiSarayon123",
+		"phoneNumber":"017-4814889",
+		"role":"STUDENT",
+		"unreadNotificationCount":0
+	},
+	"junhk@utar.edu.my":{
+		"bookings":[],
+		"email":"junhk@utar.edu.my",
+		"faculty":"ACCOUNTANCY_AND_MANAGEMENT",
+		"name":"Jun Hieng Kiat",
+		"notifications":[],
+		"password":"@JunHiengKiat123",
+		"phoneNumber":"012-5318568",
+		"role":"STAFF",
+		"unreadNotificationCount":0
+	},
+	"kalthum@utar.edu.my":{
+		"bookings":[],
+		"email":"kalthum@utar.edu.my",
+		"faculty":"ACCOUNTANCY_AND_MANAGEMENT",
+		"name":"Ummu Kalthum Zulkifli",
+		"notifications":[],
+		"password":"@UmmuKalthumZulkifli123",
+		"phoneNumber":"013-4189789",
+		"role":"STUDENT",
+		"unreadNotificationCount":0
+	},
+	"kamhk@utar.edu.my":{
+		"bookings":[],
+		"email":"kamhk@utar.edu.my",
+		"faculty":"CREATIVE_INDUSTRIES",
+		"name":"Kam Heng Keong",
+		"notifications":[],
+		"password":"@KamHengKeong123",
+		"phoneNumber":"013-2245067",
+		"role":"STAFF",
+		"unreadNotificationCount":0
+	},
+	"kckhor@utar.edu.my":{
+		"bookings":[],
+		"email":"kckhor@utar.edu.my",
+		"faculty":"ENGINEERING_AND_SCIENCE",
+		"name":"Khor Kok Chin",
+		"notifications":[],
+		"password":"@KhorKokChin123",
+		"phoneNumber":"014-9253310",
+		"role":"STAFF",
+		"unreadNotificationCount":0
+	},
+	"kelwintan@utar.edu.my":{
+		"bookings":[],
+		"email":"kelwintan@utar.edu.my",
+		"faculty":"CREATIVE_INDUSTRIES",
+		"name":"Kelwin Tan Seen Tiong",
+		"notifications":[],
+		"password":"@KelwinTanSeenTiong123",
+		"phoneNumber":"019-3336543",
+		"role":"STAFF",
+		"unreadNotificationCount":0
+	},
+	"khawcc@utar.edu.my":{
+		"bookings":[],
+		"email":"khawcc@utar.edu.my",
+		"faculty":"ENGINEERING_AND_SCIENCE",
+		"name":"Khaw Chwin Chieh",
+		"notifications":[],
+		"password":"@KhawChwinChieh123",
+		"phoneNumber":"017-1078441",
+		"role":"STUDENT",
+		"unreadNotificationCount":0
+	},
+	"khawmk@utar.edu.my":{
+		"bookings":[],
+		"email":"khawmk@utar.edu.my",
+		"faculty":"MEDICINE_AND_HEALTH_SCIENCES",
+		"name":"Khaw Mei Kum",
+		"notifications":[],
+		"password":"@KhawMeiKum123",
+		"phoneNumber":"012-5306678",
+		"role":"STUDENT",
+		"unreadNotificationCount":0
+	},
+	"khoohl@utar.edu.my":{
+		"bookings":[],
+		"email":"khoohl@utar.edu.my",
+		"faculty":"CREATIVE_INDUSTRIES",
+		"name":"Khoo Hooi Ling @ Lai Hooi Ling",
+		"notifications":[],
+		"password":"@KhooHooiLing@LaiHooiLing123",
+		"phoneNumber":"012-9996595",
+		"role":"STUDENT",
+		"unreadNotificationCount":0
+	},
+	"khosh@utar.edu.my":{
+		"bookings":[],
+		"email":"khosh@utar.edu.my",
+		"faculty":"ACCOUNTANCY_AND_MANAGEMENT",
+		"name":"Kho Soon Hang",
+		"notifications":[],
+		"password":"@KhoSoonHang123",
+		"phoneNumber":"019-3463411",
+		"role":"STAFF",
+		"unreadNotificationCount":0
+	},
+	"kiums@utar.edu.my":{
+		"bookings":[],
+		"email":"kiums@utar.edu.my",
+		"faculty":"FOUNDATION_STUDIES",
+		"name":"Kiu Mee San",
+		"notifications":[],
+		"password":"@KiuMeeSan123",
+		"phoneNumber":"012-2585951",
+		"role":"STUDENT",
+		"unreadNotificationCount":0
+	},
+	"koaysc@utar.edu.my":{
+		"bookings":[],
+		"email":"koaysc@utar.edu.my",
+		"faculty":"ENGINEERING_AND_SCIENCE",
+		"name":"Koay Seong Chun",
+		"notifications":[],
+		"password":"@KoaySeongChun123",
+		"phoneNumber":"015-9565322",
+		"role":"STAFF",
+		"unreadNotificationCount":0
+	},
+	"kongsg@utar.edu.my":{
+		"bookings":[],
+		"email":"kongsg@utar.edu.my",
+		"faculty":"ACCOUNTANCY_AND_MANAGEMENT",
+		"name":"Kong Sin Guan",
+		"notifications":[],
+		"password":"@KongSinGuan123",
+		"phoneNumber":"010-8299042",
+		"role":"ADMIN",
+		"unreadNotificationCount":0
+	},
+	"kooch@utar.edu.my":{
+		"bookings":[],
+		"email":"kooch@utar.edu.my",
+		"faculty":"CREATIVE_INDUSTRIES",
+		"name":"Koo Chai Hoon",
+		"notifications":[
+			{
+				"content":"[ASSIGNMENT] You have been assigned to fix: Report 2 at KB111",
+				"from":"Azizah binti Abd Manaf (Admin)",
+				"read":false,
+				"timestamp":"2026-05-03 04:55"
+			}
+		],
+		"password":"@KooChaiHoon123",
+		"phoneNumber":"019-2681794",
+		"role":"STAFF",
+		"unreadNotificationCount":1
+	},
+	"kuangks@utar.edu.my":{
+		"bookings":[],
+		"email":"kuangks@utar.edu.my",
+		"faculty":"ACCOUNTANCY_AND_MANAGEMENT",
+		"name":"Kuang Kee Seng",
+		"notifications":[],
+		"password":"@KuangKeeSeng123",
+		"phoneNumber":"015-7169957",
+		"role":"ADMIN",
+		"unreadNotificationCount":0
+	},
+	"kuansh@utar.edu.my":{
+		"bookings":[],
+		"email":"kuansh@utar.edu.my",
+		"faculty":"CREATIVE_INDUSTRIES",
+		"name":"Kuan Seng How",
+		"notifications":[],
+		"password":"@KuanSengHow123",
+		"phoneNumber":"019-9931126",
+		"role":"STAFF",
+		"unreadNotificationCount":0
+	},
+	"kwanbh@utar.edu.my":{
+		"bookings":[],
+		"email":"kwanbh@utar.edu.my",
+		"faculty":"FOUNDATION_STUDIES",
+		"name":"Kwan Ban Hoe",
+		"notifications":[],
+		"password":"@KwanBanHoe123",
+		"phoneNumber":"011-3806787",
+		"role":"STAFF",
+		"unreadNotificationCount":0
+	},
+	"laiso@utar.edu.my":{
+		"bookings":[],
+		"email":"laiso@utar.edu.my",
+		"faculty":"ACCOUNTANCY_AND_MANAGEMENT",
+		"name":"Lai Soon Onn",
+		"notifications":[],
+		"password":"@LaiSoonOnn123",
+		"phoneNumber":"013-1438479",
+		"role":"STAFF",
+		"unreadNotificationCount":0
+	},
+	"laiyl@utar.edu.my":{
+		"bookings":[],
+		"email":"laiyl@utar.edu.my",
+		"faculty":"CREATIVE_INDUSTRIES",
+		"name":"Lai Yen Lung",
+		"notifications":[],
+		"password":"@LaiYenLung123",
+		"phoneNumber":"019-2995270",
+		"role":"ADMIN",
+		"unreadNotificationCount":0
+	},
+	"lamfs@utar.edu.my":{
+		"bookings":[],
+		"email":"lamfs@utar.edu.my",
+		"faculty":"FOUNDATION_STUDIES",
+		"name":"Lam Foong Sin",
+		"notifications":[],
+		"password":"@LamFoongSin123",
+		"phoneNumber":"017-6217035",
+		"role":"STAFF",
+		"unreadNotificationCount":0
+	},
+	"laush@utar.edu.my":{
+		"bookings":[],
+		"email":"laush@utar.edu.my",
+		"faculty":"CREATIVE_INDUSTRIES",
+		"name":"Lau See Hung",
+		"notifications":[],
+		"password":"@LauSeeHung123",
+		"phoneNumber":"018-7542701",
+		"role":"STAFF",
+		"unreadNotificationCount":0
+	},
+	"lawchoonhong@utar.edu.my":{
+		"bookings":[],
+		"email":"lawchoonhong@utar.edu.my",
+		"faculty":"FOUNDATION_STUDIES",
+		"name":"Law Choon Hong",
+		"notifications":[],
+		"password":"@LawChoonHong123",
+		"phoneNumber":"019-3335353",
+		"role":"STUDENT",
+		"unreadNotificationCount":0
+	},
+	"layps@utar.edu.my":{
+		"bookings":[],
+		"email":"layps@utar.edu.my",
+		"faculty":"CREATIVE_INDUSTRIES",
+		"name":"Lay Pei Sin",
+		"notifications":[],
+		"password":"@LayPeiSin123",
+		"phoneNumber":"014-8172585",
+		"role":"STUDENT",
+		"unreadNotificationCount":0
+	},
+	"lckang@utar.edu.my":{
+		"bookings":[],
+		"email":"lckang@utar.edu.my",
+		"faculty":"MEDICINE_AND_HEALTH_SCIENCES",
+		"name":"Lee Chen Kang",
+		"notifications":[],
+		"password":"@LeeChenKang123",
+		"phoneNumber":"018-4084218",
+		"role":"STAFF",
+		"unreadNotificationCount":0
+	},
+	"leeby@utar.edu.my":{
+		"bookings":[],
+		"email":"leeby@utar.edu.my",
+		"faculty":"CREATIVE_INDUSTRIES",
+		"name":"Lee Bee Yee",
+		"notifications":[],
+		"password":"@LeeBeeYee123",
+		"phoneNumber":"019-5252315",
+		"role":"STUDENT",
+		"unreadNotificationCount":0
+	},
+	"leefw@utar.edu.my":{
+		"bookings":[],
+		"email":"leefw@utar.edu.my",
+		"faculty":"ENGINEERING_AND_SCIENCE",
+		"name":"Lee Foo Wei",
+		"notifications":[],
+		"password":"@LeeFooWei123",
+		"phoneNumber":"015-8544321",
+		"role":"STAFF",
+		"unreadNotificationCount":0
+	},
+	"leehs@utar.edu.my":{
+		"bookings":[],
+		"email":"leehs@utar.edu.my",
+		"faculty":"CHINESE_STUDIES",
+		"name":"Lee Hwang Sheng",
+		"notifications":[],
+		"password":"@LeeHwangSheng123",
+		"phoneNumber":"018-4240984",
+		"role":"STAFF",
+		"unreadNotificationCount":0
+	},
+	"leejv@utar.edu.my":{
+		"bookings":[],
+		"email":"leejv@utar.edu.my",
+		"faculty":"ACCOUNTANCY_AND_MANAGEMENT",
+		"name":"Lee Jer Vui",
+		"notifications":[],
+		"password":"@LeeJerVui123",
+		"phoneNumber":"013-5870035",
+		"role":"STUDENT",
+		"unreadNotificationCount":0
+	},
+	"leemj@utar.edu.my":{
+		"bookings":[],
+		"email":"leemj@utar.edu.my",
+		"faculty":"MEDICINE_AND_HEALTH_SCIENCES",
+		"name":"Lee Ming Jie",
+		"notifications":[],
+		"password":"@LeeMingJie123",
+		"phoneNumber":"012-8326372",
+		"role":"ADMIN",
+		"unreadNotificationCount":0
+	},
+	"leepf@utar.edu.my":{
+		"bookings":[],
+		"email":"leepf@utar.edu.my",
+		"faculty":"CREATIVE_INDUSTRIES",
+		"name":"Lee Poh Foong",
+		"notifications":[],
+		"password":"@LeePohFoong123",
+		"phoneNumber":"015-9164424",
+		"role":"STUDENT",
+		"unreadNotificationCount":0
+	},
+	"leets@utar.edu.my":{
+		"bookings":[],
+		"email":"leets@utar.edu.my",
+		"faculty":"ENGINEERING_AND_SCIENCE",
+		"name":"Lee Tin Sin",
+		"notifications":[
+			{
+				"content":"[ASSIGNMENT] You have been assigned to fix: qwdqwdqwdqwdqwd at KB100",
+				"from":"Azizah binti Abd Manaf (Admin)",
+				"read":false,
+				"timestamp":"2026-05-03 04:55"
+			},
+			{
+				"content":"[ASSIGNMENT] You have been assigned to fix: Report 2 at KB111",
+				"from":"teehueleng (Admin)",
+				"read":false,
+				"timestamp":"2026-05-03 04:55"
+			},
+			{
+				"content":"[ASSIGNMENT] You have been assigned to fix: Report 2 at KB111",
+				"from":"teehueleng (Admin)",
+				"read":false,
+				"timestamp":"2026-05-03 04:55"
+			},
+			{
+				"content":"[ASSIGNMENT] You have been assigned to fix: Report 2 at KB111",
+				"from":"teehueleng (Admin)",
+				"read":false,
+				"timestamp":"2026-05-03 04:55"
+			}
+		],
+		"password":"@LeeTinSin123",
+		"phoneNumber":"010-5166650",
+		"role":"STAFF",
+		"unreadNotificationCount":4
+	},
+	"leewp@utar.edu.my":{
+		"bookings":[],
+		"email":"leewp@utar.edu.my",
+		"faculty":"ENGINEERING_AND_SCIENCE",
+		"name":"Lee Wah Peng",
+		"notifications":[],
+		"password":"@LeeWahPeng123",
+		"phoneNumber":"013-5821447",
+		"role":"ADMIN",
+		"unreadNotificationCount":0
+	},
+	"lkyap@utar.edu.my":{
+		"bookings":[],
+		"email":"lkyap@utar.edu.my",
+		"faculty":"FOUNDATION_STUDIES",
+		"name":"Yap Lee Ken",
+		"notifications":[],
+		"password":"@YapLeeKen123",
+		"phoneNumber":"014-8877121",
+		"role":"ADMIN",
+		"unreadNotificationCount":0
+	},
+	"lohzenan@utar.edu.my":{
+		"bookings":[],
+		"email":"lohzenan@utar.edu.my",
+		"faculty":"ACCOUNTANCY_AND_MANAGEMENT",
+		"name":"Loh Zen An",
+		"notifications":[],
+		"password":"@LohZenAn123",
+		"phoneNumber":"016-5629197",
+		"role":"STUDENT",
+		"unreadNotificationCount":0
+	},
+	"lohzenthye@utar.edu.my":{
+		"bookings":[],
+		"email":"lohzenthye@utar.edu.my",
+		"faculty":"MEDICINE_AND_HEALTH_SCIENCES",
+		"name":"Loh Zen Thye",
+		"notifications":[],
+		"password":"@LohZenThye123",
+		"phoneNumber":"014-6543320",
+		"role":"STUDENT",
+		"unreadNotificationCount":0
+	},
+	"mcwong@utar.edu.my":{
+		"bookings":[],
+		"email":"mcwong@utar.edu.my",
+		"faculty":"FOUNDATION_STUDIES",
+		"name":"Wong Mee Chu",
+		"notifications":[],
+		"password":"@WongMeeChu123",
+		"phoneNumber":"015-9538982",
+		"role":"ADMIN",
+		"unreadNotificationCount":0
+	},
+	"nawaf123@utar.edu.my":{
+		"bookings":[],
+		"email":"nawaf123@utar.edu.my",
+		"faculty":"CREATIVE_INDUSTRIES",
+		"name":"Nawaf",
+		"notifications":[],
+		"password":"@Nawaf123",
+		"phoneNumber":"016-1572938",
+		"role":"STAFF",
+		"unreadNotificationCount":0
+	},
+	"ngwk@utar.edu.my":{
+		"bookings":[],
+		"email":"ngwk@utar.edu.my",
+		"faculty":"FOUNDATION_STUDIES",
+		"name":"Danny Ng Wee Kiat",
+		"notifications":[],
+		"password":"@DannyNgWeeKiat123",
+		"phoneNumber":"017-5477170",
+		"role":"STAFF",
+		"unreadNotificationCount":0
+	},
+	"ngyaozong@utar.edu.my":{
+		"bookings":[],
+		"email":"ngyaozong@utar.edu.my",
+		"faculty":"ACCOUNTANCY_AND_MANAGEMENT",
+		"name":"Ng Yao Zong",
+		"notifications":[],
+		"password":"@NgYaoZong123",
+		"phoneNumber":"019-1067226",
+		"role":"ADMIN",
+		"unreadNotificationCount":0
+	},
+	"nkhoong@utar.edu.my":{
+		"bookings":[],
+		"email":"nkhoong@utar.edu.my",
+		"faculty":"ENGINEERING_AND_SCIENCE",
+		"name":"Ng Keng Hoong",
+		"notifications":[],
+		"password":"@NgKengHoong123",
+		"phoneNumber":"018-6987169",
+		"role":"STUDENT",
+		"unreadNotificationCount":0
+	},
+	"oktan@utar.edu.my":{
+		"bookings":[],
+		"email":"oktan@utar.edu.my",
+		"faculty":"MEDICINE_AND_HEALTH_SCIENCES",
+		"name":"Tan Ooi Kuan",
+		"notifications":[],
+		"password":"@TanOoiKuan123",
+		"phoneNumber":"014-2353977",
+		"role":"ADMIN",
+		"unreadNotificationCount":0
+	},
+	"pfwong@utar.edu.my":{
+		"bookings":[],
+		"email":"pfwong@utar.edu.my",
+		"faculty":"CHINESE_STUDIES",
+		"name":"Wong Phui Fung",
+		"notifications":[],
+		"password":"@WongPhuiFung123",
+		"phoneNumber":"014-2015223",
+		"role":"ADMIN",
+		"unreadNotificationCount":0
+	},
+	"simcl@utar.edu.my":{
+		"bookings":[],
+		"email":"simcl@utar.edu.my",
+		"faculty":"MEDICINE_AND_HEALTH_SCIENCES",
+		"name":"Sim Lan Ching",
+		"notifications":[],
+		"password":"@SimLanChing123",
+		"phoneNumber":"018-6008202",
+		"role":"ADMIN",
+		"unreadNotificationCount":0
+	},
+	"simjh@utar.edu.my":{
+		"bookings":[],
+		"email":"simjh@utar.edu.my",
+		"faculty":"ENGINEERING_AND_SCIENCE",
+		"name":"Sim Jia Huey",
+		"notifications":[],
+		"password":"@SimJiaHuey123",
+		"phoneNumber":"014-7978120",
+		"role":"STAFF",
+		"unreadNotificationCount":0
+	},
+	"sneha@utar.edu.my":{
+		"bookings":[],
+		"email":"sneha@utar.edu.my",
+		"faculty":"FOUNDATION_STUDIES",
+		"name":"Sneha Kanchan",
+		"notifications":[],
+		"password":"@SnehaKanchan123",
+		"phoneNumber":"015-7055140",
+		"role":"ADMIN",
+		"unreadNotificationCount":0
+	},
+	"solehah@utar.edu.my":{
+		"bookings":[],
+		"email":"solehah@utar.edu.my",
+		"faculty":"MEDICINE_AND_HEALTH_SCIENCES",
+		"name":"Siti Solehah Binti Kadir",
+		"notifications":[],
+		"password":"@SitiSolehahBintiKadir123",
+		"phoneNumber":"012-7315068",
+		"role":"STUDENT",
+		"unreadNotificationCount":0
+	},
+	"stellam@utar.edu.my":{
+		"bookings":[],
+		"email":"stellam@utar.edu.my",
+		"faculty":"CHINESE_STUDIES",
+		"name":"Stella Morris",
+		"notifications":[],
+		"password":"@StellaMorris123",
+		"phoneNumber":"019-3909775",
+		"role":"ADMIN",
+		"unreadNotificationCount":0
+	},
+	"stevenlim@utar.edu.my":{
+		"bookings":[],
+		"email":"stevenlim@utar.edu.my",
+		"faculty":"CHINESE_STUDIES",
+		"name":"Steven Lim",
+		"notifications":[],
+		"password":"@StevenLim123",
+		"phoneNumber":"017-4578828",
+		"role":"STAFF",
+		"unreadNotificationCount":0
+	},
+	"sugumaran@utar.edu.my":{
+		"bookings":[],
+		"email":"sugumaran@utar.edu.my",
+		"faculty":"ACCOUNTANCY_AND_MANAGEMENT",
+		"name":"Sugumaran a/l Nallusamy",
+		"notifications":[],
+		"password":"@SugumaranALNallusamy123",
+		"phoneNumber":"016-3219141",
+		"role":"STAFF",
+		"unreadNotificationCount":0
+	},
+	"suzana@utar.edu.my":{
+		"bookings":[],
+		"email":"suzana@utar.edu.my",
+		"faculty":"ACCOUNTANCY_AND_MANAGEMENT",
+		"name":"Suzana binti Ishak",
+		"notifications":[],
+		"password":"@SuzanaBintiIshak123",
+		"phoneNumber":"016-5945218",
+		"role":"STAFF",
+		"unreadNotificationCount":0
+	},
+	"syafiq@utar.edu.my":{
+		"bookings":[],
+		"email":"syafiq@utar.edu.my",
+		"faculty":"CREATIVE_INDUSTRIES",
+		"name":"Wan Mohd Syafiq Bin Wan Hanapi",
+		"notifications":[],
+		"password":"@WanMohdSyafiqBinWanHanapi123",
+		"phoneNumber":"012-2047154",
+		"role":"STUDENT",
+		"unreadNotificationCount":0
+	},
+	"sychua@utar.edu.my":{
+		"bookings":[],
+		"email":"sychua@utar.edu.my",
+		"faculty":"MEDICINE_AND_HEALTH_SCIENCES",
+		"name":"Chua Sing Yee",
+		"notifications":[],
+		"password":"@ChuaSingYee123",
+		"phoneNumber":"013-5286909",
+		"role":"ADMIN",
+		"unreadNotificationCount":0
+	},
+	"tangpy@utar.edu.my":{
+		"bookings":[],
+		"email":"tangpy@utar.edu.my",
+		"faculty":"FOUNDATION_STUDIES",
+		"name":"Tang Pek Yee",
+		"notifications":[],
+		"password":"@TangPekYee123",
+		"phoneNumber":"017-1965877",
+		"role":"STAFF",
+		"unreadNotificationCount":0
+	},
+	"tanlf@utar.edu.my":{
+		"bookings":[],
+		"email":"tanlf@utar.edu.my",
+		"faculty":"FOUNDATION_STUDIES",
+		"name":"Tan Lee Fan",
+		"notifications":[],
+		"password":"@TanLeeFan123",
+		"phoneNumber":"012-2522410",
+		"role":"STUDENT",
+		"unreadNotificationCount":0
+	},
+	"tanlx@utar.edu.my":{
+		"bookings":[],
+		"email":"tanlx@utar.edu.my",
+		"faculty":"MEDICINE_AND_HEALTH_SCIENCES",
+		"name":"Tan Li Xian",
+		"notifications":[],
+		"password":"@TanLiXian123",
+		"phoneNumber":"017-7035996",
+		"role":"STUDENT",
+		"unreadNotificationCount":0
+	},
+	"tanwc@utar.edu.my":{
+		"bookings":[],
+		"email":"tanwc@utar.edu.my",
+		"faculty":"MEDICINE_AND_HEALTH_SCIENCES",
+		"name":"Tan Weng Cheong",
+		"notifications":[],
+		"password":"@TanWengCheong123",
+		"phoneNumber":"019-7872843",
+		"role":"ADMIN",
+		"unreadNotificationCount":0
+	},
+	"tanwl@utar.edu.my":{
+		"bookings":[],
+		"email":"tanwl@utar.edu.my",
+		"faculty":"MEDICINE_AND_HEALTH_SCIENCES",
+		"name":"Tan Wei Lun",
+		"notifications":[],
+		"password":"@TanWeiLun123",
+		"phoneNumber":"016-2877291",
+		"role":"ADMIN",
+		"unreadNotificationCount":0
+	},
+	"tanxz@utar.edu.my":{
+		"bookings":[],
+		"email":"tanxz@utar.edu.my",
+		"faculty":"ACCOUNTANCY_AND_MANAGEMENT",
+		"name":"Tan Xiao Zhen",
+		"notifications":[],
+		"password":"@TanXiaoZhen123",
+		"phoneNumber":"010-2841140",
+		"role":"ADMIN",
+		"unreadNotificationCount":0
+	},
+	"tanya@utar.edu.my":{
+		"bookings":[],
+		"email":"tanya@utar.edu.my",
+		"faculty":"CREATIVE_INDUSTRIES",
+		"name":"Tan Yong Ann",
+		"notifications":[],
+		"password":"@TanYongAnn123",
+		"phoneNumber":"017-4313621",
+		"role":"STAFF",
+		"unreadNotificationCount":0
+	},
+	"tanyq@utar.edu.my":{
+		"bookings":[],
+		"email":"tanyq@utar.edu.my",
+		"faculty":"ACCOUNTANCY_AND_MANAGEMENT",
+		"name":"Tan Yin Qing",
+		"notifications":[],
+		"password":"@TanYinQing123",
+		"phoneNumber":"014-5606088",
+		"role":"STUDENT",
+		"unreadNotificationCount":0
+	},
+	"tanzm@utar.edu.my":{
+		"bookings":[],
+		"email":"tanzm@utar.edu.my",
+		"faculty":"ACCOUNTANCY_AND_MANAGEMENT",
+		"name":"Tan Zong Ming",
+		"notifications":[],
+		"password":"@TanZongMing123",
+		"phoneNumber":"014-5924033",
+		"role":"ADMIN",
+		"unreadNotificationCount":0
+	},
+	"teehueleng123@utar.edu.my":{
+		"bookings":[],
+		"email":"teehueleng123@utar.edu.my",
+		"faculty":"ENGINEERING_AND_SCIENCE",
+		"name":"teehueleng",
+		"notifications":[],
+		"password":"@Teehueleng123",
+		"phoneNumber":"017-8210880",
+		"role":"ADMIN",
+		"unreadNotificationCount":0
+	},
+	"teesf@utar.edu.my":{
+		"bookings":[],
+		"email":"teesf@utar.edu.my",
+		"faculty":"CHINESE_STUDIES",
+		"name":"Tee Shiau Foon",
+		"notifications":[],
+		"password":"@TeeShiauFoon123",
+		"phoneNumber":"014-4470790",
+		"role":"STAFF",
+		"unreadNotificationCount":0
+	},
+	"tehyifan@utar.edu.my":{
+		"bookings":[],
+		"email":"tehyifan@utar.edu.my",
+		"faculty":"FOUNDATION_STUDIES",
+		"name":"Teh Yi Fan",
+		"notifications":[],
+		"password":"@TehYiFan123",
+		"phoneNumber":"018-4799268",
+		"role":"STUDENT",
+		"unreadNotificationCount":0
+	},
+	"teogm@utar.edu.my":{
+		"bookings":[],
+		"email":"teogm@utar.edu.my",
+		"faculty":"FOUNDATION_STUDIES",
+		"name":"Teo Gee Man",
+		"notifications":[],
+		"password":"@TeoGeeMan123",
+		"phoneNumber":"015-6396526",
+		"role":"STUDENT",
+		"unreadNotificationCount":0
+	},
+	"teohhc@utar.edu.my":{
+		"bookings":[],
+		"email":"teohhc@utar.edu.my",
+		"faculty":"ENGINEERING_AND_SCIENCE",
+		"name":"Teoh Hui Chieh",
+		"notifications":[],
+		"password":"@TeohHuiChieh123",
+		"phoneNumber":"010-9795791",
+		"role":"STUDENT",
+		"unreadNotificationCount":0
+	},
+	"teohle@utar.edu.my":{
+		"bookings":[],
+		"email":"teohle@utar.edu.my",
+		"faculty":"ACCOUNTANCY_AND_MANAGEMENT",
+		"name":"Teoh Lay Eng",
+		"notifications":[],
+		"password":"@TeohLayEng123",
+		"phoneNumber":"012-4472374",
+		"role":"STAFF",
+		"unreadNotificationCount":0
+	},
+	"tewbt@utar.edu.my":{
+		"bookings":[],
+		"email":"tewbt@utar.edu.my",
+		"faculty":"MEDICINE_AND_HEALTH_SCIENCES",
+		"name":"Tew Bun Teck",
+		"notifications":[],
+		"password":"@TewBunTeck123",
+		"phoneNumber":"010-8090030",
+		"role":"STUDENT",
+		"unreadNotificationCount":0
+	},
+	"teyjy@utar.edu.my":{
+		"bookings":[],
+		"email":"teyjy@utar.edu.my",
+		"faculty":"ENGINEERING_AND_SCIENCE",
+		"name":"Tey Jing Yuen",
+		"notifications":[],
+		"password":"@TeyJingYuen123",
+		"phoneNumber":"019-6346956",
+		"role":"STUDENT",
+		"unreadNotificationCount":0
+	},
+	"thamml@utar.edu.my":{
+		"bookings":[],
+		"email":"thamml@utar.edu.my",
+		"faculty":"MEDICINE_AND_HEALTH_SCIENCES",
+		"name":"Tham Mau Luen",
+		"notifications":[],
+		"password":"@ThamMauLuen123",
+		"phoneNumber":"019-1615745",
+		"role":"ADMIN",
+		"unreadNotificationCount":0
+	},
+	"thiamhs@utar.edu.my":{
+		"bookings":[],
+		"email":"thiamhs@utar.edu.my",
+		"faculty":"CHINESE_STUDIES",
+		"name":"Thiam Hui San",
+		"notifications":[],
+		"password":"@ThiamHuiSan123",
+		"phoneNumber":"012-6264847",
+		"role":"STAFF",
+		"unreadNotificationCount":0
+	},
+	"thiauleng@utar.edu.my":{
+		"bookings":[],
+		"email":"thiauleng@utar.edu.my",
+		"faculty":"ENGINEERING_AND_SCIENCE",
+		"name":"Thiau Leng",
+		"notifications":[],
+		"password":"@ThiauLeng123",
+		"phoneNumber":"010-8143513",
+		"role":"ADMIN",
+		"unreadNotificationCount":0
+	},
+	"thomascyk@utar.edu.my":{
+		"bookings":[],
+		"email":"thomascyk@utar.edu.my",
+		"faculty":"MEDICINE_AND_HEALTH_SCIENCES",
+		"name":"Thomas Chung-Kuang Yang",
+		"notifications":[],
+		"password":"@ThomasChungKuangYang123",
+		"phoneNumber":"019-3475538",
+		"role":"STUDENT",
+		"unreadNotificationCount":0
+	},
+	"tohcm@utar.edu.my":{
+		"bookings":[],
+		"email":"tohcm@utar.edu.my",
+		"faculty":"ENGINEERING_AND_SCIENCE",
+		"name":"Toh Chia Ming",
+		"notifications":[],
+		"password":"@TohChiaMing123",
+		"phoneNumber":"014-8778008",
+		"role":"STAFF",
+		"unreadNotificationCount":0
+	},
+	"tohtc@utar.edu.my":{
+		"bookings":[],
+		"email":"tohtc@utar.edu.my",
+		"faculty":"ENGINEERING_AND_SCIENCE",
+		"name":"Toh Tien Choon",
+		"notifications":[],
+		"password":"@TohTienChoon123",
+		"phoneNumber":"012-1485337",
+		"role":"STUDENT",
+		"unreadNotificationCount":0
+	},
+	"tsaoke@utar.edu.my":{
+		"bookings":[],
+		"email":"tsaoke@utar.edu.my",
+		"faculty":"CHINESE_STUDIES",
+		"name":"Tsao Khee Ern",
+		"notifications":[],
+		"password":"@TsaoKheeErn123",
+		"phoneNumber":"017-5740595",
+		"role":"STAFF",
+		"unreadNotificationCount":0
+	},
+	"tungyh@utar.edu.my":{
+		"bookings":[],
+		"email":"tungyh@utar.edu.my",
+		"faculty":"ENGINEERING_AND_SCIENCE",
+		"name":"Tung Yew Hou",
+		"notifications":[],
+		"password":"@TungYewHou123",
+		"phoneNumber":"012-8611290",
+		"role":"STUDENT",
+		"unreadNotificationCount":0
+	},
+	"umik@utar.edu.my":{
+		"bookings":[],
+		"email":"umik@utar.edu.my",
+		"faculty":"ACCOUNTANCY_AND_MANAGEMENT",
+		"name":"Umi Kalsom Binti Ariffin",
+		"notifications":[],
+		"password":"@UmiKalsomBintiAriffin123",
+		"phoneNumber":"016-3569138",
+		"role":"STUDENT",
+		"unreadNotificationCount":0
+	},
+	"wanghk@utar.edu.my":{
+		"bookings":[],
+		"email":"wanghk@utar.edu.my",
+		"faculty":"ACCOUNTANCY_AND_MANAGEMENT",
+		"name":"Wang Hong Kok",
+		"notifications":[],
+		"password":"@WangHongKok123",
+		"phoneNumber":"019-6479293",
+		"role":"STUDENT",
+		"unreadNotificationCount":0
+	},
+	"weeyn@utar.edu.my":{
+		"bookings":[],
+		"email":"weeyn@utar.edu.my",
+		"faculty":"ENGINEERING_AND_SCIENCE",
+		"name":"Wee Yu Ni",
+		"notifications":[],
+		"password":"@WeeYuNi123",
+		"phoneNumber":"011-5029550",
+		"role":"STAFF",
+		"unreadNotificationCount":0
+	},
+	"wonghm@utar.edu.my":{
+		"bookings":[],
+		"email":"wonghm@utar.edu.my",
+		"faculty":"CHINESE_STUDIES",
+		"name":"Wong Hong Mun",
+		"notifications":[],
+		"password":"@WongHongMun123",
+		"phoneNumber":"013-7782620",
+		"role":"STUDENT",
+		"unreadNotificationCount":0
+	},
+	"wongkh@utar.edu.my":{
+		"bookings":[],
+		"email":"wongkh@utar.edu.my",
+		"faculty":"CREATIVE_INDUSTRIES",
+		"name":"Wong Kam Huei",
+		"notifications":[],
+		"password":"@WongKamHuei123",
+		"phoneNumber":"014-5423954",
+		"role":"ADMIN",
+		"unreadNotificationCount":0
+	},
+	"wongkw@utar.edu.my":{
+		"bookings":[],
+		"email":"wongkw@utar.edu.my",
+		"faculty":"MEDICINE_AND_HEALTH_SCIENCES",
+		"name":"Wong Kuan Wai",
+		"notifications":[],
+		"password":"@WongKuanWai123",
+		"phoneNumber":"016-2279555",
+		"role":"STAFF",
+		"unreadNotificationCount":0
+	},
+	"wongwy@utar.edu.my":{
+		"bookings":[],
+		"email":"wongwy@utar.edu.my",
+		"faculty":"FOUNDATION_STUDIES",
+		"name":"Wong Whee Yen",
+		"notifications":[],
+		"password":"@WongWheeYen123",
+		"phoneNumber":"012-8426075",
+		"role":"STAFF",
+		"unreadNotificationCount":0
+	},
+	"wongyc@utar.edu.my":{
+		"bookings":[],
+		"email":"wongyc@utar.edu.my",
+		"faculty":"FOUNDATION_STUDIES",
+		"name":"Wong Yee Choong",
+		"notifications":[],
+		"password":"@WongYeeChoong123",
+		"phoneNumber":"010-1260336",
+		"role":"STAFF",
+		"unreadNotificationCount":0
+	},
+	"wookk@utar.edu.my":{
+		"bookings":[],
+		"email":"wookk@utar.edu.my",
+		"faculty":"ACCOUNTANCY_AND_MANAGEMENT",
+		"name":"Woo Kwan Kit",
+		"notifications":[],
+		"password":"@WooKwanKit123",
+		"phoneNumber":"015-7691991",
+		"role":"ADMIN",
+		"unreadNotificationCount":0
+	},
+	"woonks@utar.edu.my":{
+		"bookings":[],
+		"email":"woonks@utar.edu.my",
+		"faculty":"FOUNDATION_STUDIES",
+		"name":"Woon Kai Siong",
+		"notifications":[],
+		"password":"@WoonKaiSiong123",
+		"phoneNumber":"011-1619604",
+		"role":"STUDENT",
+		"unreadNotificationCount":0
+	},
+	"wooyh@utar.edu.my":{
+		"bookings":[],
+		"email":"wooyh@utar.edu.my",
+		"faculty":"MEDICINE_AND_HEALTH_SCIENCES",
+		"name":"Gillian Woo Yi Han",
+		"notifications":[],
+		"password":"@GillianWooYiHan123",
+		"phoneNumber":"019-1132073",
+		"role":"STUDENT",
+		"unreadNotificationCount":0
+	},
+	"yanlei@utar.edu.my":{
+		"bookings":[],
+		"email":"yanlei@utar.edu.my",
+		"faculty":"CREATIVE_INDUSTRIES",
+		"name":"Yan Lei",
+		"notifications":[],
+		"password":"@YanLei123",
+		"phoneNumber":"018-6368719",
+		"role":"STAFF",
+		"unreadNotificationCount":0
+	},
+	"yaphk@utar.edu.my":{
+		"bookings":[],
+		"email":"yaphk@utar.edu.my",
+		"faculty":"MEDICINE_AND_HEALTH_SCIENCES",
+		"name":"Yap Hong Keat",
+		"notifications":[],
+		"password":"@YapHongKeat123",
+		"phoneNumber":"011-1287171",
+		"role":"STAFF",
+		"unreadNotificationCount":0
+	},
+	"yapyh@utar.edu.my":{
+		"bookings":[],
+		"email":"yapyh@utar.edu.my",
+		"faculty":"ENGINEERING_AND_SCIENCE",
+		"name":"Yap Yeow Hong",
+		"notifications":[],
+		"password":"@YapYeowHong123",
+		"phoneNumber":"011-7866167",
+		"role":"STUDENT",
+		"unreadNotificationCount":0
+	},
+	"yasuo@utar.edu.my":{
+		"bookings":[],
+		"email":"yasuo@utar.edu.my",
+		"faculty":"CHINESE_STUDIES",
+		"name":"Yasuo Tanaka",
+		"notifications":[],
+		"password":"@YasuoTanaka123",
+		"phoneNumber":"019-6885545",
+		"role":"STAFF",
+		"unreadNotificationCount":0
+	},
+	"yaukl@utar.edu.my":{
+		"bookings":[],
+		"email":"yaukl@utar.edu.my",
+		"faculty":"ENGINEERING_AND_SCIENCE",
+		"name":"Yau Kok Lim",
+		"notifications":[],
+		"password":"@YauKokLim123",
+		"phoneNumber":"017-8868945",
+		"role":"STUDENT",
+		"unreadNotificationCount":0
+	},
+	"yeohg@utar.edu.my":{
+		"bookings":[],
+		"email":"yeohg@utar.edu.my",
+		"faculty":"ENGINEERING_AND_SCIENCE",
+		"name":"Yeo Heng Giap Ivan",
+		"notifications":[],
+		"password":"@YeoHengGiapIvan123",
+		"phoneNumber":"014-9039540",
+		"role":"ADMIN",
+		"unreadNotificationCount":0
+	},
+	"yewmk@utar.edu.my":{
+		"bookings":[],
+		"email":"yewmk@utar.edu.my",
+		"faculty":"ENGINEERING_AND_SCIENCE",
+		"name":"Yew Ming Kun",
+		"notifications":[],
+		"password":"@YewMingKun123",
+		"phoneNumber":"019-2776982",
+		"role":"STUDENT",
+		"unreadNotificationCount":0
+	},
+	"yongck@utar.edu.my":{
+		"bookings":[],
+		"email":"yongck@utar.edu.my",
+		"faculty":"ACCOUNTANCY_AND_MANAGEMENT",
+		"name":"Yong Chin Khian",
+		"notifications":[],
+		"password":"@YongChinKhian123",
+		"phoneNumber":"016-2202828",
+		"role":"ADMIN",
+		"unreadNotificationCount":0
+	},
+	"yongsz@utar.edu.my":{
+		"bookings":[],
+		"email":"yongsz@utar.edu.my",
+		"faculty":"ENGINEERING_AND_SCIENCE",
+		"name":"Yong Song Zhe",
+		"notifications":[],
+		"password":"@YongSongZhe123",
+		"phoneNumber":"010-2485039",
+		"role":"STAFF",
+		"unreadNotificationCount":0
+	},
+	"yongtk@utar.edu.my":{
+		"bookings":[],
+		"email":"yongtk@utar.edu.my",
+		"faculty":"MEDICINE_AND_HEALTH_SCIENCES",
+		"name":"Yong Thian Khok",
+		"notifications":[],
+		"password":"@YongThianKhok123",
+		"phoneNumber":"013-2092973",
+		"role":"ADMIN",
+		"unreadNotificationCount":0
+	},
+	"yowhk@utar.edu.my":{
+		"bookings":[],
+		"email":"yowhk@utar.edu.my",
+		"faculty":"MEDICINE_AND_HEALTH_SCIENCES",
+		"name":"Yow Ho Kwang",
+		"notifications":[],
+		"password":"@YowHoKwang123",
+		"phoneNumber":"016-8455993",
+		"role":"ADMIN",
+		"unreadNotificationCount":0
+	},
+	"yowlp@utar.edu.my":{
+		"bookings":[],
+		"email":"yowlp@utar.edu.my",
+		"faculty":"MEDICINE_AND_HEALTH_SCIENCES",
+		"name":"Yow Li Ping",
+		"notifications":[],
+		"password":"@YowLiPing123",
+		"phoneNumber":"019-3532771",
+		"role":"STUDENT",
+		"unreadNotificationCount":0
+	},
+	"zulfikriz@utar.edu.my":{
+		"bookings":[],
+		"email":"zulfikriz@utar.edu.my",
+		"faculty":"ACCOUNTANCY_AND_MANAGEMENT",
+		"name":"Zulfikri Bin Zulkifley",
+		"notifications":[],
+		"password":"@ZulfikriBinZulkifley123",
+		"phoneNumber":"011-8818317",
+		"role":"STUDENT",
+		"unreadNotificationCount":0
+	},
+	"teehuefang@utar.edu.my":{
+		"bookings":[],
+		"email":"teehuefang@utar.edu.my",
+		"faculty":"MEDICINE_AND_HEALTH_SCIENCES",
+		"name":"Tee Hue Fang",
+		"notifications":[],
+		"password":"@TeeHueFang123",
+		"phoneNumber":"011-18985323",
+		"role":"STUDENT",
 		"unreadNotificationCount":0
 	}
 }

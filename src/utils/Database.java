@@ -86,6 +86,11 @@ public class Database {
         Database.Report.set(Database.Report.loadAll());
         Database.Booking.set(Database.Booking.loadAll());
 
+        if (Database.User.getAll() == null) Database.User.set(new java.util.LinkedHashMap<>()); 
+        if (Database.Facility.getAll() == null) Database.Facility.set(new java.util.ArrayList<>()); 
+        if (Database.Report.getAll() == null) Database.Report.set(new java.util.LinkedHashMap<>()); 
+        if (Database.Booking.getAll() == null) Database.Booking.set(new java.util.LinkedHashMap<>());
+
         // --- THE CRITICAL FIX: Initialize empty database if file was empty/null ---
         if (Database.Booking.getAll() == null) {
             Database.Booking.set(new java.util.LinkedHashMap<>()); 
@@ -320,6 +325,22 @@ public class Database {
 
         public static void add(String name, src.models.Report report)
         {
+            if (reports == null) {
+                reports = new LinkedHashMap<>();
+            }
+
+            if (reports.get(name) != null) {
+                reports.get(name).add(report);
+            } else {
+                ArrayList<src.models.Report> newList = new ArrayList<>();
+                newList.add(report);
+                reports.put(name, newList);
+            }
+        }
+
+        /*
+        public static void add(String name, src.models.Report report)
+        {
             if (reports.get(name) != null)
                 reports.get(name).add(report);
             else
@@ -327,6 +348,7 @@ public class Database {
                 reports.put(name, new ArrayList<>(Arrays.asList(report)));
             }
         }
+        */
 
         public static void save(LinkedHashMap<String, List<src.models.Report>> reports)
         {
